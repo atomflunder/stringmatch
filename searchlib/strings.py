@@ -2,6 +2,8 @@ from unidecode import unidecode
 
 
 class Strings:
+    """Modifies the strings to the desired format."""
+
     def latinise(self, string: str) -> str:
         """Removes special unicode characters from the string.
 

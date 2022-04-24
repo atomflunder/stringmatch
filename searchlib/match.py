@@ -7,6 +7,8 @@ from searchlib.strings import Strings
 
 
 class Match:
+    """Contains methods for comparing and matching strings."""
+
     def ratio(self, string1: str, string2: str) -> int:
         """Returns the similarity score between two strings.
 
@@ -142,7 +144,8 @@ class Match:
         remove_punctuation: bool = False,
     ) -> list[str]:
         """Matches a string to a list of strings, returns the strings found that are similar.
-        If there are more than `limit` matches, only the `limit` best matches are returned, sorted by score.
+        If there are more than `limit` matches,
+        only the `limit` best matches are returned, sorted by score.
         If no matches are found, returns an empty list.
 
         Parameters
