@@ -35,7 +35,7 @@ Match().ratio("searchlib", "srechlib") # returns 82
 Explanation of some keyword-only arguments for some more advanced usage.
 
 `score`: The score cutoff for matches, by default set to 70.  
-`latinise`: If set to true, removes special characters and sets them to the latin alphabet equivalent. Example: `éö -> eo`  
+`latinise`: Removes special characters and sets them to the latin alphabet equivalent. Example: `éö -> eo`  
 `remove_punctuation`: Removes punctuation from the strings. Example: `h,i! -> hi`  
 `limit`: Only available for `get_best_matches()`. The limit of how many matches to return. Returns the best X matches in order, by default set to 5.  
 
