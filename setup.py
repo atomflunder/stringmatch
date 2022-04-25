@@ -4,7 +4,7 @@ import searchlib
 
 required_packages = []
 with open("requirements.txt", "r") as f:
-    required_packages = f.read().split()
+    required_packages = f.read().splitlines()
 
 readme = ""
 with open("README.md", "r") as f:
