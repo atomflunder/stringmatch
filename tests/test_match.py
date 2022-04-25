@@ -46,6 +46,9 @@ def test_get_best_match():
     with pytest.raises(EmptySearchException):
         assert Match().get_best_match("", ["f"])
 
+    with pytest.raises(EmptySearchException):
+        assert Match().get_best_match("....-", ["f"], remove_punctuation=True)
+
 
 def test_get_best_matches():
     assert Match().get_best_matches("test", ["test", "nope", "tset"]) == [

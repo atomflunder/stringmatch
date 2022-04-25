@@ -55,6 +55,8 @@ class Match:
         only_letters: bool = False,
     ) -> bool:
         """Matches two strings, returns True if they are similar enough.
+        Be careful when using remove_punctuation and only_letters,
+        if they remove everything in the string, this will raise an EmptySearchException.
 
         Parameters
         ----------
@@ -83,8 +85,6 @@ class Match:
         EmptySearchException
             If one of the strings to compare is empty.
         """
-        if not string1 or not string2:
-            raise EmptySearchException("Cannot compare an empty string.")
 
         if latinise:
             string1, string2 = Strings().latinise(string1), Strings().latinise(string2)
@@ -104,6 +104,9 @@ class Match:
                 string2
             )
 
+        if not string1 or not string2:
+            raise EmptySearchException("Cannot compare an empty string.")
+
         return self.ratio(string1, string2) >= score
 
     def get_best_match(
@@ -118,6 +121,8 @@ class Match:
         only_letters: bool = False,
     ) -> Optional[str]:
         """Returns the best match from a list of strings.
+        Be careful when using remove_punctuation and only_letters,
+        if they remove everything in the string, this will raise an EmptySearchException.
 
         Parameters
         ----------
@@ -141,22 +146,17 @@ class Match:
         Optional[str]
             The best string found, or None if no good match was found.
         """
+        kwargs = {
+            "score": score,
+            "latinise": latinise,
+            "remove_punctuation": remove_punctuation,
+            "ignore_case": ignore_case,
+            "only_letters": only_letters,
+        }
 
         return (
             max(string_list, key=lambda s: self.ratio(string, s))
-            if any(
-                s
-                for s in string_list
-                if self.match(
-                    string,
-                    s,
-                    score=score,
-                    latinise=latinise,
-                    remove_punctuation=remove_punctuation,
-                    ignore_case=ignore_case,
-                    only_letters=only_letters,
-                )
-            )
+            if any(s for s in string_list if self.match(string, s, **kwargs))
             else None
         )
 
@@ -176,6 +176,8 @@ class Match:
         If there are more than `limit` matches,
         only the `limit` best matches are returned, sorted by score.
         If no matches are found, returns an empty list.
+        Be careful when using remove_punctuation and only_letters,
+        if they remove everything in the string, this will raise an EmptySearchException.
 
         Parameters
         ----------
@@ -209,20 +211,16 @@ class Match:
         if limit < 1:
             raise InvalidLimitException("Limit must be greater than 1.")
 
+        kwargs = {
+            "score": score,
+            "latinise": latinise,
+            "remove_punctuation": remove_punctuation,
+            "ignore_case": ignore_case,
+            "only_letters": only_letters,
+        }
+
         return sorted(
-            [
-                s
-                for s in string_list
-                if self.match(
-                    string,
-                    s,
-                    score=score,
-                    latinise=latinise,
-                    remove_punctuation=remove_punctuation,
-                    ignore_case=ignore_case,
-                    only_letters=only_letters,
-                )
-            ],
+            [s for s in string_list if self.match(string, s, **kwargs)],
             key=lambda s: self.ratio(string, s),
             # by default this would sort the list from lowest to highest.
             reverse=True,
