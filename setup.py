@@ -1,6 +1,10 @@
 from setuptools import find_packages, setup
 
-import searchlib
+version = ""
+with open("searchlib/__init__.py") as f:
+    for line in f:
+        if line.startswith("__version__"):
+            version = line.split("=")[1].strip().strip('"')
 
 required_packages = []
 with open("requirements.txt", "r") as f:
@@ -19,7 +23,7 @@ setup(
     long_description=readme,
     long_description_content_type="text/markdown",
     packages=find_packages(),
-    version=searchlib.__version__,
+    version=version,
     install_requires=required_packages,
     python_requires=">=3.9",
     tests_require=["pytest"],
