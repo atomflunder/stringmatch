@@ -20,7 +20,7 @@ setup(
     long_description_content_type="text/markdown",
     packages=find_packages(include=["searchlib"]),
     version=searchlib.__version__,
-    install_requires=["Levenshtein==0.18.1", "Unidecode==1.3.4"],
+    install_requires=required_packages,
     python_requires=">=3.9",
     tests_require=["pytest"],
     test_suite="tests",
