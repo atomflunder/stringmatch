@@ -7,19 +7,21 @@ Yet another small, lightweight string matching library written in Python, based 
 Inspired by [seatgeek/thefuzz](https://github.com/seatgeek/thefuzz), which did not quite fit my needs, so I am building this library for myself, primarily.
 
 ## Table of Contents
-- [Installation](#installation)
 - [Requirements](#requirements)
+- [Installation](#installation)
 - [Usage](#usage)
 - [Links](#links)
-
-## Installation
-
-tbd
 
 ## Requirements
 
 - git
 - Python 3.9 or later.
+
+## Installation
+
+```
+pip install -U git+https://github.com/atomflunder/searchlib
+```
 
 ## Usage
 
