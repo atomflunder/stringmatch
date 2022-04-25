@@ -4,19 +4,6 @@ from searchlib.exceptions import EmptySearchException, InvalidLimitException
 from searchlib.match import Match
 
 
-def test_ratio():
-    assert Match().ratio("test", "test") == 100
-    assert Match().ratio("bla", "nope") == 0
-    assert Match().ratio("searchlib", "srechlib") == 82
-
-
-def test_ratio_list():
-    assert Match().ratio_list("test", ["test", "nope"]) == [100, 25]
-    assert Match().ratio_list(
-        "srechlib", ["searchlib", "slib", "searching library", "spam"]
-    ) == [82, 67, 56, 17]
-
-
 def test_match():
     assert Match().match("test", "test") is True
     assert Match().match("test", "nope") is False

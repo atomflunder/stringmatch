@@ -8,3 +8,9 @@ class InvalidLimitException(Exception):
     """Exception that will get raised when you try to set a limit that is less than 1."""
 
     pass
+
+
+class InvalidScorerException(Exception):
+    """Exception that will get raised when you try to set an invalid scorer."""
+
+    pass

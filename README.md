@@ -17,7 +17,7 @@ tbd
 ## Usage
 
 ```python
-from searchlib import Match
+from searchlib import Match, Ratio
 
 # Basic usage:
 Match().match("searchlib", "srchlib") # returns True
@@ -29,8 +29,8 @@ Match().get_best_match("searchlib", searches) # returns "searchli"
 Match().get_best_matches("searchlib", searches) # returns ['searchli', 'searhli', 'search']
 
 # Ratios:
-Match().ratio("searchlib", "searchlib") # returns 100
-Match().ratio("searchlib", "srechlib") # returns 82
+Ratio().ratio("searchlib", "searchlib") # returns 100
+Ratio().ratio("searchlib", "srechlib") # returns 82
 
 # Some special arguments:
 Match().match("test", "TEST", ignore_case=True) # returns True

@@ -1,47 +1,12 @@
 from typing import Optional
 
-import Levenshtein
-
 from searchlib.exceptions import EmptySearchException, InvalidLimitException
+from searchlib.ratio import Ratio
 from searchlib.strings import Strings
 
 
 class Match:
     """Contains methods for comparing and matching strings."""
-
-    def ratio(self, string1: str, string2: str) -> int:
-        """Returns the similarity score between two strings.
-
-        Parameters
-        ----------
-        string1 : str
-            The first string to compare.
-        string2 : str
-            The second string to compare.
-
-        Returns
-        -------
-        int
-            The score between 0 and 100.
-        """
-        return round(Levenshtein.ratio(string1, string2) * 100)
-
-    def ratio_list(self, string: str, string_list: list[str]) -> list[int]:
-        """Returns the similarity score between a string and a list of strings.
-
-        Parameters
-        ----------
-        string : str
-            The string to compare.
-        string_list : list[str]
-            The list of strings to compare to.
-
-        Returns
-        -------
-        list[int]
-            The scores between 0 and 100.
-        """
-        return [self.ratio(string, s) for s in string_list]
 
     def match(
         self,
@@ -53,6 +18,7 @@ class Match:
         ignore_case: bool = False,
         remove_punctuation: bool = False,
         only_letters: bool = False,
+        scorer: str = "levenshtein",
     ) -> bool:
         """Matches two strings, returns True if they are similar enough.
         Be careful when using remove_punctuation and only_letters,
@@ -74,6 +40,12 @@ class Match:
             If punctuation should be removed from the strings, by default False
         only_letters : bool, optional
             If the strings should only be compared by their latin letters, by default False
+        scorer : str, optional
+            The scorer to use, by default "levenshtein".
+            Available scores:
+                "levenshtein"
+                "jaro"
+                "jaro_winkler"
 
         Returns
         -------
@@ -107,7 +79,7 @@ class Match:
         if not string1 or not string2:
             raise EmptySearchException("Cannot compare an empty string.")
 
-        return self.ratio(string1, string2) >= score
+        return Ratio().ratio(string1, string2, scorer=scorer) >= score
 
     def get_best_match(
         self,
@@ -119,6 +91,7 @@ class Match:
         ignore_case: bool = False,
         remove_punctuation: bool = False,
         only_letters: bool = False,
+        scorer: str = "levenshtein",
     ) -> Optional[str]:
         """Returns the best match from a list of strings.
         Be careful when using remove_punctuation and only_letters,
@@ -140,6 +113,12 @@ class Match:
             If punctuation should be removed from the strings, by default False
         only_letters : bool, optional
             If the strings should only be compared by their latin letters, by default False
+        scorer : str, optional
+            The scorer to use, by default "levenshtein".
+            Available scores:
+                "levenshtein"
+                "jaro"
+                "jaro_winkler"
 
         Returns
         -------
@@ -152,10 +131,11 @@ class Match:
             "remove_punctuation": remove_punctuation,
             "ignore_case": ignore_case,
             "only_letters": only_letters,
+            "scorer": scorer,
         }
 
         return (
-            max(string_list, key=lambda s: self.ratio(string, s))
+            max(string_list, key=lambda s: Ratio().ratio(string, s))
             if any(s for s in string_list if self.match(string, s, **kwargs))
             else None
         )
@@ -171,6 +151,7 @@ class Match:
         ignore_case: bool = False,
         remove_punctuation: bool = False,
         only_letters: bool = False,
+        scorer: str = "levenshtein",
     ) -> list[str]:
         """Matches a string to a list of strings, returns the strings found that are similar.
         If there are more than `limit` matches,
@@ -197,6 +178,12 @@ class Match:
             If punctuation should be removed from the strings, by default False
         only_letters : bool, optional
             If the strings should only be compared by their latin letters, by default False
+        scorer : str, optional
+            The scorer to use, by default "levenshtein".
+            Available scores:
+                "levenshtein"
+                "jaro"
+                "jaro_winkler"
 
         Returns
         -------
@@ -217,11 +204,12 @@ class Match:
             "remove_punctuation": remove_punctuation,
             "ignore_case": ignore_case,
             "only_letters": only_letters,
+            "scorer": scorer,
         }
 
         return sorted(
             [s for s in string_list if self.match(string, s, **kwargs)],
-            key=lambda s: self.ratio(string, s),
+            key=lambda s: Ratio().ratio(string, s),
             # by default this would sort the list from lowest to highest.
             reverse=True,
         )[:limit]
