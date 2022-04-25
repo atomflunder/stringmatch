@@ -200,6 +200,11 @@ class Match:
         -------
         list[str]
             All of the matches found.
+
+        Raises
+        ------
+        InvalidLimitException
+            If the limit used is less than 1.
         """
         if limit < 1:
             raise InvalidLimitException("Limit must be greater than 1.")
