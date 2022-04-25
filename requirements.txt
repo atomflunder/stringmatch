@@ -1,2 +1,2 @@
-Levenshtein==0.18.1
-Unidecode==1.3.4
+levenshtein==0.18.1
+unidecode==1.3.4
