@@ -1,2 +1,2 @@
-levenshtein
+Levenshtein
 Unidecode

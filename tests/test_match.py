@@ -20,6 +20,18 @@ def test_match():
     with pytest.raises(EmptySearchException):
         assert Match().match("", "f")
 
+    assert Match().match("séärçh", "search", latinise=True) is True
+    assert Match().match("séärçh", "search", latinise=False) is False
+
+    assert Match().match("test,---....", "test", remove_punctuation=True) is True
+    assert Match().match("test,---....", "test", remove_punctuation=False) is False
+
+    assert Match().match("»»ᅳtestᅳ►", "test", only_letters=True) is True
+    assert Match().match("»»ᅳtestᅳ►", "test", only_letters=False) is False
+
+    assert Match().match("test", "th test", scorer="levenshtein") is True
+    assert Match().match("test", "th test", scorer="jaro_winkler") is False
+
 
 def test_get_best_match():
     assert Match().get_best_match("test", ["test", "nope", "tset"]) == "test"

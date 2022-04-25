@@ -9,6 +9,8 @@ def test_ratio():
     assert Ratio().ratio("bla", "nope") == 0
     assert Ratio().ratio("searchlib", "srechlib") == 82
     assert Ratio().ratio("searchlib", "srechlib", scorer="jaro_winkler") == 93
+    assert Ratio().ratio("test", "th test", scorer="levenshtein") == 73
+    assert Ratio().ratio("test", "th test", scorer="jaro_winkler") == 60
     with pytest.raises(InvalidScorerException):
         assert Ratio().ratio("searchlib", "srechlib", scorer="nope")
 
