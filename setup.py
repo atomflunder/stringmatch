@@ -18,7 +18,7 @@ setup(
     description="A library to match and compare strings.",
     long_description=readme,
     long_description_content_type="text/markdown",
-    packages=find_packages(include=["searchlib"]),
+    packages=find_packages(),
     version=searchlib.__version__,
     install_requires=required_packages,
     python_requires=">=3.9",
