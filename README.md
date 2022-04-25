@@ -63,7 +63,7 @@ Match().match("searchlib", "srechlib", score=70)    # returns True
 
 #### `limit=int`
 
-The limit of how many matches to return. Only available for Matches().get_best_matches(). By default this is set to `5`.
+The limit of how many matches to return. Only available for `Matches().get_best_matches()`. By default this is set to `5`.
 
 ```python
 searches = ["limit 5", "limit 4", "limit 3", "limit 2", "limit 1", "limit 0"]

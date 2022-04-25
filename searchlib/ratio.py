@@ -24,7 +24,7 @@ class Ratio:
             The second string to compare.
         scorer : str, optional
             The scorer to use, by default "levenshtein".
-            Available scores:
+            Available scorers:
                 "levenshtein"
                 "jaro"
                 "jaro_winkler"
@@ -52,6 +52,12 @@ class Ratio:
             The string to compare.
         string_list : list[str]
             The list of strings to compare to.
+        scorer : str, optional
+            The scorer to use, by default "levenshtein".
+            Available scorers:
+                "levenshtein"
+                "jaro"
+                "jaro_winkler"
 
         Returns
         -------

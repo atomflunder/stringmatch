@@ -42,7 +42,7 @@ class Match:
             If the strings should only be compared by their latin letters, by default False
         scorer : str, optional
             The scorer to use, by default "levenshtein".
-            Available scores:
+            Available scorers:
                 "levenshtein"
                 "jaro"
                 "jaro_winkler"
@@ -115,7 +115,7 @@ class Match:
             If the strings should only be compared by their latin letters, by default False
         scorer : str, optional
             The scorer to use, by default "levenshtein".
-            Available scores:
+            Available scorers:
                 "levenshtein"
                 "jaro"
                 "jaro_winkler"
@@ -180,7 +180,7 @@ class Match:
             If the strings should only be compared by their latin letters, by default False
         scorer : str, optional
             The scorer to use, by default "levenshtein".
-            Available scores:
+            Available scorers:
                 "levenshtein"
                 "jaro"
                 "jaro_winkler"
