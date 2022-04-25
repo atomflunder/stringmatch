@@ -4,4 +4,4 @@ from .strings import Strings
 
 __all__ = ["Match", "Strings", "EmptySearchException", "InvalidLimitException"]
 __title__ = "searchlib"
-__version__ = "0.1.2"
+__version__ = "0.2.0"

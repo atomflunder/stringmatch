@@ -27,6 +27,9 @@ def test_match():
         )
         is True
     )
+    assert Match().match("test", "TEST", ignore_case=False) is False
+    assert Match().match("test", "TEST", ignore_case=True) is True
+    assert Match().match("test", "-- test --!<<><", only_letters=True) is True
     with pytest.raises(EmptySearchException):
         assert Match().match("", "f")
 

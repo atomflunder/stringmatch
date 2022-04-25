@@ -31,16 +31,15 @@ Match().get_best_matches("searchlib", searches) # returns ['searchli', 'searhli'
 # Ratios:
 Match().ratio("searchlib", "searchlib") # returns 100
 Match().ratio("searchlib", "srechlib") # returns 82
+
+# Some special arguments:
+Match().match("test", "TEST", ignore_case=True) # returns True
+Match().match("test", "-- test --!<<><", only_letters=True) # returns True
+Match().match("séàr#.chlib", "searchlib", latinise=True, remove_punctuation=True) # returns True
+
+search_list = ["limit 5", "limit 4", "limit 3", "limit 2", "limit 1", "limit 0"]
+Match().get_best_matches("limit 5", searchlist, limit=2) # returns ["limit 5", "limit 4"]
 ```
-
-## Arguments
-
-Explanation of some keyword-only arguments for some more advanced usage.
-
-`score`: The score cutoff for matches, by default set to 70.  
-`latinise`: Removes special characters and sets them to the latin alphabet equivalent. Example: `éö -> eo`  
-`remove_punctuation`: Removes punctuation from the strings. Example: `h,i! -> hi`  
-`limit`: Only available for `get_best_matches()`. The limit of how many matches to return. Returns the best X matches in order, by default set to 5.  
 
 ## Links
 

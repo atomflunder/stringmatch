@@ -50,7 +50,9 @@ class Match:
         *,
         score: int = 70,
         latinise: bool = False,
+        ignore_case: bool = False,
         remove_punctuation: bool = False,
+        only_letters: bool = False,
     ) -> bool:
         """Matches two strings, returns True if they are similar enough.
 
@@ -64,26 +66,43 @@ class Match:
             The cutoff for the score, by default 70.
         latinise : bool, optional
             If special unicode characters should be removed from the strings, by default False
+        ignore_case : bool, optional
+            If the strings should be compared ignoring case, by default False
         remove_punctuation : bool, optional
             If punctuation should be removed from the strings, by default False
+        only_letters : bool, optional
+            If the strings should only be compared by their latin letters, by default False
 
         Returns
         -------
         bool
             If the strings are similar enough.
+
+        Raises
+        ------
+        EmptySearchException
+            If one of the strings to compare is empty.
         """
         if not string1 or not string2:
             raise EmptySearchException("Cannot compare an empty string.")
 
         if latinise:
-            string1, string2 = Strings.latinise(self, string1), Strings.latinise(
-                self, string2
+            string1, string2 = Strings().latinise(string1), Strings().latinise(string2)
+
+        if ignore_case:
+            string1, string2 = Strings().ignore_case(string1), Strings().ignore_case(
+                string2
             )
 
         if remove_punctuation:
-            string1, string2 = Strings.remove_punctuation(
-                self, string1
-            ), Strings.remove_punctuation(self, string2)
+            string1, string2 = Strings().remove_punctuation(
+                string1
+            ), Strings().remove_punctuation(string2)
+
+        if only_letters:
+            string1, string2 = Strings().only_letters(string1), Strings().only_letters(
+                string2
+            )
 
         return self.ratio(string1, string2) >= score
 
@@ -94,7 +113,9 @@ class Match:
         *,
         score: int = 70,
         latinise: bool = False,
+        ignore_case: bool = False,
         remove_punctuation: bool = False,
+        only_letters: bool = False,
     ) -> Optional[str]:
         """Returns the best match from a list of strings.
 
@@ -108,8 +129,12 @@ class Match:
             The cutoff for the score, by default 70
         latinise : bool, optional
             If special unicode characters should be removed from the strings, by default False
+        ignore_case : bool, optional
+            If the strings should be compared ignoring case, by default False
         remove_punctuation : bool, optional
             If punctuation should be removed from the strings, by default False
+        only_letters : bool, optional
+            If the strings should only be compared by their latin letters, by default False
 
         Returns
         -------
@@ -128,6 +153,8 @@ class Match:
                     score=score,
                     latinise=latinise,
                     remove_punctuation=remove_punctuation,
+                    ignore_case=ignore_case,
+                    only_letters=only_letters,
                 )
             )
             else None
@@ -141,7 +168,9 @@ class Match:
         score: int = 70,
         limit: int = 5,
         latinise: bool = False,
+        ignore_case: bool = False,
         remove_punctuation: bool = False,
+        only_letters: bool = False,
     ) -> list[str]:
         """Matches a string to a list of strings, returns the strings found that are similar.
         If there are more than `limit` matches,
@@ -160,8 +189,12 @@ class Match:
             The number of matches to return, by default 5
         latinise : bool, optional
             If special unicode characters should be removed from the strings, by default False
+        ignore_case : bool, optional
+            If the strings should be compared ignoring case, by default False
         remove_punctuation : bool, optional
             If punctuation should be removed from the strings, by default False
+        only_letters : bool, optional
+            If the strings should only be compared by their latin letters, by default False
 
         Returns
         -------
@@ -181,6 +214,8 @@ class Match:
                     score=score,
                     latinise=latinise,
                     remove_punctuation=remove_punctuation,
+                    ignore_case=ignore_case,
+                    only_letters=only_letters,
                 )
             ],
             key=lambda s: self.ratio(string, s),
