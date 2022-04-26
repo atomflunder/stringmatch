@@ -2,6 +2,11 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.3.0 - 2022-04-26
+
+- Made library installable via pip
+- Rebranded library from searchlib to stringmatch
+
 ## v0.2.0 - 2022-04-25
 
 - Made library public and installable via git
