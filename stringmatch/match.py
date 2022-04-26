@@ -81,6 +81,67 @@ class Match:
 
         return Ratio().ratio(string1, string2, scorer=scorer) >= score
 
+    def match_with_score(
+        self,
+        string1: str,
+        string2: str,
+        *,
+        score: int = 70,
+        latinise: bool = False,
+        ignore_case: bool = False,
+        remove_punctuation: bool = False,
+        only_letters: bool = False,
+        scorer: str = "levenshtein",
+    ) -> tuple[bool, int]:
+        """Same as match, but returns the boolean in a tuple, together with the score.
+
+        Parameters
+        ----------
+        string1 : str
+            The first string to compare.
+        string2 : str
+            The second string to compare.
+        score : int, optional
+            The cutoff for the score, by default 70.
+        latinise : bool, optional
+            If special unicode characters should be removed from the strings, by default False
+        ignore_case : bool, optional
+            If the strings should be compared ignoring case, by default False
+        remove_punctuation : bool, optional
+            If punctuation should be removed from the strings, by default False
+        only_letters : bool, optional
+            If the strings should only be compared by their latin letters, by default False
+        scorer : str, optional
+            The scorer to use, by default "levenshtein".
+            Available scorers:
+                "levenshtein"
+                "jaro"
+                "jaro_winkler"
+
+        Returns
+        -------
+        tuple[bool, int]
+            If the strings are similar and their score.
+
+        Raises
+        ------
+        EmptySearchException
+            If one of the strings to compare is empty.
+        """
+        kwargs = {
+            "score": score,
+            "latinise": latinise,
+            "ignore_case": ignore_case,
+            "remove_punctuation": remove_punctuation,
+            "only_letters": only_letters,
+            "scorer": scorer,
+        }
+
+        return (
+            self.match(string1, string2, **kwargs),
+            Ratio().ratio(string1, string2, scorer=scorer),
+        )
+
     def get_best_match(
         self,
         string: str,
@@ -139,6 +200,62 @@ class Match:
             if any(s for s in string_list if self.match(string, s, **kwargs))
             else None
         )
+
+    def get_best_match_with_score(
+        self,
+        string: str,
+        string_list: list[str],
+        *,
+        score: int = 70,
+        latinise: bool = False,
+        ignore_case: bool = False,
+        remove_punctuation: bool = False,
+        only_letters: bool = False,
+        scorer: str = "levenshtein",
+    ) -> Optional[tuple[str, int]]:
+        """Same as get_best_match, but returns a tuple with the best match and its score.
+
+        Parameters
+        ----------
+        string : str
+            The string to compare.
+        string_list : list[str]
+            The list of strings to compare to.
+        score : int, optional
+            The cutoff for the score, by default 70
+        latinise : bool, optional
+            If special unicode characters should be removed from the strings, by default False
+        ignore_case : bool, optional
+            If the strings should be compared ignoring case, by default False
+        remove_punctuation : bool, optional
+            If punctuation should be removed from the strings, by default False
+        only_letters : bool, optional
+            If the strings should only be compared by their latin letters, by default False
+        scorer : str, optional
+            The scorer to use, by default "levenshtein".
+            Available scorers:
+                "levenshtein"
+                "jaro"
+                "jaro_winkler"
+
+        Returns
+        -------
+        Optional[tuple[str, int]]
+            The best string and its score found, or None if no good match was found.
+        """
+
+        kwargs = {
+            "score": score,
+            "latinise": latinise,
+            "remove_punctuation": remove_punctuation,
+            "ignore_case": ignore_case,
+            "only_letters": only_letters,
+            "scorer": scorer,
+        }
+
+        match = self.get_best_match(string, string_list, **kwargs)
+
+        return (match, Ratio().ratio(string, match, scorer=scorer)) if match else None
 
     def get_best_matches(
         self,
@@ -213,3 +330,69 @@ class Match:
             # by default this would sort the list from lowest to highest.
             reverse=True,
         )[:limit]
+
+    def get_best_matches_with_score(
+        self,
+        string: str,
+        string_list: list[str],
+        *,
+        score: int = 70,
+        limit: int = 5,
+        latinise: bool = False,
+        ignore_case: bool = False,
+        remove_punctuation: bool = False,
+        only_letters: bool = False,
+        scorer: str = "levenshtein",
+    ) -> list[tuple[str, int]]:
+        """Same as get_best_matches, but returns a list of tuples with the best matches and their score.
+
+        Parameters
+        ----------
+        string : str
+            The string to compare.
+        string_list : list[str]
+            The list of strings to compare to.
+        score : int, optional
+            The cutoff for the score, by default 70
+        limit : int, optional
+            The number of matches to return, by default 5
+        latinise : bool, optional
+            If special unicode characters should be removed from the strings, by default False
+        ignore_case : bool, optional
+            If the strings should be compared ignoring case, by default False
+        remove_punctuation : bool, optional
+            If punctuation should be removed from the strings, by default False
+        only_letters : bool, optional
+            If the strings should only be compared by their latin letters, by default False
+        scorer : str, optional
+            The scorer to use, by default "levenshtein".
+            Available scorers:
+                "levenshtein"
+                "jaro"
+                "jaro_winkler"
+
+        Returns
+        -------
+        list[tuple[str, int]]
+            All of the matches found.
+
+        Raises
+        ------
+        InvalidLimitException
+            If the limit used is less than 1.
+        """
+        kwargs = {
+            "score": score,
+            "limit": limit,
+            "latinise": latinise,
+            "remove_punctuation": remove_punctuation,
+            "ignore_case": ignore_case,
+            "only_letters": only_letters,
+            "scorer": scorer,
+        }
+
+        matches = self.get_best_matches(string, string_list, **kwargs)
+
+        return [
+            (match, Ratio().ratio(string, match, scorer=scorer)) for match in matches
+        ]

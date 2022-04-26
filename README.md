@@ -9,7 +9,8 @@ Inspired by [seatgeek/thefuzz](https://github.com/seatgeek/thefuzz), which did n
 ## Table of Contents
 - [Requirements](#requirements)
 - [Installation](#installation)
-- [Usage](#usage)
+- [Basic Usage](#basic-usage)
+  - [Additional Arguments](#additional-arguments)
 - [Links](#links)
 
 ## Requirements
@@ -18,44 +19,56 @@ Inspired by [seatgeek/thefuzz](https://github.com/seatgeek/thefuzz), which did n
 
 ## Installation
 
-Via pip:
+Install the latest stable version with pip:
 
 ```
 pip install stringmatch
 ```
 
-Via git:
+Or install the newest version via git (Might be unstable/unfinished):
 ```
 pip install -U git+https://github.com/atomflunder/stringmatch
 ```
 
-## Usage
+## Basic Usage
 
 ```python
 from stringmatch import Match, Ratio, Strings
 
+match = Match()
+ratio = Ratio()
+strings = Strings()
+
 # Basic usage:
-Match().match("searchlib", "srchlib")               # returns True
-Match().match("searchlib", "something else")        # returns False
+match.match("searchlib", "srchlib")                   # returns True
+match.match("searchlib", "something else")            # returns False
 
 # Matching lists:
 searches = ["searchli", "searhli", "search", "lib", "whatever", "s"]
-Match().get_best_match("searchlib", searches)       # returns "searchli"
-Match().get_best_matches("searchlib", searches)     # returns ['searchli', 'searhli', 'search']
+match.get_best_match("searchlib", searches)           # returns "searchli"
+match.get_best_matches("searchlib", searches)         # returns ['searchli', 'searhli', 'search']
 
 # Ratios:
-Ratio().ratio("searchlib", "searchlib")             # returns 100
-Ratio().ratio("searchlib", "srechlib")              # returns 82
-ratios = ["searchlib", "srechlib"]
-Ratio().ratio_list("searchlib", ratios)             # returns [100, 82]
+ratio.ratio("searchlib", "searchlib")                 # returns 100
+ratio.ratio("searchlib", "srechlib")                  # returns 82
+searches = ["searchlib", "srechlib"]
+ratio.ratio_list("searchlib", searches)               # returns [100, 82]
+
+# Getting matches and ratios:
+match.match_with_score("searchlib", "srechlib")       # returns (True, 82)
+searches = ["test", "nope", "tset"]
+match.get_best_match_with_score("test", searches)     # returns ("test", 100)
+match.get_best_matches_with_score("test", searches)   # returns [("test", 100), ("tset", 75)]
 
 # Modify strings:
-Strings().latinise("Héllö, world!")                 # returns "Hello, world!"
-Strings().remove_punctuation("wh'at;, ever")        # returns "what ever"
-Strings().only_letters("Héllö, world!")             # returns "Hll world"
-Strings().ignore_case("test test!", lower=False)    # returns "TEST TEST!"
+# This is meant for internal use, but you can also use it yourself, if you choose to.
+strings.latinise("Héllö, world!")                     # returns "Hello, world!"
+strings.remove_punctuation("wh'at;, ever")            # returns "what ever"
+strings.only_letters("Héllö, world!")                 # returns "Hll world"
+strings.ignore_case("test test!", lower=False)        # returns "TEST TEST!"
 ```
 
+### Additional Arguments
 You can pass in additional arguments for the `Match()` functions to customise your search further:
 
 #### `score=int`
@@ -63,8 +76,8 @@ You can pass in additional arguments for the `Match()` functions to customise yo
 The score cutoff for matching, by default set to 70.
 
 ```python
-Match().match("searchlib", "srechlib", score=85)    # returns False
-Match().match("searchlib", "srechlib", score=70)    # returns True
+match("searchlib", "srechlib", score=85)    # returns False
+match("searchlib", "srechlib", score=70)    # returns True
 ```
 
 #### `limit=int`
@@ -73,8 +86,8 @@ The limit of how many matches to return. Only available for `Matches().get_best_
 
 ```python
 searches = ["limit 5", "limit 4", "limit 3", "limit 2", "limit 1", "limit 0"]
-Match().get_best_matches("limit 5", searches, limit=2)  # returns ["limit 5", "limit 4"]
-Match().get_best_matches("limit 5", searches, limit=1)  # returns ["limit 5"]
+get_best_matches("limit 5", searches, limit=2)  # returns ["limit 5", "limit 4"]
+get_best_matches("limit 5", searches, limit=1)  # returns ["limit 5"]
 ```
 
 #### `latinise=bool`
@@ -82,8 +95,8 @@ Match().get_best_matches("limit 5", searches, limit=1)  # returns ["limit 5"]
 Replaces special unicode characters with their latin alphabet equivalents. By default turned off.
 
 ```python
-Match().match("séärçh", "search", latinise=True)    # returns True
-Match().match("séärçh", "search", latinise=False)   # returns False
+match("séärçh", "search", latinise=True)    # returns True
+match("séärçh", "search", latinise=False)   # returns False
 ```
 
 #### `ignore_case=bool`
@@ -91,8 +104,8 @@ Match().match("séärçh", "search", latinise=False)   # returns False
 If you want to ignore case sensitivity while searching. By default turned off.
 
 ```python
-Match().match("test", "TEST", ignore_case=True)     # returns True
-Match().match("test", "TEST", ignore_case=False)    # returns False
+match("test", "TEST", ignore_case=True)     # returns True
+match("test", "TEST", ignore_case=False)    # returns False
 ```
 
 #### `remove_punctuation=bool`
@@ -100,8 +113,8 @@ Match().match("test", "TEST", ignore_case=False)    # returns False
 Removes commonly used punctuation symbols from the strings, like `.,;:!?` and so on. Be careful when using this, because if you pass in a string that is only made up of punctuation symbols, you will get an `EmptySearchException`. By default turned off.
 
 ```python
-Match().match("test,---....", "test", remove_punctuation=True)  # returns True
-Match().match("test,---....", "test", remove_punctuation=False) # returns False
+match("test,---....", "test", remove_punctuation=True)  # returns True
+match("test,---....", "test", remove_punctuation=False) # returns False
 ```
 
 #### `only_letters=bool`
@@ -109,8 +122,8 @@ Match().match("test,---....", "test", remove_punctuation=False) # returns False
 Removes every character that is not in the latin alphabet, a more extreme version of `remove_punctuation`. The same rules apply here, be careful when you use it or you might get an `EmptySearchException`. By default turned off.
 
 ```python
-Match().match("»»ᅳtestᅳ►", "test", only_letters=True)   # returns True
-Match().match("»»ᅳtestᅳ►", "test", only_letters=False)  # returns False
+match("»»ᅳtestᅳ►", "test", only_letters=True)   # returns True
+match("»»ᅳtestᅳ►", "test", only_letters=False)  # returns False
 ```
 
 #### `scorer=str`
@@ -118,8 +131,8 @@ Match().match("»»ᅳtestᅳ►", "test", only_letters=False)  # returns False
 The scoring algorithm to use, the available options are: [`"levenshtein"`](https://en.wikipedia.org/wiki/Levenshtein_distance), [`"jaro"`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro_similarity), [`"jaro_winkler"`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro–Winkler_similarity). Different algorithms will produce different results, obviously. By default set to `"levenshtein"`.
 
 ```python
-Match().match("test", "th test", scorer="levenshtein")  # returns True (score = 73)
-Match().match("test", "th test", scorer="jaro_winkler") # returns False (score = 60)
+match("test", "th test", scorer="levenshtein")  # returns True (score = 73)
+match("test", "th test", scorer="jaro_winkler") # returns False (score = 60)
 ```
 
 

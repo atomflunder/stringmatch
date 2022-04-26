@@ -2,6 +2,12 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.4.0 - 2022-04-27
+
+- Added match_with_score, get_best_match_with_score and get_best_matches_with_score functions
+- Added tests for those functions
+- Updated documentation a bit
+
 ## v0.3.1 - 2022-04-26
 
 - Fixed bug where matches are ordered by the default scorer and not the one chosen
