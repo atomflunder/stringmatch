@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 version = ""
-with open("searchlib/__init__.py") as f:
+with open("stringmatch/__init__.py") as f:
     for line in f:
         if line.startswith("__version__"):
             version = line.split("=")[1].strip().strip('"')
@@ -15,9 +15,9 @@ with open("README.md", "r") as f:
     readme = f.read()
 
 setup(
-    name="searchlib",
+    name="stringmatch",
     author="atomflunder",
-    url="https://github.com/atomflunder/searchlib",
+    url="https://github.com/atomflunder/stringmatch",
     license="MIT",
     description="A library to match and compare strings.",
     long_description=readme,

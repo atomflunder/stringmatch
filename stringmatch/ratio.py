@@ -1,6 +1,6 @@
 import Levenshtein
 
-from searchlib.exceptions import InvalidScorerException
+from stringmatch.exceptions import InvalidScorerException
 
 
 class Ratio:

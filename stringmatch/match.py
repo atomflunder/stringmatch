@@ -1,8 +1,8 @@
 from typing import Optional
 
-from searchlib.exceptions import EmptySearchException, InvalidLimitException
-from searchlib.ratio import Ratio
-from searchlib.strings import Strings
+from stringmatch.exceptions import EmptySearchException, InvalidLimitException
+from stringmatch.ratio import Ratio
+from stringmatch.strings import Strings
 
 
 class Match:

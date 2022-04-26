@@ -1,4 +1,4 @@
-from searchlib.strings import Strings
+from stringmatch.strings import Strings
 
 
 def test_latinise():

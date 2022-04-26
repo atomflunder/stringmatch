@@ -1,7 +1,7 @@
 import pytest
 
-from searchlib.exceptions import InvalidScorerException
-from searchlib.ratio import Ratio
+from stringmatch.exceptions import InvalidScorerException
+from stringmatch.ratio import Ratio
 
 
 def test_ratio():

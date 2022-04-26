@@ -1,7 +1,7 @@
 import pytest
 
-from searchlib.exceptions import EmptySearchException, InvalidLimitException
-from searchlib.match import Match
+from stringmatch.exceptions import EmptySearchException, InvalidLimitException
+from stringmatch.match import Match
 
 
 def test_match():

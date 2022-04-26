@@ -1,4 +1,4 @@
-# Searchlib
+# Stringmatch
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
@@ -14,19 +14,25 @@ Inspired by [seatgeek/thefuzz](https://github.com/seatgeek/thefuzz), which did n
 
 ## Requirements
 
-- git
 - Python 3.9 or later.
 
 ## Installation
 
+Via pip:
+
 ```
-pip install -U git+https://github.com/atomflunder/searchlib
+pip install stringmatch
+```
+
+Via git:
+```
+pip install -U git+https://github.com/atomflunder/stringmatch
 ```
 
 ## Usage
 
 ```python
-from searchlib import Match, Ratio, Strings
+from stringmatch import Match, Ratio, Strings
 
 # Basic usage:
 Match().match("searchlib", "srchlib")               # returns True
