@@ -4,5 +4,5 @@ from .match import *
 from .ratio import *
 from .strings import *
 
-__title__ = "searchlib"
-__version__ = "0.2.0"
+__title__ = "stringmatch"
+__version__ = "0.3.0"
