@@ -135,7 +135,7 @@ class Match:
         }
 
         return (
-            max(string_list, key=lambda s: Ratio().ratio(string, s))
+            max(string_list, key=lambda s: Ratio().ratio(string, s, scorer=scorer))
             if any(s for s in string_list if self.match(string, s, **kwargs))
             else None
         )
@@ -209,7 +209,7 @@ class Match:
 
         return sorted(
             [s for s in string_list if self.match(string, s, **kwargs)],
-            key=lambda s: Ratio().ratio(string, s),
+            key=lambda s: Ratio().ratio(string, s, scorer=scorer),
             # by default this would sort the list from lowest to highest.
             reverse=True,
         )[:limit]

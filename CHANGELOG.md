@@ -2,6 +2,10 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.3.1 - 2022-04-26
+
+- Fixed bug where matches are ordered by the default scorer and not the one chosen
+
 ## v0.3.0 - 2022-04-26
 
 - Made library installable via pip
