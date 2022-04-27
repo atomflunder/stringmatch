@@ -10,8 +10,9 @@ Inspired by [seatgeek/thefuzz](https://github.com/seatgeek/thefuzz), which did n
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
-  - [Additional Arguments](#additional-arguments)
-  - [Using different scorers](#using-different-scorers)
+- [Advanced Usage](#advanced-usage)
+    - [Keyword Arguments](#keyword-arguments)
+    - [Scoring Algorithms](#scoring-algorithms)
 - [Links](#links)
 
 ## Requirements
@@ -71,11 +72,12 @@ strings.only_letters("Héllö, world!")                 # returns "Hll world"
 strings.ignore_case("test test!", lower=False)        # returns "TEST TEST!"
 ```
 
-### Additional Arguments
+## Advanced Usage
+
+### Keyword Arguments
 You can pass in additional arguments for the `Match()` functions to customise your search further:
 
-#### `score=int`
-
+**`score=70`**  
 The score cutoff for matching, by default set to 70.
 
 ```python
@@ -83,8 +85,9 @@ match("searchlib", "srechlib", score=85)    # returns False
 match("searchlib", "srechlib", score=70)    # returns True
 ```
 
-#### `limit=int`
+---
 
+**`limit=5`**  
 The limit of how many matches to return. Only available for `Matches().get_best_matches()`. If you want to return every match set this to 0. By default this is set to `5`.
 
 ```python
@@ -93,8 +96,9 @@ get_best_matches("limit 5", searches, limit=2)  # returns ["limit 5", "limit 4"]
 get_best_matches("limit 5", searches, limit=1)  # returns ["limit 5"]
 ```
 
-#### `latinise=bool`
+---
 
+**`latinise=False`**  
 Replaces special unicode characters with their latin alphabet equivalents. By default turned off.
 
 ```python
@@ -102,8 +106,9 @@ match("séärçh", "search", latinise=True)    # returns True
 match("séärçh", "search", latinise=False)   # returns False
 ```
 
-#### `ignore_case=bool`
+---
 
+**`ignore_case=False`**  
 If you want to ignore case sensitivity while searching. By default turned off.
 
 ```python
@@ -111,8 +116,9 @@ match("test", "TEST", ignore_case=True)     # returns True
 match("test", "TEST", ignore_case=False)    # returns False
 ```
 
-#### `remove_punctuation=bool`
+---
 
+**`remove_punctuation=False`**  
 Removes commonly used punctuation symbols from the strings, like `.,;:!?` and so on. By default turned off.
 
 ```python
@@ -120,8 +126,9 @@ match("test,---....", "test", remove_punctuation=True)  # returns True
 match("test,---....", "test", remove_punctuation=False) # returns False
 ```
 
-#### `only_letters=bool`
+---
 
+**`only_letters=False`**  
 Removes every character that is not in the latin alphabet, a more extreme version of `remove_punctuation`. By default turned off.
 
 ```python
@@ -129,9 +136,9 @@ match("»»ᅳtestᅳ►", "test", only_letters=True)   # returns True
 match("»»ᅳtestᅳ►", "test", only_letters=False)  # returns False
 ```
 
-### Using different scorers
+### Scoring Algorithms
 
-You can pass in different scorering algorithms when initialising the Match() and Ratio() classes.  
+You can pass in different scoring algorithms when initialising the `Match()` and `Ratio()` classes.  
 The available options are: [`"levenshtein"`](https://en.wikipedia.org/wiki/Levenshtein_distance), [`"jaro"`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro_similarity), [`"jaro_winkler"`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro–Winkler_similarity).   
 Different algorithms will produce different results, obviously. By default set to `"levenshtein"`.
 
