@@ -7,13 +7,13 @@ from stringmatch.strings import Strings
 class Match:
     """Contains methods for comparing and matching strings."""
 
-    def __init__(self, scorer: _Scorer = LevenshteinScorer) -> None:
+    def __init__(self, scorer: type[_Scorer] = LevenshteinScorer) -> None:
         """Initialise the Match class with the correct scoring algorithm,
         to be passed along to the Ratio class.
 
         Parameters
         ----------
-        scorer : _Scorer, optional
+        scorer : type[_Scorer], optional
             The scoring algorithm to use, by default LevenshteinScorer
             Available scorers: LevenshteinScorer, JaroScorer, JaroWinklerScorer.
         """
