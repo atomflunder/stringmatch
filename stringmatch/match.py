@@ -7,6 +7,21 @@ from stringmatch.strings import Strings
 class Match:
     """Contains methods for comparing and matching strings."""
 
+    def __init__(self, scorer: str = "levenshtein") -> None:
+        """Initialise the Match class with the correct scoring algorithm,
+        to be passed along to the Ratio class.
+
+        Parameters
+        ----------
+        scorer : str, optional
+            The scorer to use, by default "levenshtein"
+            Available scorers:
+                "levenshtein",
+                "jaro",
+                "jaro_winkler".
+        """
+        self.scorer = scorer
+
     def match(
         self,
         string1: str,
@@ -17,7 +32,6 @@ class Match:
         ignore_case: bool = False,
         remove_punctuation: bool = False,
         only_letters: bool = False,
-        scorer: str = "levenshtein",
     ) -> bool:
         """Matches two strings, returns True if they are similar enough.
 
@@ -37,12 +51,6 @@ class Match:
             If punctuation should be removed from the strings, by default False.
         only_letters : bool, optional
             If the strings should only be compared by their latin letters, by default False.
-        scorer : str, optional
-            The scorer to use, by default "levenshtein".
-            Available scorers:
-                "levenshtein",
-                "jaro",
-                "jaro_winkler".
 
         Returns
         -------
@@ -68,7 +76,7 @@ class Match:
                 string2
             )
 
-        return Ratio().ratio(string1, string2, scorer=scorer) >= score
+        return Ratio(scorer=self.scorer).ratio(string1, string2) >= score
 
     def match_with_ratio(
         self,
@@ -80,7 +88,6 @@ class Match:
         ignore_case: bool = False,
         remove_punctuation: bool = False,
         only_letters: bool = False,
-        scorer: str = "levenshtein",
     ) -> tuple[bool, int]:
         """Same as match, but returns the boolean in a tuple, together with the score.
 
@@ -100,12 +107,6 @@ class Match:
             If punctuation should be removed from the strings, by default False.
         only_letters : bool, optional
             If the strings should only be compared by their latin letters, by default False.
-        scorer : str, optional
-            The scorer to use, by default "levenshtein".
-            Available scorers:
-                "levenshtein",
-                "jaro",
-                "jaro_winkler".
 
         Returns
         -------
@@ -118,12 +119,11 @@ class Match:
             "ignore_case": ignore_case,
             "remove_punctuation": remove_punctuation,
             "only_letters": only_letters,
-            "scorer": scorer,
         }
 
         return (
             self.match(string1, string2, **kwargs),
-            Ratio().ratio(string1, string2, scorer=scorer),
+            Ratio(scorer=self.scorer).ratio(string1, string2),
         )
 
     def get_best_match(
@@ -136,7 +136,6 @@ class Match:
         ignore_case: bool = False,
         remove_punctuation: bool = False,
         only_letters: bool = False,
-        scorer: str = "levenshtein",
     ) -> Optional[str]:
         """Returns the best match from a list of strings.
 
@@ -156,12 +155,6 @@ class Match:
             If punctuation should be removed from the strings, by default False.
         only_letters : bool, optional
             If the strings should only be compared by their latin letters, by default False.
-        scorer : str, optional
-            The scorer to use, by default "levenshtein".
-            Available scorers:
-                "levenshtein",
-                "jaro",
-                "jaro_winkler".
 
         Returns
         -------
@@ -174,11 +167,10 @@ class Match:
             "remove_punctuation": remove_punctuation,
             "ignore_case": ignore_case,
             "only_letters": only_letters,
-            "scorer": scorer,
         }
 
         return (
-            max(string_list, key=lambda s: Ratio().ratio(string, s, scorer=scorer))
+            max(string_list, key=lambda s: Ratio(scorer=self.scorer).ratio(string, s))
             if any(s for s in string_list if self.match(string, s, **kwargs))
             else None
         )
@@ -193,7 +185,6 @@ class Match:
         ignore_case: bool = False,
         remove_punctuation: bool = False,
         only_letters: bool = False,
-        scorer: str = "levenshtein",
     ) -> Optional[tuple[str, int]]:
         """Same as get_best_match, but returns a tuple with the best match and its score.
 
@@ -213,12 +204,6 @@ class Match:
             If punctuation should be removed from the strings, by default False.
         only_letters : bool, optional
             If the strings should only be compared by their latin letters, by default False.
-        scorer : str, optional
-            The scorer to use, by default "levenshtein".
-            Available scorers:
-                "levenshtein",
-                "jaro",
-                "jaro_winkler".
 
         Returns
         -------
@@ -232,12 +217,13 @@ class Match:
             "remove_punctuation": remove_punctuation,
             "ignore_case": ignore_case,
             "only_letters": only_letters,
-            "scorer": scorer,
         }
 
         match = self.get_best_match(string, string_list, **kwargs)
 
-        return (match, Ratio().ratio(string, match, scorer=scorer)) if match else None
+        return (
+            (match, Ratio(scorer=self.scorer).ratio(string, match)) if match else None
+        )
 
     def get_best_matches(
         self,
@@ -250,7 +236,6 @@ class Match:
         ignore_case: bool = False,
         remove_punctuation: bool = False,
         only_letters: bool = False,
-        scorer: str = "levenshtein",
     ) -> list[str]:
         """Matches a string to a list of strings, returns the strings found that are similar.
         If there are more than `limit` matches,
@@ -276,12 +261,6 @@ class Match:
             If punctuation should be removed from the strings, by default False.
         only_letters : bool, optional
             If the strings should only be compared by their latin letters, by default False.
-        scorer : str, optional
-            The scorer to use, by default "levenshtein".
-            Available scorers:
-                "levenshtein",
-                "jaro",
-                "jaro_winkler".
 
         Returns
         -------
@@ -298,12 +277,11 @@ class Match:
             "remove_punctuation": remove_punctuation,
             "ignore_case": ignore_case,
             "only_letters": only_letters,
-            "scorer": scorer,
         }
 
         return sorted(
             [s for s in string_list if self.match(string, s, **kwargs)],
-            key=lambda s: Ratio().ratio(string, s, scorer=scorer),
+            key=lambda s: Ratio(scorer=self.scorer).ratio(string, s),
             # by default this would sort the list from lowest to highest.
             reverse=True,
         )[:limit]
@@ -319,7 +297,6 @@ class Match:
         ignore_case: bool = False,
         remove_punctuation: bool = False,
         only_letters: bool = False,
-        scorer: str = "levenshtein",
     ) -> list[tuple[str, int]]:
         """Same as get_best_matches, but returns a list of tuples with the best matches and their score.
 
@@ -342,12 +319,6 @@ class Match:
             If punctuation should be removed from the strings, by default False.
         only_letters : bool, optional
             If the strings should only be compared by their latin letters, by default False.
-        scorer : str, optional
-            The scorer to use, by default "levenshtein".
-            Available scorers:
-                "levenshtein",
-                "jaro",
-                "jaro_winkler".
 
         Returns
         -------
@@ -361,11 +332,10 @@ class Match:
             "remove_punctuation": remove_punctuation,
             "ignore_case": ignore_case,
             "only_letters": only_letters,
-            "scorer": scorer,
         }
 
         matches = self.get_best_matches(string, string_list, **kwargs)
 
         return [
-            (match, Ratio().ratio(string, match, scorer=scorer)) for match in matches
+            (match, Ratio(scorer=self.scorer).ratio(string, match)) for match in matches
         ]

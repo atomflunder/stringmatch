@@ -4,6 +4,7 @@ This is a broad overview of the changes that have been made over the lifespan of
 
 ## v0.5.0 - 2022-04-27
 
+- Removed scorer argument from functions, added it into `__init__` in both Match() and Ratio()
 - Renamed *_with_score functions to *_with_ratio to be consistent with naming
     - This affects the three functions added in v0.4.0
 - Removed Exceptions

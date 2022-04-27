@@ -25,15 +25,15 @@ def test_match():
     assert Match().match("»»ᅳtestᅳ►", "test", only_letters=True) is True
     assert Match().match("»»ᅳtestᅳ►", "test", only_letters=False) is False
 
-    assert Match().match("test", "th test", scorer="levenshtein") is True
-    assert Match().match("test", "th test", scorer="jaro_winkler") is False
+    assert Match(scorer="levenshtein").match("test", "th test") is True
+    assert Match(scorer="jaro_winkler").match("test", "th test") is False
 
 
 def test_match_with_ratio():
     assert Match().match_with_ratio("test", "test") == (True, 100)
     assert Match().match_with_ratio("test", "nope") == (False, 25)
     assert Match().match_with_ratio("searchlib", "srechlib") == (True, 82)
-    assert Match().match_with_ratio("test", "th test", scorer="jaro_winkler") == (
+    assert Match(scorer="jaro_winkler").match_with_ratio("test", "th test") == (
         False,
         60,
     )

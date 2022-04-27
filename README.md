@@ -11,6 +11,7 @@ Inspired by [seatgeek/thefuzz](https://github.com/seatgeek/thefuzz), which did n
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
   - [Additional Arguments](#additional-arguments)
+  - [Using different scorers](#using-different-scorers)
 - [Links](#links)
 
 ## Requirements
@@ -128,13 +129,18 @@ match("»»ᅳtestᅳ►", "test", only_letters=True)   # returns True
 match("»»ᅳtestᅳ►", "test", only_letters=False)  # returns False
 ```
 
-#### `scorer=str`
+### Using different scorers
 
-The scoring algorithm to use, the available options are: [`"levenshtein"`](https://en.wikipedia.org/wiki/Levenshtein_distance), [`"jaro"`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro_similarity), [`"jaro_winkler"`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro–Winkler_similarity). Different algorithms will produce different results, obviously. By default set to `"levenshtein"`.
+You can pass in different scorering algorithms when initialising the Match() and Ratio() classes.  
+The available options are: [`"levenshtein"`](https://en.wikipedia.org/wiki/Levenshtein_distance), [`"jaro"`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro_similarity), [`"jaro_winkler"`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro–Winkler_similarity).   
+Different algorithms will produce different results, obviously. By default set to `"levenshtein"`.
 
 ```python
-match("test", "th test", scorer="levenshtein")  # returns True (score = 73)
-match("test", "th test", scorer="jaro_winkler") # returns False (score = 60)
+levenshtein_matcher = Match(scorer="levenshtein")
+jaro_winkler_matcher = Match(scorer="jaro_winkler")
+
+levenshtein_matcher.match("test", "th test")  # returns True (score = 73)
+jaro_winkler_matcher.match("test", "th test") # returns False (score = 60)
 ```
 
 
