@@ -1,24 +1,21 @@
 from typing import Optional
 
-from stringmatch.ratio import Ratio
+from stringmatch.ratio import LevenshteinScorer, Ratio, _Scorer
 from stringmatch.strings import Strings
 
 
 class Match:
     """Contains methods for comparing and matching strings."""
 
-    def __init__(self, scorer: str = "levenshtein") -> None:
+    def __init__(self, scorer: type[_Scorer] = LevenshteinScorer) -> None:
         """Initialise the Match class with the correct scoring algorithm,
         to be passed along to the Ratio class.
 
         Parameters
         ----------
-        scorer : str, optional
-            The scorer to use, by default "levenshtein"
-            Available scorers:
-                "levenshtein",
-                "jaro",
-                "jaro_winkler".
+        scorer : type[_Scorer], optional
+            The scoring algorithm to use, by default LevenshteinScorer
+            Available scorers: LevenshteinScorer, JaroScorer, JaroWinklerScorer.
         """
         self.scorer = scorer
 

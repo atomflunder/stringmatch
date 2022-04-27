@@ -2,6 +2,13 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.6.0 - 2022-04-28
+
+- Added distance functions
+    - These are: distance and distance_list
+- Added new Class _Scorer with LevenshteinScorer, JaroScorer and JaroWinklerScorer subclasses
+    - You need to pass these in now instead of a string when initialising Match() and Ratio() with different scorers
+
 ## v0.5.0 - 2022-04-27
 
 - Removed scorer argument from functions, added it into `__init__` in both Match() and Ratio()

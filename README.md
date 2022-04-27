@@ -13,6 +13,7 @@ Inspired by [seatgeek/thefuzz](https://github.com/seatgeek/thefuzz), which did n
   - [Matching](#matching)
   - [Ratios](#ratios)
   - [Matching & Ratios](#matching--ratios)
+  - [Distances](#distances)
   - [Strings](#strings)
 - [Advanced Usage](#advanced-usage)
     - [Keyword Arguments](#keyword-arguments)
@@ -88,6 +89,21 @@ searches = ["test", "nope", "tset"]
 match.match_with_ratio("searchlib", "srechlib")       # returns (True, 82)
 match.get_best_match_with_ratio("test", searches)     # returns ("test", 100)
 match.get_best_matches_with_ratio("test", searches)   # returns [("test", 100), ("tset", 75)]
+```
+
+### Distances
+
+Instead of the ratio, you can also get the Levenshtein distance between strings directly:
+
+```python
+from stringmatch import Distance
+
+distance = Distance()
+
+distance.distance("kitten", "sitting")      # returns 3
+
+searches = ["sitting", "kitten"]
+distance.distance_list("kitten", searches)  # returns [3, 0]
 ```
 
 ### Strings
@@ -172,12 +188,14 @@ match("»»ᅳtestᅳ►", "test", only_letters=False)  # returns False
 ### Scoring Algorithms
 
 You can pass in different scoring algorithms when initialising the `Match()` and `Ratio()` classes.  
-The available options are: [`"levenshtein"`](https://en.wikipedia.org/wiki/Levenshtein_distance), [`"jaro"`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro_similarity), [`"jaro_winkler"`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro–Winkler_similarity).   
-Different algorithms will produce different results, obviously. By default set to `"levenshtein"`.
+The available options are: [`LevenshteinScorer`](https://en.wikipedia.org/wiki/Levenshtein_distance), [`JaroScorer`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro_similarity), [`JaroWinklerScorer`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro–Winkler_similarity).   
+Different algorithms will produce different results, obviously. By default set to `LevenshteinScorer`.
 
 ```python
-levenshtein_matcher = Match(scorer="levenshtein")
-jaro_winkler_matcher = Match(scorer="jaro_winkler")
+from stringmatch import Match, LevenshteinScorer, JaroWinklerScorer
+
+levenshtein_matcher = Match(scorer=LevenshteinScorer)
+jaro_winkler_matcher = Match(scorer=JaroWinklerScorer)
 
 levenshtein_matcher.match("test", "th test")  # returns True (score = 73)
 jaro_winkler_matcher.match("test", "th test") # returns False (score = 60)

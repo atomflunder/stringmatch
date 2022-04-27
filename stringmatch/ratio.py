@@ -1,25 +1,39 @@
 import Levenshtein
 
 
+class _Scorer:
+    def score(self, string1: str, string2: str) -> float:
+        raise NotImplementedError
+
+
+class LevenshteinScorer(_Scorer):
+    def score(self, string1: str, string2: str) -> float:
+        return Levenshtein.ratio(string1, string2)
+
+
+class JaroScorer(_Scorer):
+    def score(self, string1: str, string2: str) -> float:
+        return Levenshtein.jaro(string1, string2)
+
+
+class JaroWinklerScorer(_Scorer):
+    def score(self, string1: str, string2: str) -> float:
+        return Levenshtein.jaro_winkler(string1, string2)
+
+
 class Ratio:
     """Contains functions for calculating the ratio of similarity between two strings."""
 
-    def __init__(self, scorer: str = "levenshtein") -> None:
+    def __init__(self, scorer: type[_Scorer] = LevenshteinScorer) -> None:
         """Initialize the Ratio class with the correct scoring algorithm.
 
         Parameters
         ----------
-        scorer : str, optional
-            _description_, by default "levenshtein"
+        scorer : type[_Scorer], optional
+            The scoring algorithm to use, by default LevenshteinScorer
+            Available scorers: LevenshteinScorer, JaroScorer, JaroWinklerScorer.
         """
-        self.available_scorers = {
-            "levenshtein": Levenshtein.ratio,
-            "jaro": Levenshtein.jaro,
-            "jaro_winkler": Levenshtein.jaro_winkler,
-        }
-
-        # if the scorer is not found, use levenshtein as the default.
-        self.scorer = self.available_scorers.get(scorer, Levenshtein.ratio)
+        self.scorer = scorer
 
     def ratio(self, string1: str, string2: str) -> int:
         """Returns the similarity score between two strings.
@@ -39,7 +53,11 @@ class Ratio:
         """
 
         # if either string is empty we wanna return 0
-        return round(self.scorer(string1, string2) * 100) if string1 and string2 else 0
+        return (
+            round(self.scorer().score(string1, string2) * 100)
+            if string1 and string2
+            else 0
+        )
 
     def ratio_list(self, string: str, string_list: list[str]) -> list[int]:
         """Returns the similarity score between a string and a list of strings.
