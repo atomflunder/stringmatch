@@ -2,7 +2,7 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
-## v0.6.0 - ????-??-??
+## v0.6.0 - 2022-04-28
 
 - Added distance functions
     - These are: distance and distance_list
