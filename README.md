@@ -35,11 +35,9 @@ pip install -U git+https://github.com/atomflunder/stringmatch
 ```python
 from stringmatch import Match, Ratio, Strings
 
-match = Match()
-ratio = Ratio()
-strings = Strings()
-
 # Basic usage:
+match = Match()
+
 match.match("searchlib", "srchlib")                   # returns True
 match.match("searchlib", "something else")            # returns False
 
@@ -49,19 +47,23 @@ match.get_best_match("searchlib", searches)           # returns "searchli"
 match.get_best_matches("searchlib", searches)         # returns ['searchli', 'searhli', 'search']
 
 # Ratios:
+ratio = Ratio()
+
 ratio.ratio("searchlib", "searchlib")                 # returns 100
 ratio.ratio("searchlib", "srechlib")                  # returns 82
 searches = ["searchlib", "srechlib"]
 ratio.ratio_list("searchlib", searches)               # returns [100, 82]
 
 # Getting matches and ratios:
-match.match_with_score("searchlib", "srechlib")       # returns (True, 82)
+match.match_with_ratio("searchlib", "srechlib")       # returns (True, 82)
 searches = ["test", "nope", "tset"]
-match.get_best_match_with_score("test", searches)     # returns ("test", 100)
-match.get_best_matches_with_score("test", searches)   # returns [("test", 100), ("tset", 75)]
+match.get_best_match_with_ratio("test", searches)     # returns ("test", 100)
+match.get_best_matches_with_ratio("test", searches)   # returns [("test", 100), ("tset", 75)]
 
 # Modify strings:
 # This is meant for internal use, but you can also use it yourself, if you choose to.
+strings = Strings()
+
 strings.latinise("Héllö, world!")                     # returns "Hello, world!"
 strings.remove_punctuation("wh'at;, ever")            # returns "what ever"
 strings.only_letters("Héllö, world!")                 # returns "Hll world"
@@ -82,7 +84,7 @@ match("searchlib", "srechlib", score=70)    # returns True
 
 #### `limit=int`
 
-The limit of how many matches to return. Only available for `Matches().get_best_matches()`. By default this is set to `5`.
+The limit of how many matches to return. Only available for `Matches().get_best_matches()`. If you want to return every match set this to 0. By default this is set to `5`.
 
 ```python
 searches = ["limit 5", "limit 4", "limit 3", "limit 2", "limit 1", "limit 0"]
@@ -110,7 +112,7 @@ match("test", "TEST", ignore_case=False)    # returns False
 
 #### `remove_punctuation=bool`
 
-Removes commonly used punctuation symbols from the strings, like `.,;:!?` and so on. Be careful when using this, because if you pass in a string that is only made up of punctuation symbols, you will get an `EmptySearchException`. By default turned off.
+Removes commonly used punctuation symbols from the strings, like `.,;:!?` and so on. By default turned off.
 
 ```python
 match("test,---....", "test", remove_punctuation=True)  # returns True
@@ -119,7 +121,7 @@ match("test,---....", "test", remove_punctuation=False) # returns False
 
 #### `only_letters=bool`
 
-Removes every character that is not in the latin alphabet, a more extreme version of `remove_punctuation`. The same rules apply here, be careful when you use it or you might get an `EmptySearchException`. By default turned off.
+Removes every character that is not in the latin alphabet, a more extreme version of `remove_punctuation`. By default turned off.
 
 ```python
 match("»»ᅳtestᅳ►", "test", only_letters=True)   # returns True

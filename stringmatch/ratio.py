@@ -1,7 +1,5 @@
 import Levenshtein
 
-from stringmatch.exceptions import InvalidScorerException
-
 
 class Ratio:
     """Contains functions for calculating the ratio of similarity between two strings."""
@@ -37,7 +35,11 @@ class Ratio:
         """
 
         if scorer not in self.scorers:
-            raise InvalidScorerException("Scorer not in available scorers.")
+            scorer = "levenshtein"
+
+        # if either string is empty we wanna return 0
+        if not string1 or not string2:
+            return 0
 
         return round(self.scorers[scorer](string1, string2) * 100)
 
@@ -64,7 +66,4 @@ class Ratio:
         list[int]
             The scores between 0 and 100.
         """
-        if scorer not in self.scorers:
-            raise InvalidScorerException("Scorer not in available scorers.")
-
         return [self.ratio(string, s, scorer=scorer) for s in string_list]

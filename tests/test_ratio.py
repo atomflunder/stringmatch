@@ -1,6 +1,3 @@
-import pytest
-
-from stringmatch.exceptions import InvalidScorerException
 from stringmatch.ratio import Ratio
 
 
@@ -11,8 +8,8 @@ def test_ratio():
     assert Ratio().ratio("searchlib", "srechlib", scorer="jaro_winkler") == 93
     assert Ratio().ratio("test", "th test", scorer="levenshtein") == 73
     assert Ratio().ratio("test", "th test", scorer="jaro_winkler") == 60
-    with pytest.raises(InvalidScorerException):
-        assert Ratio().ratio("searchlib", "srechlib", scorer="nope")
+    assert Ratio().ratio("searchlib", "srechlib", scorer="nope") == 82
+    assert Ratio().ratio("", "f") == 0
 
 
 def test_ratio_list():

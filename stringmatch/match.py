@@ -1,6 +1,5 @@
 from typing import Optional
 
-from stringmatch.exceptions import EmptySearchException, InvalidLimitException
 from stringmatch.ratio import Ratio
 from stringmatch.strings import Strings
 
@@ -21,8 +20,6 @@ class Match:
         scorer: str = "levenshtein",
     ) -> bool:
         """Matches two strings, returns True if they are similar enough.
-        Be careful when using remove_punctuation and only_letters,
-        if they remove everything in the string, this will raise an EmptySearchException.
 
         Parameters
         ----------
@@ -33,29 +30,24 @@ class Match:
         score : int, optional
             The cutoff for the score, by default 70.
         latinise : bool, optional
-            If special unicode characters should be removed from the strings, by default False
+            If special unicode characters should be removed from the strings, by default False.
         ignore_case : bool, optional
-            If the strings should be compared ignoring case, by default False
+            If the strings should be compared ignoring case, by default False.
         remove_punctuation : bool, optional
-            If punctuation should be removed from the strings, by default False
+            If punctuation should be removed from the strings, by default False.
         only_letters : bool, optional
-            If the strings should only be compared by their latin letters, by default False
+            If the strings should only be compared by their latin letters, by default False.
         scorer : str, optional
             The scorer to use, by default "levenshtein".
             Available scorers:
-                "levenshtein"
-                "jaro"
-                "jaro_winkler"
+                "levenshtein",
+                "jaro",
+                "jaro_winkler".
 
         Returns
         -------
         bool
             If the strings are similar enough.
-
-        Raises
-        ------
-        EmptySearchException
-            If one of the strings to compare is empty.
         """
 
         if latinise:
@@ -76,12 +68,9 @@ class Match:
                 string2
             )
 
-        if not string1 or not string2:
-            raise EmptySearchException("Cannot compare an empty string.")
-
         return Ratio().ratio(string1, string2, scorer=scorer) >= score
 
-    def match_with_score(
+    def match_with_ratio(
         self,
         string1: str,
         string2: str,
@@ -104,29 +93,24 @@ class Match:
         score : int, optional
             The cutoff for the score, by default 70.
         latinise : bool, optional
-            If special unicode characters should be removed from the strings, by default False
+            If special unicode characters should be removed from the strings, by default False.
         ignore_case : bool, optional
-            If the strings should be compared ignoring case, by default False
+            If the strings should be compared ignoring case, by default False.
         remove_punctuation : bool, optional
-            If punctuation should be removed from the strings, by default False
+            If punctuation should be removed from the strings, by default False.
         only_letters : bool, optional
-            If the strings should only be compared by their latin letters, by default False
+            If the strings should only be compared by their latin letters, by default False.
         scorer : str, optional
             The scorer to use, by default "levenshtein".
             Available scorers:
-                "levenshtein"
-                "jaro"
-                "jaro_winkler"
+                "levenshtein",
+                "jaro",
+                "jaro_winkler".
 
         Returns
         -------
         tuple[bool, int]
             If the strings are similar and their score.
-
-        Raises
-        ------
-        EmptySearchException
-            If one of the strings to compare is empty.
         """
         kwargs = {
             "score": score,
@@ -155,8 +139,6 @@ class Match:
         scorer: str = "levenshtein",
     ) -> Optional[str]:
         """Returns the best match from a list of strings.
-        Be careful when using remove_punctuation and only_letters,
-        if they remove everything in the string, this will raise an EmptySearchException.
 
         Parameters
         ----------
@@ -165,21 +147,21 @@ class Match:
         string_list : list[str]
             The list of strings to compare to.
         score : int, optional
-            The cutoff for the score, by default 70
+            The cutoff for the score, by default 70.
         latinise : bool, optional
-            If special unicode characters should be removed from the strings, by default False
+            If special unicode characters should be removed from the strings, by default False.
         ignore_case : bool, optional
-            If the strings should be compared ignoring case, by default False
+            If the strings should be compared ignoring case, by default False.
         remove_punctuation : bool, optional
-            If punctuation should be removed from the strings, by default False
+            If punctuation should be removed from the strings, by default False.
         only_letters : bool, optional
-            If the strings should only be compared by their latin letters, by default False
+            If the strings should only be compared by their latin letters, by default False.
         scorer : str, optional
             The scorer to use, by default "levenshtein".
             Available scorers:
-                "levenshtein"
-                "jaro"
-                "jaro_winkler"
+                "levenshtein",
+                "jaro",
+                "jaro_winkler".
 
         Returns
         -------
@@ -201,7 +183,7 @@ class Match:
             else None
         )
 
-    def get_best_match_with_score(
+    def get_best_match_with_ratio(
         self,
         string: str,
         string_list: list[str],
@@ -222,21 +204,21 @@ class Match:
         string_list : list[str]
             The list of strings to compare to.
         score : int, optional
-            The cutoff for the score, by default 70
+            The cutoff for the score, by default 70.
         latinise : bool, optional
-            If special unicode characters should be removed from the strings, by default False
+            If special unicode characters should be removed from the strings, by default False.
         ignore_case : bool, optional
-            If the strings should be compared ignoring case, by default False
+            If the strings should be compared ignoring case, by default False.
         remove_punctuation : bool, optional
-            If punctuation should be removed from the strings, by default False
+            If punctuation should be removed from the strings, by default False.
         only_letters : bool, optional
-            If the strings should only be compared by their latin letters, by default False
+            If the strings should only be compared by their latin letters, by default False.
         scorer : str, optional
             The scorer to use, by default "levenshtein".
             Available scorers:
-                "levenshtein"
-                "jaro"
-                "jaro_winkler"
+                "levenshtein",
+                "jaro",
+                "jaro_winkler".
 
         Returns
         -------
@@ -274,8 +256,6 @@ class Match:
         If there are more than `limit` matches,
         only the `limit` best matches are returned, sorted by score.
         If no matches are found, returns an empty list.
-        Be careful when using remove_punctuation and only_letters,
-        if they remove everything in the string, this will raise an EmptySearchException.
 
         Parameters
         ----------
@@ -284,36 +264,33 @@ class Match:
         string_list : list[str]
             The list of strings to compare to.
         score : int, optional
-            The cutoff for the score, by default 70
+            The cutoff for the score, by default 70.
         limit : int, optional
-            The number of matches to return, by default 5
+            The number of matches to return, by default 5.
+            If you want to return every match, set this to 0.
         latinise : bool, optional
-            If special unicode characters should be removed from the strings, by default False
+            If special unicode characters should be removed from the strings, by default False.
         ignore_case : bool, optional
-            If the strings should be compared ignoring case, by default False
+            If the strings should be compared ignoring case, by default False.
         remove_punctuation : bool, optional
-            If punctuation should be removed from the strings, by default False
+            If punctuation should be removed from the strings, by default False.
         only_letters : bool, optional
-            If the strings should only be compared by their latin letters, by default False
+            If the strings should only be compared by their latin letters, by default False.
         scorer : str, optional
             The scorer to use, by default "levenshtein".
             Available scorers:
-                "levenshtein"
-                "jaro"
-                "jaro_winkler"
+                "levenshtein",
+                "jaro",
+                "jaro_winkler".
 
         Returns
         -------
         list[str]
             All of the matches found.
-
-        Raises
-        ------
-        InvalidLimitException
-            If the limit used is less than 1.
         """
+        # we return every match found if the limit is 0 or less
         if limit < 1:
-            raise InvalidLimitException("Limit must be greater than 1.")
+            limit = None
 
         kwargs = {
             "score": score,
@@ -331,7 +308,7 @@ class Match:
             reverse=True,
         )[:limit]
 
-    def get_best_matches_with_score(
+    def get_best_matches_with_ratio(
         self,
         string: str,
         string_list: list[str],
@@ -353,33 +330,29 @@ class Match:
         string_list : list[str]
             The list of strings to compare to.
         score : int, optional
-            The cutoff for the score, by default 70
+            The cutoff for the score, by default 70.
         limit : int, optional
-            The number of matches to return, by default 5
+            The number of matches to return, by default 5.
+            If you want to return every match, set this to 0.
         latinise : bool, optional
-            If special unicode characters should be removed from the strings, by default False
+            If special unicode characters should be removed from the strings, by default False.
         ignore_case : bool, optional
-            If the strings should be compared ignoring case, by default False
+            If the strings should be compared ignoring case, by default False.
         remove_punctuation : bool, optional
-            If punctuation should be removed from the strings, by default False
+            If punctuation should be removed from the strings, by default False.
         only_letters : bool, optional
-            If the strings should only be compared by their latin letters, by default False
+            If the strings should only be compared by their latin letters, by default False.
         scorer : str, optional
             The scorer to use, by default "levenshtein".
             Available scorers:
-                "levenshtein"
-                "jaro"
-                "jaro_winkler"
+                "levenshtein",
+                "jaro",
+                "jaro_winkler".
 
         Returns
         -------
         list[tuple[str, int]]
             All of the matches found.
-
-        Raises
-        ------
-        InvalidLimitException
-            If the limit used is less than 1.
         """
         kwargs = {
             "score": score,
