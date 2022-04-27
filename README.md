@@ -13,6 +13,7 @@ Inspired by [seatgeek/thefuzz](https://github.com/seatgeek/thefuzz), which did n
   - [Matching](#matching)
   - [Ratios](#ratios)
   - [Matching & Ratios](#matching--ratios)
+  - [Distances](#distances)
   - [Strings](#strings)
 - [Advanced Usage](#advanced-usage)
     - [Keyword Arguments](#keyword-arguments)
@@ -88,6 +89,21 @@ searches = ["test", "nope", "tset"]
 match.match_with_ratio("searchlib", "srechlib")       # returns (True, 82)
 match.get_best_match_with_ratio("test", searches)     # returns ("test", 100)
 match.get_best_matches_with_ratio("test", searches)   # returns [("test", 100), ("tset", 75)]
+```
+
+### Distances
+
+Instead of the ratio, you can also get the Levenshtein distance between strings directly:
+
+```python
+from stringmatch import Distance
+
+distance = Distance()
+
+distance.distance("kitten", "sitting")      # returns 3
+
+searches = ["sitting", "kitten"]
+distance.distance_list("kitten", searches)  # returns [3, 0]
 ```
 
 ### Strings
