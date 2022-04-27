@@ -12,7 +12,7 @@ def test_ratio():
     assert Ratio(scorer=LevenshteinScorer).ratio("test", "th test") == 73
     assert Ratio(scorer=JaroWinklerScorer).ratio("test", "th test") == 60
 
-    with pytest.raises(AttributeError):
+    with pytest.raises(TypeError):
         assert Ratio(scorer="nope").ratio("searchlib", "srechlib") == 82  # type: ignore
 
     with pytest.raises(NotImplementedError):
