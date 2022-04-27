@@ -231,7 +231,7 @@ class Match:
         string_list: list[str],
         *,
         score: int = 70,
-        limit: int = 5,
+        limit: Optional[int] = 5,
         latinise: bool = False,
         ignore_case: bool = False,
         remove_punctuation: bool = False,
@@ -252,7 +252,7 @@ class Match:
             The cutoff for the score, by default 70.
         limit : int, optional
             The number of matches to return, by default 5.
-            If you want to return every match, set this to 0.
+            If you want to return every match, set this to 0 (or less than 0) or None.
         latinise : bool, optional
             If special unicode characters should be removed from the strings, by default False.
         ignore_case : bool, optional
@@ -268,7 +268,7 @@ class Match:
             All of the matches found.
         """
         # we return every match found if the limit is 0 or less
-        if limit < 1:
+        if limit is not None and limit < 1:
             limit = None
 
         kwargs = {
@@ -292,7 +292,7 @@ class Match:
         string_list: list[str],
         *,
         score: int = 70,
-        limit: int = 5,
+        limit: Optional[int] = 5,
         latinise: bool = False,
         ignore_case: bool = False,
         remove_punctuation: bool = False,
@@ -310,7 +310,7 @@ class Match:
             The cutoff for the score, by default 70.
         limit : int, optional
             The number of matches to return, by default 5.
-            If you want to return every match, set this to 0.
+            If you want to return every match, set this to 0 (or less than 0) or None.
         latinise : bool, optional
             If special unicode characters should be removed from the strings, by default False.
         ignore_case : bool, optional

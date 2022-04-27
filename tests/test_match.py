@@ -81,6 +81,11 @@ def test_get_best_matches():
         "tset",
     ]
 
+    assert Match().get_best_matches("test", ["test", "nope", "tset"], limit=None) == [
+        "test",
+        "tset",
+    ]
+
 
 def test_get_best_matches_with_ratio():
     assert Match().get_best_matches_with_ratio("test", ["test", "nope", "tset"]) == [
