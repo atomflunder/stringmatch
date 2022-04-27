@@ -10,6 +10,10 @@ Inspired by [seatgeek/thefuzz](https://github.com/seatgeek/thefuzz), which did n
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
+  - [Matching](#matching)
+  - [Ratios](#ratios)
+  - [Matching & Ratios](#matching--ratios)
+  - [Strings](#strings)
 - [Advanced Usage](#advanced-usage)
     - [Keyword Arguments](#keyword-arguments)
     - [Scoring Algorithms](#scoring-algorithms)
@@ -34,42 +38,71 @@ pip install -U git+https://github.com/atomflunder/stringmatch
 
 ## Basic Usage
 
-```python
-from stringmatch import Match, Ratio, Strings
+### Matching
 
-# Basic usage:
+The match functions allow you to compare 2 strings and check if they are "similar enough" to each other, or get the best match(es) from a list of strings:
+
+```python
+from stringmatch import Match
+
 match = Match()
 
-match.match("searchlib", "srchlib")                   # returns True
-match.match("searchlib", "something else")            # returns False
+# Checks if the strings are similar.
+match.match("searchlib", "srchlib")           # returns True
+match.match("searchlib", "something else")    # returns False
 
-# Matching lists:
+# Returns the best match(es) found in the list.
 searches = ["searchli", "searhli", "search", "lib", "whatever", "s"]
-match.get_best_match("searchlib", searches)           # returns "searchli"
-match.get_best_matches("searchlib", searches)         # returns ['searchli', 'searhli', 'search']
+match.get_best_match("searchlib", searches)   # returns "searchli"
+match.get_best_matches("searchlib", searches) # returns ['searchli', 'searhli', 'search']
+```
 
-# Ratios:
+### Ratios
+
+You can get the "ratio of similarity" between strings like this:
+
+```python
+from stringmatch import Ratio
+
 ratio = Ratio()
 
-ratio.ratio("searchlib", "searchlib")                 # returns 100
-ratio.ratio("searchlib", "srechlib")                  # returns 82
-searches = ["searchlib", "srechlib"]
-ratio.ratio_list("searchlib", searches)               # returns [100, 82]
+# Getting the ratio between the two strings.
+ratio.ratio("searchlib", "searchlib")   # returns 100
+ratio.ratio("searchlib", "srechlib")    # returns 82
 
-# Getting matches and ratios:
-match.match_with_ratio("searchlib", "srechlib")       # returns (True, 82)
+# Getting the ratio between the first string and the list of strings at once.
+searches = ["searchlib", "srechlib"]
+ratio.ratio_list("searchlib", searches) # returns [100, 82]
+```
+
+### Matching & Ratios
+
+You can also get both the match and the ratio together in a tuple using these functions:
+
+```python
+from stringmatch import Match
+
+match = Match()
 searches = ["test", "nope", "tset"]
+
+match.match_with_ratio("searchlib", "srechlib")       # returns (True, 82)
 match.get_best_match_with_ratio("test", searches)     # returns ("test", 100)
 match.get_best_matches_with_ratio("test", searches)   # returns [("test", 100), ("tset", 75)]
+```
 
-# Modify strings:
-# This is meant for internal use, but you can also use it yourself, if you choose to.
+### Strings
+
+This is primarily meant for internal usage, but you can also use this library to modify strings:
+
+```python
+from stringmatch import Strings
+
 strings = Strings()
 
-strings.latinise("Héllö, world!")                     # returns "Hello, world!"
-strings.remove_punctuation("wh'at;, ever")            # returns "what ever"
-strings.only_letters("Héllö, world!")                 # returns "Hll world"
-strings.ignore_case("test test!", lower=False)        # returns "TEST TEST!"
+strings.latinise("Héllö, world!")               # returns "Hello, world!"
+strings.remove_punctuation("wh'at;, ever")      # returns "what ever"
+strings.only_letters("Héllö, world!")           # returns "Hll world"
+strings.ignore_case("test test!", lower=False)  # returns "TEST TEST!"
 ```
 
 ## Advanced Usage
