@@ -1,17 +1,29 @@
-from stringmatch.ratio import Ratio
+import pytest
+
+from stringmatch.ratio import JaroWinklerScorer, LevenshteinScorer, Ratio
 
 
 def test_ratio():
     assert Ratio().ratio("test", "test") == 100
     assert Ratio().ratio("bla", "nope") == 0
     assert Ratio().ratio("searchlib", "srechlib") == 82
-    assert Ratio(scorer="jaro_winkler").ratio("searchlib", "srechlib") == 93
-    assert Ratio(scorer="levenshtein").ratio("test", "th test") == 73
-    assert Ratio(scorer="jaro_winkler").ratio("test", "th test") == 60
-    assert Ratio(scorer="nope").ratio("searchlib", "srechlib") == 82
+
+    assert Ratio(scorer=JaroWinklerScorer).ratio("searchlib", "srechlib") == 93
+    assert Ratio(scorer=LevenshteinScorer).ratio("test", "th test") == 73
+    assert Ratio(scorer=JaroWinklerScorer).ratio("test", "th test") == 60
+
+    with pytest.raises(AttributeError):
+        assert Ratio(scorer="nope").ratio("searchlib", "srechlib") == 82
+
     assert Ratio().ratio("", "f") == 0
-    assert Ratio("levenshtein").ratio_list("test", ["th test", "hwatever"]) == [73, 33]
-    assert Ratio("jaro_winkler").ratio_list("test", ["th test", "hwatever"]) == [60, 58]
+    assert Ratio(LevenshteinScorer).ratio_list("test", ["th test", "hwatever"]) == [
+        73,
+        33,
+    ]
+    assert Ratio(JaroWinklerScorer).ratio_list("test", ["th test", "hwatever"]) == [
+        60,
+        58,
+    ]
 
 
 def test_ratio_list():

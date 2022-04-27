@@ -1,4 +1,5 @@
 from stringmatch.match import Match
+from stringmatch.ratio import JaroWinklerScorer, LevenshteinScorer
 
 
 def test_match():
@@ -25,15 +26,15 @@ def test_match():
     assert Match().match("»»ᅳtestᅳ►", "test", only_letters=True) is True
     assert Match().match("»»ᅳtestᅳ►", "test", only_letters=False) is False
 
-    assert Match(scorer="levenshtein").match("test", "th test") is True
-    assert Match(scorer="jaro_winkler").match("test", "th test") is False
+    assert Match(LevenshteinScorer).match("test", "th test") is True
+    assert Match(JaroWinklerScorer).match("test", "th test") is False
 
 
 def test_match_with_ratio():
     assert Match().match_with_ratio("test", "test") == (True, 100)
     assert Match().match_with_ratio("test", "nope") == (False, 25)
     assert Match().match_with_ratio("searchlib", "srechlib") == (True, 82)
-    assert Match(scorer="jaro_winkler").match_with_ratio("test", "th test") == (
+    assert Match(scorer=JaroWinklerScorer).match_with_ratio("test", "th test") == (
         False,
         60,
     )
