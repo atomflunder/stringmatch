@@ -124,10 +124,10 @@ strings.ignore_case("test test!", lower=False)  # returns "TEST TEST!"
 ## Advanced Usage
 
 ### Keyword Arguments
-You can pass in additional arguments for the `Match()` functions to customise your search further:
+You can pass in additional arguments for the `Match()` and `Ratio()` functions to customise your search further:
 
 **`score=70`**  
-The score cutoff for matching, by default set to 70.
+The score cutoff for matching, by default set to 70. Not available for `Ratio()` functions.
 
 ```python
 match("searchlib", "srechlib", score=85)    # returns False

@@ -1,7 +1,6 @@
 from typing import Optional
 
 from stringmatch.ratio import LevenshteinScorer, Ratio, _Scorer
-from stringmatch.strings import Strings
 
 
 class Match:
@@ -54,26 +53,14 @@ class Match:
         bool
             If the strings are similar enough.
         """
+        kwargs = {
+            "latinise": latinise,
+            "ignore_case": ignore_case,
+            "remove_punctuation": remove_punctuation,
+            "only_letters": only_letters,
+        }
 
-        if latinise:
-            string1, string2 = Strings().latinise(string1), Strings().latinise(string2)
-
-        if ignore_case:
-            string1, string2 = Strings().ignore_case(string1), Strings().ignore_case(
-                string2
-            )
-
-        if remove_punctuation:
-            string1, string2 = Strings().remove_punctuation(
-                string1
-            ), Strings().remove_punctuation(string2)
-
-        if only_letters:
-            string1, string2 = Strings().only_letters(string1), Strings().only_letters(
-                string2
-            )
-
-        return Ratio(scorer=self.scorer).ratio(string1, string2) >= score
+        return Ratio(scorer=self.scorer).ratio(string1, string2, **kwargs) >= score
 
     def match_with_ratio(
         self,
