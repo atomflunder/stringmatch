@@ -46,6 +46,7 @@ class Ratio:
         ignore_case: bool = False,
         remove_punctuation: bool = False,
         only_letters: bool = False,
+        **kwargs,
     ) -> int:
         """Returns the similarity score between two strings.
 

@@ -107,7 +107,7 @@ class Match:
 
         return (
             self.match(string1, string2, **kwargs),
-            Ratio(scorer=self.scorer).ratio(string1, string2),
+            Ratio(scorer=self.scorer).ratio(string1, string2, **kwargs),
         )
 
     def get_best_match(
@@ -154,7 +154,10 @@ class Match:
         }
 
         return (
-            max(string_list, key=lambda s: Ratio(scorer=self.scorer).ratio(string, s))
+            max(
+                string_list,
+                key=lambda s: Ratio(scorer=self.scorer).ratio(string, s, **kwargs),
+            )
             if any(s for s in string_list if self.match(string, s, **kwargs))
             else None
         )
@@ -206,7 +209,9 @@ class Match:
         match = self.get_best_match(string, string_list, **kwargs)
 
         return (
-            (match, Ratio(scorer=self.scorer).ratio(string, match)) if match else None
+            (match, Ratio(scorer=self.scorer).ratio(string, match, **kwargs))
+            if match
+            else None
         )
 
     def get_best_matches(
@@ -265,7 +270,7 @@ class Match:
 
         return sorted(
             [s for s in string_list if self.match(string, s, **kwargs)],
-            key=lambda s: Ratio(scorer=self.scorer).ratio(string, s),
+            key=lambda s: Ratio(scorer=self.scorer).ratio(string, s, **kwargs),
             # by default this would sort the list from lowest to highest.
             reverse=True,
         )[:limit]
@@ -321,5 +326,6 @@ class Match:
         matches = self.get_best_matches(string, string_list, **kwargs)
 
         return [
-            (match, Ratio(scorer=self.scorer).ratio(string, match)) for match in matches
+            (match, Ratio(scorer=self.scorer).ratio(string, match, **kwargs))
+            for match in matches
         ]

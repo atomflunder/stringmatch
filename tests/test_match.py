@@ -38,6 +38,7 @@ def test_match_with_ratio():
         False,
         60,
     )
+    assert Match().match_with_ratio("Woosh", "woosh", ignore_case=True) == (True, 100)
 
 
 def test_get_best_match():
