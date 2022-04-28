@@ -2,6 +2,19 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.6.3 - 2022-04-28
+
+- Updated templates
+- Fixed building of library including old unused files
+
+## v0.6.2 - 2022-04-28
+
+- Fixed keyword arguments not being recognised still
+
+## v0.6.1 - 2022-04-28
+
+- Fixed ranking of matches with keyword arguments
+
 ## v0.6.0 - 2022-04-28
 
 - Added distance functions
