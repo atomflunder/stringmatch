@@ -13,6 +13,9 @@ It will be reviewed as soon as possible.  -->
 **Summary**:  
 A clear and concise description of what the bug is.
 
+**Version**:
+What version of the library are you using?
+
 **Reproduction**:  
 Steps to accurately reproduce the behavior.
 
