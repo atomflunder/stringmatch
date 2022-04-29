@@ -7,22 +7,22 @@
 Inspired by libraries like [seatgeek/thefuzz](https://github.com/seatgeek/thefuzz), which did not quite fit my needs. And so I am building this library for myself, primarily.
 
 ## Table of Contents
-- [🎯 Key Features](#🎯-key-features)
-- [📋 Requirements](#📋-requirements)
-- [⚙️ Installation](#⚙️-installation)
-- [🔨 Basic Usage](#🔨-basic-usage)
+- [🎯 Key Features](#key-features)
+- [📋 Requirements](#requirements)
+- [⚙️ Installation](#installation)
+- [🔨 Basic Usage](#basic-usage)
   - [Matching](#matching)
   - [Ratios](#ratios)
   - [Matching & Ratios](#matching--ratios)
   - [Distances](#distances)
   - [Strings](#strings)
-- [🛠️ Advanced Usage](#🛠️-advanced-usage)
+- [🛠️ Advanced Usage](#advanced-usage)
     - [Keyword Arguments](#keyword-arguments)
     - [Scoring Algorithms](#scoring-algorithms)
-- [🌟 Contributing](#🌟-contributing)
-- [🔗 Links](#🔗-links)
+- [🌟 Contributing](#contributing)
+- [🔗 Links](#links)
 
-## 🎯 Key Features
+## Key Features
 At its core this library **compares and matches between strings** based mainly on, among others, the [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance).  
 What sets stringmatch apart from the other libraries that do the same are:
 
@@ -32,11 +32,11 @@ What sets stringmatch apart from the other libraries that do the same are:
   - Better matching & handling of special characters
   - Better UX (hopefully)
 
-## 📋 Requirements
+## Requirements
 
 - Python 3.9 or later.
 
-## ⚙️ Installation
+## Installation
 
 Install the latest stable version with pip:
 
@@ -49,7 +49,7 @@ Or install the newest version via git (Might be unstable or unfinished):
 pip install -U git+https://github.com/atomflunder/stringmatch
 ```
 
-## 🔨 Basic Usage
+## Basic Usage
 
 ### Matching
 
@@ -133,7 +133,7 @@ strings.only_letters("Héllö, world!")           # returns "Hll world"
 strings.ignore_case("test test!", lower=False)  # returns "TEST TEST!"
 ```
 
-## 🛠️ Advanced Usage
+## Advanced Usage
 
 ### Keyword Arguments
 You can pass in these optional arguments for the `Match()` and `Ratio()` functions to customise your search further:
@@ -245,13 +245,13 @@ levenshtein_matcher.match("test", "th test")  # returns True (score = 73)
 jaro_winkler_matcher.match("test", "th test") # returns False (score = 60)
 ```
 
-## 🌟 Contributing
+## Contributing
 
 Contributions to this library are always appreciated! If you have any sort of feedback, or are interested in contributing, head on over to the [Contributing Guidelines](/.github/CONTRIBUTING.md).  
 Additionally, if you like this library, leaving a star and spreading the word would be appreciated a lot!  
 Thanks in advance for taking the time to do so.
 
-## 🔗 Links
+## Links
 
 Packages used:
 
