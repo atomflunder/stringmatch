@@ -4,6 +4,10 @@ First off, thanks for being interested in contributing to stringmatch! Every con
 
 If you just want to ask a question, go ahead and visit the [GitHub Discussions Tab](https://github.com/atomflunder/stringmatch/discussions).
 
+## Feature requests
+
+If you have any ideas on how to improve the library with a new feature, they are always welcome. Submit a feature request and just follow the template.
+
 ## Bug reports
 
 While submitting a bug report, make sure to follow the template and be clear in how to reproduce the bug. If you already know how to fix the bug, go ahead and either describe it in the report, or submit a pull request directly.

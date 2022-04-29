@@ -14,7 +14,8 @@ It will be reviewed as soon as possible.  -->
 A clear and concise description of what the bug is.
 
 **Version**:
-What version of the library are you using?
+What version of the library are you using?  
+If you are unsure, `print(stringmatch.__version__)`
 
 **Reproduction**:  
 Steps to accurately reproduce the behavior.

@@ -1,30 +1,42 @@
-# Stringmatch
+# stringmatch
 
 [![PyPI](https://img.shields.io/pypi/v/stringmatch?color=blue)](https://pypi.org/project/stringmatch/) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/stringmatch)](https://pypi.org/project/stringmatch/) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 
-Yet another small, lightweight string matching library written in Python, based on the [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) and the [Levenshtein Python C Extension](https://github.com/maxbachmann/Levenshtein).  
-Inspired by [seatgeek/thefuzz](https://github.com/seatgeek/thefuzz), which did not quite fit my needs, so I am building this library for myself, primarily.
+**stringmatch** is yet another small, lightweight string matching library written in Python, based on the [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) and the [Levenshtein Python C Extension](https://github.com/maxbachmann/Levenshtein).  
+Inspired by libraries like [seatgeek/thefuzz](https://github.com/seatgeek/thefuzz), which did not quite fit my needs. And so I am building this library for myself, primarily.
 
 ## Table of Contents
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Basic Usage](#basic-usage)
+- [🎯 Key Features](#key-features)
+- [📋 Requirements](#requirements)
+- [⚙️ Installation](#installation)
+- [🔨 Basic Usage](#basic-usage)
   - [Matching](#matching)
   - [Ratios](#ratios)
   - [Matching & Ratios](#matching--ratios)
   - [Distances](#distances)
   - [Strings](#strings)
-- [Advanced Usage](#advanced-usage)
+- [🛠️ Advanced Usage](#advanced-usage)
     - [Keyword Arguments](#keyword-arguments)
     - [Scoring Algorithms](#scoring-algorithms)
-- [Links](#links)
+- [🌟 Contributing](#contributing)
+- [🔗 Links](#links)
 
-## Requirements
+## 🎯 Key Features
+At its core this library **compares and matches between strings** based mainly on, among others, the [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance).  
+What sets stringmatch apart from the other libraries that do the same are:
+
+  - More than **10x faster**
+  - Offering more options for customising searches
+  - More utility functions for modifying and comparing strings
+  - Better matching & handling of special characters
+  - Better UX (hopefully)
+
+## 📋 Requirements
 
 - Python 3.9 or later.
 
-## Installation
+## ⚙️ Installation
 
 Install the latest stable version with pip:
 
@@ -32,12 +44,12 @@ Install the latest stable version with pip:
 pip install stringmatch
 ```
 
-Or install the newest version via git (Might be unstable/unfinished):
+Or install the newest version via git (Might be unstable or unfinished):
 ```
 pip install -U git+https://github.com/atomflunder/stringmatch
 ```
 
-## Basic Usage
+## 🔨 Basic Usage
 
 ### Matching
 
@@ -121,25 +133,35 @@ strings.only_letters("Héllö, world!")           # returns "Hll world"
 strings.ignore_case("test test!", lower=False)  # returns "TEST TEST!"
 ```
 
-## Advanced Usage
+## 🛠️ Advanced Usage
 
 ### Keyword Arguments
-You can pass in additional arguments for the `Match()` and `Ratio()` functions to customise your search further:
+You can pass in these optional arguments for the `Match()` and `Ratio()` functions to customise your search further:
 
-**`score=70`**  
-The score cutoff for matching, by default set to 70. Not available for `Ratio()` functions.
+#### `score`
+
+| Name  | Description   | Type  | Default | Required? |
+| ---   | ---           | ---   | ---     | ---       |
+| score | The score cutoff for matching. Only available for `Match()` functions. | Integer | 70 | No
 
 ```python
+# Example:
+
 match("searchlib", "srechlib", score=85)    # returns False
 match("searchlib", "srechlib", score=70)    # returns True
 ```
 
 ---
 
-**`limit=5`**  
-The limit of how many matches to return. Only available for `Matches().get_best_matches()`. If you want to return every match set this to 0. By default this is set to `5`.
+#### `limit`
+
+| Name  | Description   | Type  | Default | Required? |
+| ---   | ---           | ---   | ---     | ---       |
+| limit | The limit of how many matches to return. Only available for `Matches().get_best_matches()`. If you want to return every match set this to 0. | Integer | 5 | No
 
 ```python
+# Example:
+
 searches = ["limit 5", "limit 4", "limit 3", "limit 2", "limit 1", "limit 0"]
 get_best_matches("limit 5", searches, limit=2)  # returns ["limit 5", "limit 4"]
 get_best_matches("limit 5", searches, limit=1)  # returns ["limit 5"]
@@ -147,43 +169,65 @@ get_best_matches("limit 5", searches, limit=1)  # returns ["limit 5"]
 
 ---
 
-**`latinise=False`**  
-Replaces special unicode characters with their latin alphabet equivalents. By default turned off.
+#### `latinise`
+
+| Name  | Description   | Type  | Default | Required? |
+| ---   | ---           | ---   | ---     | ---       |
+| latinise | Replaces special unicode characters with their latin alphabet equivalents. | Boolean | False | No
 
 ```python
+# Example:
+
 match("séärçh", "search", latinise=True)    # returns True
 match("séärçh", "search", latinise=False)   # returns False
 ```
 
 ---
 
-**`ignore_case=False`**  
-If you want to ignore case sensitivity while searching. By default turned off.
+#### `ignore_case`
+
+| Name  | Description   | Type  | Default | Required? |
+| ---   | ---           | ---   | ---     | ---       |
+| ignore_case | If you want to ignore case sensitivity while searching. | Boolean | False | No
 
 ```python
+# Example:
+
 match("test", "TEST", ignore_case=True)     # returns True
 match("test", "TEST", ignore_case=False)    # returns False
 ```
 
 ---
 
-**`remove_punctuation=False`**  
-Removes commonly used punctuation symbols from the strings, like `.,;:!?` and so on. By default turned off.
+#### `remove_punctuation`
+
+| Name  | Description   | Type  | Default | Required? |
+| ---   | ---           | ---   | ---     | ---       |
+| remove_punctuation | Removes commonly used punctuation symbols from the strings, like `.,;:!?` and so on. | Boolean | False | No
 
 ```python
+# Example:
+
 match("test,---....", "test", remove_punctuation=True)  # returns True
 match("test,---....", "test", remove_punctuation=False) # returns False
 ```
 
 ---
 
-**`only_letters=False`**  
-Removes every character that is not in the latin alphabet, a more extreme version of `remove_punctuation`. By default turned off.
+#### `only_letters`
+
+| Name  | Description   | Type  | Default | Required? |
+| ---   | ---           | ---   | ---     | ---       |
+| only_letters | Removes every character that is not in the latin alphabet, a more extreme version of `remove_punctuation`. | Boolean | False | No
 
 ```python
+# Example:
+
 match("»»ᅳtestᅳ►", "test", only_letters=True)   # returns True
 match("»»ᅳtestᅳ►", "test", only_letters=False)  # returns False
 ```
+
+---
 
 ### Scoring Algorithms
 
@@ -201,8 +245,13 @@ levenshtein_matcher.match("test", "th test")  # returns True (score = 73)
 jaro_winkler_matcher.match("test", "th test") # returns False (score = 60)
 ```
 
+## 🌟 Contributing
 
-## Links
+Contributions to this library are always appreciated! If you have any sort of feedback, or are interested in contributing, head on over to the [Contributing Guidelines](/.github/CONTRIBUTING.md).  
+Additionally, if you like this library, leaving a star and spreading the word would be appreciated a lot!  
+Thanks in advance for taking the time to do so.
+
+## 🔗 Links
 
 Packages used:
 
