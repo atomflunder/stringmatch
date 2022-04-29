@@ -1,17 +1,17 @@
 from setuptools import find_packages, setup
 
 version = ""
-with open("stringmatch/__init__.py") as f:
+with open("stringmatch/__init__.py", encoding="utf-8") as f:
     for line in f:
         if line.startswith("__version__"):
             version = line.split("=")[1].strip().strip('"')
 
 required_packages = []
-with open("requirements.txt", "r") as f:
+with open("requirements.txt", "r", encoding="utf-8") as f:
     required_packages = f.read().splitlines()
 
 readme = ""
-with open("README.md", "r") as f:
+with open("README.md", "r", encoding="utf-8") as f:
     readme = f.read()
 
 setup(
@@ -26,6 +26,7 @@ setup(
     version=version,
     install_requires=required_packages,
     python_requires=">=3.9",
+    setup_requires=["pytest-runner"],
     tests_require=["pytest"],
     test_suite="tests",
     classifiers=[
