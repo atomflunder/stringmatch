@@ -7,26 +7,26 @@
 Inspired by libraries like [seatgeek/thefuzz](https://github.com/seatgeek/thefuzz), which did not quite fit my needs. And so I am building this library for myself, primarily.
 
 ## Table of Contents
-- [🎯 Key Features](#key-features)
-- [📋 Requirements](#requirements)
-- [⚙️ Installation](#installation)
-- [🔨 Basic Usage](#basic-usage)
+- [🎯 Key Features](#🎯-key-features)
+- [📋 Requirements](#📋-requirements)
+- [⚙️ Installation](#⚙️-installation)
+- [🔨 Basic Usage](#🔨-basic-usage)
   - [Matching](#matching)
   - [Ratios](#ratios)
   - [Matching & Ratios](#matching--ratios)
   - [Distances](#distances)
   - [Strings](#strings)
-- [🛠️ Advanced Usage](#advanced-usage)
+- [🛠️ Advanced Usage](#🛠️-advanced-usage)
     - [Keyword Arguments](#keyword-arguments)
     - [Scoring Algorithms](#scoring-algorithms)
-- [🌟 Contributing](#contributing)
-- [🔗 Links](#links)
+- [🌟 Contributing](#🌟-contributing)
+- [🔗 Links](#🔗-links)
 
 ## 🎯 Key Features
 At its core this library **compares and matches between strings** based mainly on, among others, the [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance).  
 What sets stringmatch apart from the other libraries that do the same are:
 
-  - More than **10x faster**
+  - Up to **10x faster**
   - Offering more options for customising searches
   - More utility functions for modifying and comparing strings
   - Better matching & handling of special characters
@@ -138,7 +138,7 @@ strings.ignore_case("test test!", lower=False)  # returns "TEST TEST!"
 ### Keyword Arguments
 You can pass in these optional arguments for the `Match()` and `Ratio()` functions to customise your search further:
 
-#### `score`
+### `score`
 
 | Name  | Description   | Type  | Default | Required? |
 | ---   | ---           | ---   | ---     | ---       |
@@ -153,7 +153,7 @@ match("searchlib", "srechlib", score=70)    # returns True
 
 ---
 
-#### `limit`
+### `limit`
 
 | Name  | Description   | Type  | Default | Required? |
 | ---   | ---           | ---   | ---     | ---       |
@@ -169,7 +169,7 @@ get_best_matches("limit 5", searches, limit=1)  # returns ["limit 5"]
 
 ---
 
-#### `latinise`
+### `latinise`
 
 | Name  | Description   | Type  | Default | Required? |
 | ---   | ---           | ---   | ---     | ---       |
@@ -184,7 +184,7 @@ match("séärçh", "search", latinise=False)   # returns False
 
 ---
 
-#### `ignore_case`
+### `ignore_case`
 
 | Name  | Description   | Type  | Default | Required? |
 | ---   | ---           | ---   | ---     | ---       |
@@ -199,7 +199,7 @@ match("test", "TEST", ignore_case=False)    # returns False
 
 ---
 
-#### `remove_punctuation`
+### `remove_punctuation`
 
 | Name  | Description   | Type  | Default | Required? |
 | ---   | ---           | ---   | ---     | ---       |
@@ -214,7 +214,7 @@ match("test,---....", "test", remove_punctuation=False) # returns False
 
 ---
 
-#### `only_letters`
+### `only_letters`
 
 | Name  | Description   | Type  | Default | Required? |
 | ---   | ---           | ---   | ---     | ---       |
