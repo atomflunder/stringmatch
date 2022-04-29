@@ -166,7 +166,7 @@ match("stringmatch", "strngmach", score=70)    # returns True
 ```python
 # Example:
 
-searches = ["limit 5", "limit 4", "limit 3", "limit 2", "limit 1", "limit 0"]
+searches = ["limit 5", "limit 4", "limit 3", "limit 2", "limit 1", "limit 0", "something else"]
 get_best_matches("limit 5", searches, limit=2)    # returns ["limit 5", "limit 4"]
 get_best_matches("limit 5", searches, limit=1)    # returns ["limit 5"]
 get_best_matches("limit 5", searches, limit=None) # returns ["limit 5", "limit 4", "limit 3", "limit 2", "limit 1", "limit 0"]
