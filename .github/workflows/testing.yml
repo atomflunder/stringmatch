@@ -22,4 +22,4 @@ jobs:
           pip install pytest pytest-cov
       - name: Run tests with coverage
         run: |
-          pytest -v --cov=stringmatch tests/
+          pytest -v --cov=stringmatch tests/ --cov-fail-under 100
