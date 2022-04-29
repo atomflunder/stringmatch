@@ -2,6 +2,13 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.6.4 - 2022-04-29
+
+- Updated and clarified readme in some sections, added new examples
+    - Added tests to make sure these examples are correct
+- Letting tests fail now when under 100% code coverage
+- Fixed encoding in setup.py file
+
 ## v0.6.3 - 2022-04-28
 
 - Updated templates
