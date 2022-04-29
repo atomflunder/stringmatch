@@ -21,6 +21,7 @@ Inspired by libraries like [seatgeek/thefuzz](https://github.com/seatgeek/thefuz
     - [Scoring Algorithms](#scoring-algorithms)
 - [🌟 Contributing](#contributing)
 - [🔗 Links](#links)
+- [⚠️ License](#license)
 
 ## Key Features
 
@@ -61,11 +62,11 @@ from stringmatch import Match
 
 match = Match()
 
-# Checks if the strings are similar.
+# Checks if the strings are similar:
 match.match("stringmatch", "strngmach")         # returns True
 match.match("stringmatch", "something else")    # returns False
 
-# Returns the best match(es) found in the list.
+# Returns the best match(es) found in the list:
 searches = ["stringmat", "strinma", "strings", "mtch", "whatever", "s"]
 match.get_best_match("stringmatch", searches)   # returns "stringmat"
 match.get_best_matches("stringmatch", searches) # returns ["stringmat", "strinma"]
@@ -81,14 +82,14 @@ from stringmatch import Ratio
 
 ratio = Ratio()
 
-# Getting the ratio between the two strings.
+# Getting the ratio between the two strings:
 ratio.ratio("stringmatch", "stringmatch")   # returns 100
-ratio.ratio("stringmatch", "strngmach") # returns 90
-ratio.ratio("stringmatch", "eh")        # returns 15
+ratio.ratio("stringmatch", "strngmach")     # returns 90
+ratio.ratio("stringmatch", "eh")            # returns 15
 
-# Getting the ratio between the first string and the list of strings at once.
+# Getting the ratio between the first string and the list of strings at once:
 searches = ["stringmatch", "strngmach", "eh"]
-ratio.ratio_list("searchlib", searches) # returns [100, 90, 15]
+ratio.ratio_list("stringmatch", searches)   # returns [100, 90, 15]
 ```
 
 ### Matching & Ratios
@@ -109,7 +110,7 @@ match.get_best_matches_with_ratio("test", searches)   # returns [("test", 100), 
 
 ### Distances
 
-Instead of the ratio, you can also get the Levenshtein distance between strings directly:
+Instead of the ratio, you can also get the Levenshtein distance between strings directly. The bigger the distance, the more different the strings:
 
 ```python
 from stringmatch import Distance
@@ -140,7 +141,8 @@ strings.ignore_case("test test!", lower=False)  # returns "TEST TEST!"
 ## Advanced Usage
 
 ### Keyword Arguments
-You can pass in these optional arguments for the `Match()` and `Ratio()` functions to customise your search further:
+
+You can pass in these optional arguments for the `Match()` and `Ratio()` functions to customize your search further:
 
 ### `score`
 
@@ -161,15 +163,21 @@ match("stringmatch", "strngmach", score=70)    # returns True
 
 | Name  | Description   | Type  | Default | Required? |
 | ---   | ---           | ---   | ---     | ---       |
-| limit | The limit of how many matches to return. **If you want to return every match set this to 0 or None.** Only available for the `get_best_matches()` funcion. | Integer | 5 | No
+| limit | The limit of how many matches to return. **If you want to return every match set this to 0 or None.** Only available for the `get_best_matches()` function. | Integer | 5 | No
 
 ```python
 # Example:
 
 searches = ["limit 5", "limit 4", "limit 3", "limit 2", "limit 1", "limit 0", "something else"]
-get_best_matches("limit 5", searches, limit=2)    # returns ["limit 5", "limit 4"]
-get_best_matches("limit 5", searches, limit=1)    # returns ["limit 5"]
-get_best_matches("limit 5", searches, limit=None) # returns ["limit 5", "limit 4", "limit 3", "limit 2", "limit 1", "limit 0"]
+
+# returns ["limit 5", "limit 4"]
+get_best_matches("limit 5", searches, limit=2)
+
+# returns ["limit 5"]
+get_best_matches("limit 5", searches, limit=1)
+
+# returns ["limit 5", "limit 4", "limit 3", "limit 2", "limit 1", "limit 0"]
+get_best_matches("limit 5", searches, limit=None) 
 ```
 
 ---
@@ -236,18 +244,18 @@ match("»»ᅳtestᅳ►", "test", only_letters=False)  # returns False
 
 ### Scoring Algorithms
 
-You can pass in different scoring algorithms when initialising the `Match()` and `Ratio()` classes.  
+You can pass in different scoring algorithms when initializing the `Match()` and `Ratio()` classes.  
 The available options are: [`LevenshteinScorer`](https://en.wikipedia.org/wiki/Levenshtein_distance), [`JaroScorer`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro_similarity), [`JaroWinklerScorer`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro–Winkler_similarity).   
 Different algorithms will produce different results, obviously. By default set to `LevenshteinScorer`.
 
 ```python
 from stringmatch import Match, LevenshteinScorer, JaroWinklerScorer
 
-levenshtein_matcher = Match(scorer=LevenshteinScorer)
-jaro_winkler_matcher = Match(scorer=JaroWinklerScorer)
+lev_matcher = Match(scorer=LevenshteinScorer)
+jw_matcher = Match(scorer=JaroWinklerScorer)
 
-levenshtein_matcher.match("test", "th test")  # returns True (score = 73)
-jaro_winkler_matcher.match("test", "th test") # returns False (score = 60)
+lev_matcher.match_with_ratio("test", "th test") # returns (True, 73)
+jw_matcher.match_with_ratio("test", "th test")  # returns (False, 60)
 ```
 
 ## Contributing
@@ -266,3 +274,7 @@ Packages used:
 Related packages:
 
 - [thefuzz](https://github.com/seatgeek/thefuzz)
+
+## License
+
+This project is licensed under the [MIT License](/LICENSE).
