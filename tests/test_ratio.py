@@ -12,7 +12,8 @@ from stringmatch.ratio import (
 def test_ratio():
     assert Ratio().ratio("test", "test") == 100
     assert Ratio().ratio("bla", "nope") == 0
-    assert Ratio().ratio("searchlib", "srechlib") == 82
+    assert Ratio().ratio("stringmatch", "strngmach") == 90
+    assert Ratio().ratio("stringmatch", "eh") == 15
 
     assert Ratio(scorer=JaroWinklerScorer).ratio("searchlib", "srechlib") == 93
     assert Ratio(scorer=LevenshteinScorer).ratio("test", "th test") == 73
@@ -34,6 +35,10 @@ def test_ratio():
         60,
         58,
     ]
+
+    assert Ratio().ratio("ジャパニーズ", "ziyapanizu", latinise=True) == 100
+    # for the explanation: the skintone emojis are the yellow emojis + a tone modifier
+    assert Ratio().ratio("👍", "👍🏻") == 67
 
 
 def test_ratio_list():

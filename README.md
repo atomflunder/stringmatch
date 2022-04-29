@@ -3,7 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/stringmatch?color=blue)](https://pypi.org/project/stringmatch/) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/stringmatch)](https://pypi.org/project/stringmatch/) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 
-**stringmatch** is yet another small, lightweight string matching library written in Python, based on the [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) and the [Levenshtein Python C Extension](https://github.com/maxbachmann/Levenshtein).  
+**stringmatch** is a small, lightweight string matching library written in Python, based on the [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) and the [Levenshtein Python C Extension](https://github.com/maxbachmann/Levenshtein).  
 Inspired by libraries like [seatgeek/thefuzz](https://github.com/seatgeek/thefuzz), which did not quite fit my needs. And so I am building this library for myself, primarily.
 
 ## Table of Contents
@@ -23,14 +23,15 @@ Inspired by libraries like [seatgeek/thefuzz](https://github.com/seatgeek/thefuz
 - [🔗 Links](#links)
 
 ## Key Features
-At its core this library **compares and matches between strings** based mainly on, among others, the [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance).  
-What sets stringmatch apart from the other libraries that do the same are:
 
-  - Up to **10x faster**
-  - Offering more options for customising searches
-  - More utility functions for modifying and comparing strings
-  - Better matching & handling of special characters
-  - Better UX (hopefully)
+This library **matches compares and strings to each other** based mainly on, among others, the [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance).  
+What makes stringmatch special compared to other libraries with similar functions:
+
+- 💨 Lightweight, straightforward and easy to use
+- ⚡ Extremely fast, up to 10x faster than comparable libraries
+- 🧰 Allows for highly customisable searches
+- 📚 Lots of utility functions to make your life easier
+- 🌍 Handles special unicode characters, like emojis or characters from other languages, like ジャパニーズ
 
 ## Requirements
 
@@ -61,18 +62,19 @@ from stringmatch import Match
 match = Match()
 
 # Checks if the strings are similar.
-match.match("searchlib", "srchlib")           # returns True
-match.match("searchlib", "something else")    # returns False
+match.match("stringmatch", "strngmach")         # returns True
+match.match("stringmatch", "something else")    # returns False
 
 # Returns the best match(es) found in the list.
-searches = ["searchli", "searhli", "search", "lib", "whatever", "s"]
-match.get_best_match("searchlib", searches)   # returns "searchli"
-match.get_best_matches("searchlib", searches) # returns ['searchli', 'searhli', 'search']
+searches = ["stringmat", "strinma", "strings", "mtch", "whatever", "s"]
+match.get_best_match("stringmatch", searches)   # returns "stringmat"
+match.get_best_matches("stringmatch", searches) # returns ["stringmat", "strinma"]
 ```
 
 ### Ratios
 
-You can get the "ratio of similarity" between strings like this:
+The "ratio of similarity" describes how similar the strings are to each other. It ranges from 100 being an exact match to 0 being something completely different.  
+You can get the ratio between strings like this:
 
 ```python
 from stringmatch import Ratio
@@ -80,12 +82,13 @@ from stringmatch import Ratio
 ratio = Ratio()
 
 # Getting the ratio between the two strings.
-ratio.ratio("searchlib", "searchlib")   # returns 100
-ratio.ratio("searchlib", "srechlib")    # returns 82
+ratio.ratio("stringmatch", "stringmatch")   # returns 100
+ratio.ratio("stringmatch", "strngmach") # returns 90
+ratio.ratio("stringmatch", "eh")        # returns 15
 
 # Getting the ratio between the first string and the list of strings at once.
-searches = ["searchlib", "srechlib"]
-ratio.ratio_list("searchlib", searches) # returns [100, 82]
+searches = ["stringmatch", "strngmach", "eh"]
+ratio.ratio_list("searchlib", searches) # returns [100, 90, 15]
 ```
 
 ### Matching & Ratios
@@ -96,9 +99,10 @@ You can also get both the match and the ratio together in a tuple using these fu
 from stringmatch import Match
 
 match = Match()
-searches = ["test", "nope", "tset"]
 
-match.match_with_ratio("searchlib", "srechlib")       # returns (True, 82)
+match.match_with_ratio("stringmatch", "strngmach")    # returns (True, 90)
+
+searches = ["test", "nope", "tset"]
 match.get_best_match_with_ratio("test", searches)     # returns ("test", 100)
 match.get_best_matches_with_ratio("test", searches)   # returns [("test", 100), ("tset", 75)]
 ```
@@ -147,8 +151,8 @@ You can pass in these optional arguments for the `Match()` and `Ratio()` functio
 ```python
 # Example:
 
-match("searchlib", "srechlib", score=85)    # returns False
-match("searchlib", "srechlib", score=70)    # returns True
+match("stringmatch", "strngmach", score=95)    # returns False
+match("stringmatch", "strngmach", score=70)    # returns True
 ```
 
 ---
@@ -157,14 +161,15 @@ match("searchlib", "srechlib", score=70)    # returns True
 
 | Name  | Description   | Type  | Default | Required? |
 | ---   | ---           | ---   | ---     | ---       |
-| limit | The limit of how many matches to return. Only available for `Matches().get_best_matches()`. If you want to return every match set this to 0. | Integer | 5 | No
+| limit | The limit of how many matches to return. **If you want to return every match set this to 0 or None.** Only available for the `get_best_matches()` funcion. | Integer | 5 | No
 
 ```python
 # Example:
 
 searches = ["limit 5", "limit 4", "limit 3", "limit 2", "limit 1", "limit 0"]
-get_best_matches("limit 5", searches, limit=2)  # returns ["limit 5", "limit 4"]
-get_best_matches("limit 5", searches, limit=1)  # returns ["limit 5"]
+get_best_matches("limit 5", searches, limit=2)    # returns ["limit 5", "limit 4"]
+get_best_matches("limit 5", searches, limit=1)    # returns ["limit 5"]
+get_best_matches("limit 5", searches, limit=None) # returns ["limit 5", "limit 4", "limit 3", "limit 2", "limit 1", "limit 0"]
 ```
 
 ---
@@ -173,7 +178,7 @@ get_best_matches("limit 5", searches, limit=1)  # returns ["limit 5"]
 
 | Name  | Description   | Type  | Default | Required? |
 | ---   | ---           | ---   | ---     | ---       |
-| latinise | Replaces special unicode characters with their latin alphabet equivalents. | Boolean | False | No
+| latinise | Replaces special unicode characters with their latin alphabet equivalents. Examples: `Ǽ` -> `AE`, `ノース` -> `nosu` | Boolean | False | No
 
 ```python
 # Example:

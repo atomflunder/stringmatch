@@ -4,6 +4,7 @@ from stringmatch.strings import Strings
 def test_latinise():
     assert Strings().latinise("Héllö, world!") == "Hello, world!"
     assert Strings().latinise("ỲṖßɆȜǼǄ") == "YPssEYAEDZ"
+    assert Strings().latinise("ジャパニーズ") == "ziyapanizu"
 
 
 def test_remove_punctuation():

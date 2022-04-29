@@ -4,8 +4,8 @@ from stringmatch.ratio import JaroWinklerScorer, LevenshteinScorer
 
 def test_match():
     assert Match().match("test", "test") is True
-    assert Match().match("test", "nope") is False
-    assert Match().match("searchlib", "srechlib") is True
+    assert Match().match("stringmatch", "something else") is False
+    assert Match().match("stringmatch", "strngmach") is True
     assert (
         Match().match(
             "séàr#.chlib", "searchlib", latinise=True, remove_punctuation=True
@@ -44,12 +44,11 @@ def test_match_with_ratio():
 def test_get_best_match():
     assert Match().get_best_match("test", ["test", "nope", "tset"]) == "test"
     assert Match().get_best_match("whatever", ["test", "nope", "tset"]) is None
-    assert (
-        Match().get_best_match(
-            "searchlib", ["srechlib", "slib", "searching library", "spam"]
-        )
-        == "srechlib"
-    )
+
+    searches = ["stringmat", "strinma", "strings", "mtch", "whatever", "s"]
+    assert Match().get_best_match("stringmatch", searches) == "stringmat"
+    assert Match().get_best_matches("stringmatch", searches) == ["stringmat", "strinma"]
+
     assert Match().get_best_match("", ["f"]) is None
 
     assert Match().get_best_match("....-", ["f"], remove_punctuation=True) is None
@@ -70,11 +69,15 @@ def test_get_best_matches():
         "test",
         "tset",
     ]
-    assert Match().get_best_matches(
+
+    searches = ["limit 5", "limit 4", "limit 3", "limit 2", "limit 1", "limit 0"]
+
+    assert Match().get_best_matches("limit 5", searches, limit=2) == [
         "limit 5",
-        ["limit 5", "limit 4", "limit 3", "limit 2", "limit 1", "limit 0"],
-        limit=2,
-    ) == ["limit 5", "limit 4"]
+        "limit 4",
+    ]
+
+    assert Match().get_best_matches("limit 5", searches, limit=None) == searches
 
     assert Match().get_best_matches("", ["f"]) == []
 
