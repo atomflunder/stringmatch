@@ -2,6 +2,12 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.7.1 - 2022-05-01
+
+- Fixed installation for pip
+- Added link to Readme
+- Added verbose flag
+
 ## v0.7.0 - 2022-05-01
 
 - Using mypyc now
