@@ -6,4 +6,5 @@
 /dist/
 /*.egg-info/
 *.coverage
+coverage.*
 /*.eggs/
