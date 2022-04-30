@@ -24,7 +24,6 @@ jobs:
         run: |
           pytest -v --cov=stringmatch tests/ --cov-fail-under 100
 
-    steps:
       - name: Checkout
         uses: actions/checkout@master
       - name: Generate codecov report
