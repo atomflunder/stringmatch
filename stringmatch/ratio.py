@@ -127,4 +127,11 @@ class Ratio:
         list[int]
             The scores between 0 and 100.
         """
-        return [self.ratio(string, s) for s in string_list]
+        kwargs = {
+            "latinise": latinise,
+            "ignore_case": ignore_case,
+            "remove_punctuation": remove_punctuation,
+            "only_letters": only_letters,
+        }
+
+        return [self.ratio(string, s, **kwargs) for s in string_list]

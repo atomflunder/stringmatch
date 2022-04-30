@@ -46,3 +46,10 @@ def test_ratio_list():
     assert Ratio().ratio_list(
         "srechlib", ["searchlib", "slib", "searching library", "spam"]
     ) == [82, 67, 56, 17]
+    assert Ratio().ratio_list("test", ["th TEST", "hwatever", "*"]) == [18, 33, 0]
+    assert Ratio().ratio_list(
+        "test", ["th TEST", "hwatever", "*"], ignore_case=True, only_letters=True
+    ) == [73, 33, 0]
+    assert Ratio(JaroWinklerScorer).ratio_list(
+        "test", ["th TEST", "hwatever", "*"], ignore_case=True, only_letters=True
+    ) == [60, 58, 0]

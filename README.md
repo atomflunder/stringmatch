@@ -1,10 +1,16 @@
 # stringmatch
 
-[![PyPI](https://img.shields.io/pypi/v/stringmatch?color=blue)](https://pypi.org/project/stringmatch/) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/stringmatch)](https://pypi.org/project/stringmatch/) [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![PyPI](https://img.shields.io/pypi/v/stringmatch?color=blue)](https://pypi.org/project/stringmatch/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/stringmatch)](https://pypi.org/project/stringmatch/)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/stringmatch)](https://pypi.org/project/stringmatch/)
+[![codecov](https://codecov.io/gh/atomflunder/stringmatch/branch/master/graph/badge.svg?token=7JIAENN2BZ)](https://codecov.io/gh/atomflunder/stringmatch)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 
 **stringmatch** is a small, lightweight string matching library written in Python, based on the [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) and the [Levenshtein Python C Extension](https://github.com/maxbachmann/Levenshtein).  
 Inspired by libraries like [seatgeek/thefuzz](https://github.com/seatgeek/thefuzz), which did not quite fit my needs. And so I am building this library for myself, primarily.
+
+**Disclaimer: This library is still in an alpha development phase!** Changes may be frequent and breaking changes can occur! It is recommended to update frequently to minimise bugs and maximise features.
 
 ## Table of Contents
 - [🎯 Key Features](#key-features)
@@ -142,13 +148,13 @@ strings.ignore_case("test test!", lower=False)  # returns "TEST TEST!"
 
 ### Keyword Arguments
 
-You can pass in these optional arguments for the `Match()` and `Ratio()` functions to customize your search further:
+You can pass in these **optional arguments** for the `Match()` and `Ratio()` functions to customize your search further:
 
 ### `score`
 
-| Name  | Description   | Type  | Default | Required? |
-| ---   | ---           | ---   | ---     | ---       |
-| score | The score cutoff for matching. Only available for `Match()` functions. | Integer | 70 | No
+| Type  | Default | Description |
+| ---   | ---     | ---         |
+| Integer | 70 | The score cutoff for matching. Only available for `Match()` functions. 
 
 ```python
 # Example:
@@ -161,9 +167,9 @@ match("stringmatch", "strngmach", score=70)    # returns True
 
 ### `limit`
 
-| Name  | Description   | Type  | Default | Required? |
-| ---   | ---           | ---   | ---     | ---       |
-| limit | The limit of how many matches to return. **If you want to return every match set this to 0 or None.** Only available for the `get_best_matches()` function. | Integer | 5 | No
+| Type  | Default | Description |
+| ---   | ---     | ---         |
+| Integer | 5 | The limit of how many matches to return. **If you want to return every match set this to 0 or None.** Only available for the `get_best_matches()` function.
 
 ```python
 # Example:
@@ -184,9 +190,9 @@ get_best_matches("limit 5", searches, limit=None)
 
 ### `latinise`
 
-| Name  | Description   | Type  | Default | Required? |
-| ---   | ---           | ---   | ---     | ---       |
-| latinise | Replaces special unicode characters with their latin alphabet equivalents. Examples: `Ǽ` -> `AE`, `ノース` -> `nosu` | Boolean | False | No
+| Type  | Default | Description |
+| ---   | ---     | ---         |
+| Boolean | False | Replaces special unicode characters with their latin alphabet equivalents. Examples: `Ǽ` -> `AE`, `ノース` -> `nosu` 
 
 ```python
 # Example:
@@ -199,9 +205,9 @@ match("séärçh", "search", latinise=False)   # returns False
 
 ### `ignore_case`
 
-| Name  | Description   | Type  | Default | Required? |
-| ---   | ---           | ---   | ---     | ---       |
-| ignore_case | If you want to ignore case sensitivity while searching. | Boolean | False | No
+| Type  | Default | Description |
+| ---   | ---     | ---         |
+| Boolean | False | If you want to ignore case sensitivity while searching. 
 
 ```python
 # Example:
@@ -214,9 +220,9 @@ match("test", "TEST", ignore_case=False)    # returns False
 
 ### `remove_punctuation`
 
-| Name  | Description   | Type  | Default | Required? |
-| ---   | ---           | ---   | ---     | ---       |
-| remove_punctuation | Removes commonly used punctuation symbols from the strings, like `.,;:!?` and so on. | Boolean | False | No
+| Type  | Default | Description |
+| ---   | ---     | ---         |
+| Boolean | False | Removes commonly used punctuation symbols from the strings, like `.,;:!?` and so on. 
 
 ```python
 # Example:
@@ -229,9 +235,9 @@ match("test,---....", "test", remove_punctuation=False) # returns False
 
 ### `only_letters`
 
-| Name  | Description   | Type  | Default | Required? |
-| ---   | ---           | ---   | ---     | ---       |
-| only_letters | Removes every character that is not in the latin alphabet, a more extreme version of `remove_punctuation`. | Boolean | False | No
+| Type  | Default | Description |
+| ---   | ---     | ---         |
+| Boolean | False | Removes every character that is not in the latin alphabet, a more extreme version of `remove_punctuation`. 
 
 ```python
 # Example:

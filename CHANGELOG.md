@@ -2,6 +2,12 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.6.5 - 2022-04-30
+
+- Fixed kwargs not being passed from the ratio_list function
+    - Added tests to make sure it works now
+- Added coverage workflow and badges
+
 ## v0.6.4 - 2022-04-29
 
 - Updated and clarified readme in some sections, added new examples
