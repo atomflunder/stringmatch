@@ -8,3 +8,4 @@
 *.coverage
 coverage.*
 /*.eggs/
+/.mypy_cache/

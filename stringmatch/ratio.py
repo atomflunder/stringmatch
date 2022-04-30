@@ -1,4 +1,4 @@
-import Levenshtein
+import Levenshtein  # type: ignore
 
 from stringmatch.strings import Strings
 

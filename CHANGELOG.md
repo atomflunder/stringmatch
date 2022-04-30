@@ -2,6 +2,10 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.6.6 - 2022-04-30
+
+- Added typehints for kwargs in preparation for using mypyc (maybe)
+
 ## v0.6.5 - 2022-04-30
 
 - Fixed kwargs not being passed from the ratio_list function

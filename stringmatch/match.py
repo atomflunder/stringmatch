@@ -1,6 +1,15 @@
-from typing import Optional
+from typing import Optional, TypedDict
 
 from stringmatch.ratio import LevenshteinScorer, Ratio, _Scorer
+
+
+class KeywordArguments(TypedDict, total=False):
+    score: int
+    limit: Optional[int]
+    latinise: bool
+    ignore_case: bool
+    remove_punctuation: bool
+    only_letters: bool
 
 
 class Match:
@@ -28,6 +37,7 @@ class Match:
         ignore_case: bool = False,
         remove_punctuation: bool = False,
         only_letters: bool = False,
+        **_kwargs,
     ) -> bool:
         """Matches two strings, returns True if they are similar enough.
 
@@ -53,7 +63,7 @@ class Match:
         bool
             If the strings are similar enough.
         """
-        kwargs = {
+        kwargs: KeywordArguments = {
             "latinise": latinise,
             "ignore_case": ignore_case,
             "remove_punctuation": remove_punctuation,
@@ -97,7 +107,7 @@ class Match:
         tuple[bool, int]
             If the strings are similar and their score.
         """
-        kwargs = {
+        kwargs: KeywordArguments = {
             "score": score,
             "latinise": latinise,
             "ignore_case": ignore_case,
@@ -120,6 +130,7 @@ class Match:
         ignore_case: bool = False,
         remove_punctuation: bool = False,
         only_letters: bool = False,
+        **_kwargs,
     ) -> Optional[str]:
         """Returns the best match from a list of strings.
 
@@ -145,7 +156,7 @@ class Match:
         Optional[str]
             The best string found, or None if no good match was found.
         """
-        kwargs = {
+        kwargs: KeywordArguments = {
             "score": score,
             "latinise": latinise,
             "remove_punctuation": remove_punctuation,
@@ -198,7 +209,7 @@ class Match:
             The best string and its score found, or None if no good match was found.
         """
 
-        kwargs = {
+        kwargs: KeywordArguments = {
             "score": score,
             "latinise": latinise,
             "remove_punctuation": remove_punctuation,
@@ -260,7 +271,7 @@ class Match:
         if limit is not None and limit < 1:
             limit = None
 
-        kwargs = {
+        kwargs: KeywordArguments = {
             "score": score,
             "latinise": latinise,
             "remove_punctuation": remove_punctuation,
@@ -314,7 +325,7 @@ class Match:
         list[tuple[str, int]]
             All of the matches found.
         """
-        kwargs = {
+        kwargs: KeywordArguments = {
             "score": score,
             "limit": limit,
             "latinise": latinise,
