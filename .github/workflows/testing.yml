@@ -22,15 +22,9 @@ jobs:
           pip install pytest pytest-cov
       - name: Run tests with coverage
         run: |
-          pytest -v --cov=stringmatch tests/ --cov-fail-under 100
-
-      - name: Checkout
-        uses: actions/checkout@master
+          pytest -v --cov=stringmatch tests/ --cov-fail-under 100 --cov-report xml
       - name: Generate codecov report
         uses: codecov/codecov-action@v2
         with:
-          files: ./coverage1.xml,./coverage2.xml
-          flags: unittests
-          name: codecov-umbrella
-          fail_ci_if_error: true
+          files: ./coverage.xml
           verbose: true
