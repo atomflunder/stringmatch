@@ -18,6 +18,7 @@ with open("README.md", "r", encoding="utf-8") as f:
 setup(
     name="stringmatch",
     author="atomflunder",
+    author_email="80397293+atomflunder@users.noreply.github.com",
     url="https://github.com/atomflunder/stringmatch",
     license="MIT",
     description="A library to match and compare strings.",
@@ -26,7 +27,7 @@ setup(
     packages=find_packages(),
     version=version,
     install_requires=required_packages,
-    ext_modules=mypycify(["stringmatch/"]),  # type: ignore
+    ext_modules=mypycify(["stringmatch/"], verbose=True),  # type: ignore
     python_requires=">=3.9",
     setup_requires=["pytest-runner"],
     tests_require=["pytest"],
