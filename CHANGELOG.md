@@ -6,6 +6,8 @@ This is a broad overview of the changes that have been made over the lifespan of
 
 - Using mypyc now
     - Should bring a significant speed boost
+    - Added mypy to requirements
+    - Added build-system section to pyproject.toml
 
 ## v0.6.6 - 2022-04-30
 
