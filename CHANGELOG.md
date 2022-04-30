@@ -2,6 +2,11 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.7.0 - 2022-04-31
+
+- Using mypyc now
+    - Should bring a significant speed boost
+
 ## v0.6.6 - 2022-04-30
 
 - Added typehints for kwargs in preparation for using mypyc (maybe)
