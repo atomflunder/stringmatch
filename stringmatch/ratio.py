@@ -1,26 +1,5 @@
-import Levenshtein  # type: ignore
-
+from stringmatch.scorer import LevenshteinScorer, _Scorer
 from stringmatch.strings import Strings
-
-
-class _Scorer:
-    def score(self, string1: str, string2: str) -> float:
-        raise NotImplementedError
-
-
-class LevenshteinScorer(_Scorer):
-    def score(self, string1: str, string2: str) -> float:
-        return Levenshtein.ratio(string1, string2)
-
-
-class JaroScorer(_Scorer):
-    def score(self, string1: str, string2: str) -> float:
-        return Levenshtein.jaro(string1, string2)
-
-
-class JaroWinklerScorer(_Scorer):
-    def score(self, string1: str, string2: str) -> float:
-        return Levenshtein.jaro_winkler(string1, string2)
 
 
 class Ratio:

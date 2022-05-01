@@ -1,6 +1,7 @@
 from typing import Optional, TypedDict
 
-from stringmatch.ratio import LevenshteinScorer, Ratio, _Scorer
+from stringmatch.ratio import Ratio
+from stringmatch.scorer import LevenshteinScorer, _Scorer
 
 
 class KeywordArguments(TypedDict, total=False):

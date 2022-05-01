@@ -1,5 +1,5 @@
 from stringmatch.match import Match
-from stringmatch.ratio import JaroWinklerScorer, LevenshteinScorer
+from stringmatch.scorer import JaroWinklerScorer, LevenshteinScorer
 
 
 def test_match():

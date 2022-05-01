@@ -2,6 +2,11 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.8.1 - 2022-05-01
+
+- Moved scorer into its own module
+    - Clarified Readme section about scorers
+
 ## v0.8.0 - 2022-05-01
 
 - Reverting v0.7.0 changes with mypyc

@@ -252,7 +252,12 @@ match("»»ᅳtestᅳ►", "test", only_letters=False)  # returns False
 
 You can pass in different scoring algorithms when initializing the `Match()` and `Ratio()` classes.  
 The available options are: [`LevenshteinScorer`](https://en.wikipedia.org/wiki/Levenshtein_distance), [`JaroScorer`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro_similarity), [`JaroWinklerScorer`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro–Winkler_similarity).   
-Different algorithms will produce different results, obviously. By default set to `LevenshteinScorer`.
+
+Click on the links for detailed information about these, but speaking generally the Jaro Scorer will be the fastest, focussing on the characters the strings have in common.  
+The Jaro-Winkler Scorer slightly modified the Jaro Scorer to prioritise characters at the start of the string.  
+The Levenshtein Scorer will, most likely, produce the best results, focussing on the number of edits needed to get from one string to the other.
+
+The default scorer is set to `LevenshteinScorer`.
 
 ```python
 from stringmatch import Match, LevenshteinScorer, JaroWinklerScorer

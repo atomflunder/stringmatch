@@ -1,12 +1,7 @@
 import pytest
 
-from stringmatch.ratio import (
-    JaroScorer,
-    JaroWinklerScorer,
-    LevenshteinScorer,
-    Ratio,
-    _Scorer,
-)
+from stringmatch.ratio import Ratio
+from stringmatch.scorer import JaroScorer, JaroWinklerScorer, LevenshteinScorer, _Scorer
 
 
 def test_ratio():

@@ -2,6 +2,7 @@
 from .distance import *
 from .match import *
 from .ratio import *
+from .scorer import *
 from .strings import *
 
 __title__ = "stringmatch"
