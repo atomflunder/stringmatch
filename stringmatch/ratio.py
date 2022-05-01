@@ -159,7 +159,6 @@ class Ratio:
         for block in blocks:
             # doesnt make too much sense to me to match substrings with a length of 1
             # except when they are at the start of a string.
-            print(longer_string, shorter_string, block)
             if block[2] > 1 or (block[2] == 1 and block[0] == 0):
                 longer_string_start = max((block[0] - block[1]), 0)
                 longer_string_end = longer_string_start + len(shorter_string)
