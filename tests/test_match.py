@@ -104,6 +104,10 @@ def test_get_best_matches():
         "tset",
     ]
 
+    assert Match(ignore_case=True).get_best_matches(
+        "inc", ["Link", "Incineroar", "Pichu", "Sonic"], score=40, limit=25
+    ) == ["Link", "Pichu", "Sonic", "Incineroar"]
+
 
 def test_get_best_matches_with_ratio():
     assert Match().get_best_matches_with_ratio("test", ["test", "nope", "tset"]) == [

@@ -100,7 +100,7 @@ class Match:
         }
 
         return (
-            self.match(string1, string2),
+            self.match(string1, string2, score=score),
             Ratio(scorer=self.scorer, **kwargs).ratio(string1, string2),
         )
 
@@ -147,7 +147,7 @@ class Match:
                 string_list,
                 key=lambda s: Ratio(scorer=self.scorer, **kwargs).ratio(string, s),
             )
-            if any(s for s in string_list if self.match(string, s))
+            if any(s for s in string_list if self.match(string, s, score=score))
             else None
         )
 
@@ -180,7 +180,7 @@ class Match:
             "include_partial": self.include_partial,
         }
 
-        match = self.get_best_match(string, string_list)
+        match = self.get_best_match(string, string_list, score=score)
 
         return (
             (match, Ratio(scorer=self.scorer, **kwargs).ratio(string, match))
@@ -232,7 +232,7 @@ class Match:
         }
 
         return sorted(
-            [s for s in string_list if self.match(string, s)],
+            [s for s in string_list if self.match(string, s, score=score)],
             key=lambda s: Ratio(scorer=self.scorer, **kwargs).ratio(string, s),
             # by default this would sort the list from lowest to highest.
             reverse=True,
@@ -275,7 +275,7 @@ class Match:
             "include_partial": self.include_partial,
         }
 
-        matches = self.get_best_matches(string, string_list)
+        matches = self.get_best_matches(string, string_list, score=score, limit=limit)
 
         return [
             (match, Ratio(scorer=self.scorer, **kwargs).ratio(string, match))

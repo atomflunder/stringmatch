@@ -2,6 +2,10 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.10.1 - 2022-05-02
+
+- Fixed score argument not being properly recognised
+
 ## v0.10.0 - 2022-05-02
 
 - You now need to pass in special keyword only arguments when initialising the class, not the functions
