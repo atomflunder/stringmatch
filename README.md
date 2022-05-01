@@ -276,7 +276,6 @@ Packages used:
 
 - [Levenshtein](https://github.com/maxbachmann/Levenshtein)
 - [Unidecode](https://github.com/avian2/unidecode)
-- [mypyc](https://github.com/mypyc/mypyc)
 
 Related packages:
 

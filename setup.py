@@ -1,4 +1,3 @@
-from mypyc.build import mypycify
 from setuptools import find_packages, setup
 
 version = ""
@@ -27,7 +26,6 @@ setup(
     packages=find_packages(),
     version=version,
     install_requires=required_packages,
-    ext_modules=mypycify(["./stringmatch/"], verbose=True),  # type: ignore
     python_requires=">=3.9",
     setup_requires=["pytest-runner"],
     tests_require=["pytest"],

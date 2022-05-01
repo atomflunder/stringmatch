@@ -5,4 +5,4 @@ from .ratio import *
 from .strings import *
 
 __title__ = "stringmatch"
-__version__ = "0.7.1"
+__version__ = "0.8.0"
