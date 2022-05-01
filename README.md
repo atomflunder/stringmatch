@@ -35,7 +35,7 @@ This library **matches compares and strings to each other** based mainly on, amo
 What makes stringmatch special compared to other libraries with similar functions:
 
 - 💨 Lightweight, straightforward and easy to use
-- ⚡ Extremely fast, up to 10x faster than comparable libraries
+- ⚡ Very high speed, 2-10x faster while providing better search results
 - 🧰 Allows for highly customisable searches
 - 📚 Lots of utility functions to make your life easier
 - 🌍 Handles special unicode characters, like emojis or characters from other languages, like ジャパニーズ
@@ -89,13 +89,16 @@ from stringmatch import Ratio
 ratio = Ratio()
 
 # Getting the ratio between the two strings:
-ratio.ratio("stringmatch", "stringmatch")   # returns 100
-ratio.ratio("stringmatch", "strngmach")     # returns 90
-ratio.ratio("stringmatch", "eh")            # returns 15
+ratio.ratio("stringmatch", "stringmatch")               # returns 100
+ratio.ratio("stringmatch", "strngmach")                 # returns 90
+ratio.ratio("stringmatch", "eh")                        # returns 15
 
 # Getting the ratio between the first string and the list of strings at once:
 searches = ["stringmatch", "strngmach", "eh"]
-ratio.ratio_list("stringmatch", searches)   # returns [100, 90, 15]
+ratio.ratio_list("stringmatch", searches)               # returns [100, 90, 15]
+
+# Searching for partial ratios with substrings:
+ratio.partial_ratio("a string", "a string but longer")  # returns 100
 ```
 
 ### Matching & Ratios
@@ -237,7 +240,7 @@ match("test,---....", "test", remove_punctuation=False) # returns False
 
 | Type  | Default | Description |
 | ---   | ---     | ---         |
-| Boolean | False | Removes every character that is not in the latin alphabet, a more extreme version of `remove_punctuation`. 
+| Boolean | False | Removes every character that is not a number or in the latin alphabet, a more extreme version of `remove_punctuation`. 
 
 ```python
 # Example:
@@ -247,6 +250,22 @@ match("»»ᅳtestᅳ►", "test", only_letters=False)  # returns False
 ```
 
 ---
+
+### `include_partial`
+
+| Type  | Default | Description |
+| ---   | ---     | ---         |
+| Boolean | False | If set to true, also searches for partial substring matches. This may lead to more desirable results but is a bit slower.
+
+```python
+# Example:
+
+# returns (True, 100)
+match_with_ratio("A string", "A string thats like really really long", include_partial=True)
+
+# returns (False, 35)
+match_with_ratio("A string", "A string thats like really really long", include_partial=False)
+```
 
 ### Scoring Algorithms
 

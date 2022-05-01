@@ -38,6 +38,7 @@ class Strings:
 
     def only_letters(self, string: str) -> str:
         """Removes all non-latin letters from the string.
+        Does also keep numbers.
         A more extreme version of remove_punctuation().
 
         Parameters
@@ -50,7 +51,7 @@ class Strings:
         str
             The string with non-latin letters removed.
         """
-        alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+        alphabet = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
         return "".join(c for c in string if c in alphabet)
 
     def ignore_case(self, string: str, lower: bool = True) -> str:

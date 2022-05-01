@@ -2,6 +2,17 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.9.0 - 2022-05-01
+
+- Added partial ratio function
+- Added include_partial keyword to most matching functions
+    - These will both search for partial substrings within the strings for better results
+    - Updated docs to reflect those changes
+    - Added test cases to make sure everything works as intended
+- Added numbers to only_letters keyword
+    - Might re-name that in the future
+- Added args module for cleanup
+
 ## v0.8.1 - 2022-05-01
 
 - Moved scorer into its own module

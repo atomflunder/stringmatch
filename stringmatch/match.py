@@ -1,16 +1,8 @@
-from typing import Optional, TypedDict
+from typing import Optional
 
+from stringmatch.args import KeywordArguments
 from stringmatch.ratio import Ratio
 from stringmatch.scorer import LevenshteinScorer, _Scorer
-
-
-class KeywordArguments(TypedDict, total=False):
-    score: int
-    limit: Optional[int]
-    latinise: bool
-    ignore_case: bool
-    remove_punctuation: bool
-    only_letters: bool
 
 
 class Match:
@@ -38,6 +30,7 @@ class Match:
         ignore_case: bool = False,
         remove_punctuation: bool = False,
         only_letters: bool = False,
+        include_partial: bool = False,
         **_kwargs,
     ) -> bool:
         """Matches two strings, returns True if they are similar enough.
@@ -58,6 +51,8 @@ class Match:
             If punctuation should be removed from the strings, by default False.
         only_letters : bool, optional
             If the strings should only be compared by their latin letters, by default False.
+        include_partial : bool, optional
+            If partial substring matches should be included, by default False.
 
         Returns
         -------
@@ -69,6 +64,7 @@ class Match:
             "ignore_case": ignore_case,
             "remove_punctuation": remove_punctuation,
             "only_letters": only_letters,
+            "include_partial": include_partial,
         }
 
         return Ratio(scorer=self.scorer).ratio(string1, string2, **kwargs) >= score
@@ -83,6 +79,7 @@ class Match:
         ignore_case: bool = False,
         remove_punctuation: bool = False,
         only_letters: bool = False,
+        include_partial: bool = False,
     ) -> tuple[bool, int]:
         """Same as match, but returns the boolean in a tuple, together with the score.
 
@@ -102,6 +99,8 @@ class Match:
             If punctuation should be removed from the strings, by default False.
         only_letters : bool, optional
             If the strings should only be compared by their latin letters, by default False.
+        include_partial : bool, optional
+            If partial substring matches should be included, by default False.
 
         Returns
         -------
@@ -114,6 +113,7 @@ class Match:
             "ignore_case": ignore_case,
             "remove_punctuation": remove_punctuation,
             "only_letters": only_letters,
+            "include_partial": include_partial,
         }
 
         return (
@@ -131,6 +131,7 @@ class Match:
         ignore_case: bool = False,
         remove_punctuation: bool = False,
         only_letters: bool = False,
+        include_partial: bool = False,
         **_kwargs,
     ) -> Optional[str]:
         """Returns the best match from a list of strings.
@@ -151,6 +152,8 @@ class Match:
             If punctuation should be removed from the strings, by default False.
         only_letters : bool, optional
             If the strings should only be compared by their latin letters, by default False.
+        include_partial : bool, optional
+            If partial substring matches should be included, by default False.
 
         Returns
         -------
@@ -163,6 +166,7 @@ class Match:
             "remove_punctuation": remove_punctuation,
             "ignore_case": ignore_case,
             "only_letters": only_letters,
+            "include_partial": include_partial,
         }
 
         return (
@@ -184,6 +188,7 @@ class Match:
         ignore_case: bool = False,
         remove_punctuation: bool = False,
         only_letters: bool = False,
+        include_partial: bool = False,
     ) -> Optional[tuple[str, int]]:
         """Same as get_best_match, but returns a tuple with the best match and its score.
 
@@ -203,6 +208,8 @@ class Match:
             If punctuation should be removed from the strings, by default False.
         only_letters : bool, optional
             If the strings should only be compared by their latin letters, by default False.
+        include_partial : bool, optional
+            If partial substring matches should be included, by default False.
 
         Returns
         -------
@@ -216,6 +223,7 @@ class Match:
             "remove_punctuation": remove_punctuation,
             "ignore_case": ignore_case,
             "only_letters": only_letters,
+            "include_partial": include_partial,
         }
 
         match = self.get_best_match(string, string_list, **kwargs)
@@ -237,6 +245,7 @@ class Match:
         ignore_case: bool = False,
         remove_punctuation: bool = False,
         only_letters: bool = False,
+        include_partial: bool = False,
     ) -> list[str]:
         """Matches a string to a list of strings, returns the strings found that are similar.
         If there are more than `limit` matches,
@@ -262,6 +271,8 @@ class Match:
             If punctuation should be removed from the strings, by default False.
         only_letters : bool, optional
             If the strings should only be compared by their latin letters, by default False.
+        include_partial : bool, optional
+            If partial substring matches should be included, by default False.
 
         Returns
         -------
@@ -278,6 +289,7 @@ class Match:
             "remove_punctuation": remove_punctuation,
             "ignore_case": ignore_case,
             "only_letters": only_letters,
+            "include_partial": include_partial,
         }
 
         return sorted(
@@ -298,6 +310,7 @@ class Match:
         ignore_case: bool = False,
         remove_punctuation: bool = False,
         only_letters: bool = False,
+        include_partial: bool = False,
     ) -> list[tuple[str, int]]:
         """Same as get_best_matches, but returns a list of tuples with the best matches and their score.
 
@@ -320,6 +333,8 @@ class Match:
             If punctuation should be removed from the strings, by default False.
         only_letters : bool, optional
             If the strings should only be compared by their latin letters, by default False.
+        include_partial : bool, optional
+            If partial substring matches should be included, by default False.
 
         Returns
         -------
@@ -333,6 +348,7 @@ class Match:
             "remove_punctuation": remove_punctuation,
             "ignore_case": ignore_case,
             "only_letters": only_letters,
+            "include_partial": include_partial,
         }
 
         matches = self.get_best_matches(string, string_list, **kwargs)

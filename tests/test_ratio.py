@@ -48,3 +48,14 @@ def test_ratio_list():
     assert Ratio(JaroWinklerScorer).ratio_list(
         "test", ["th TEST", "hwatever", "*"], ignore_case=True, only_letters=True
     ) == [60, 58, 0]
+
+
+def test_partial_ratio():
+    assert Ratio().partial_ratio("test124", "93210") == 20
+    assert Ratio().partial_ratio("93210", "test124") == 20
+    assert Ratio().partial_ratio("testbot test", "testbot") == 80
+    assert Ratio().partial_ratio("TESTbot test", "testbot", ignore_case=True) == 80
+    assert Ratio().partial_ratio("TESTbot test", "testbot", ignore_case=False) == 42
+    assert Ratio().partial_ratio("a", "this is a test") == 13
+    assert Ratio().partial_ratio("a test", "this is a test") == 60
+    assert Ratio().partial_ratio("this", "this is a test") == 60
