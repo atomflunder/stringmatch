@@ -1,6 +1,5 @@
 from typing import Optional
 
-from stringmatch.args import KeywordArguments
 from stringmatch.ratio import Ratio
 from stringmatch.scorer import LevenshteinScorer, _Scorer
 
@@ -8,7 +7,17 @@ from stringmatch.scorer import LevenshteinScorer, _Scorer
 class Match:
     """Contains methods for comparing and matching strings."""
 
-    def __init__(self, scorer: type[_Scorer] = LevenshteinScorer) -> None:
+    def __init__(
+        self,
+        *,
+        scorer: type[_Scorer] = LevenshteinScorer,
+        latinise: bool = False,
+        ignore_case: bool = False,
+        remove_punctuation: bool = False,
+        only_letters: bool = False,
+        include_partial: bool = False,
+        **kwargs,
+    ) -> None:
         """Initialise the Match class with the correct scoring algorithm,
         to be passed along to the Ratio class.
 
@@ -17,32 +26,6 @@ class Match:
         scorer : type[_Scorer], optional
             The scoring algorithm to use, by default LevenshteinScorer
             Available scorers: LevenshteinScorer, JaroScorer, JaroWinklerScorer.
-        """
-        self.scorer = scorer
-
-    def match(
-        self,
-        string1: str,
-        string2: str,
-        *,
-        score: int = 70,
-        latinise: bool = False,
-        ignore_case: bool = False,
-        remove_punctuation: bool = False,
-        only_letters: bool = False,
-        include_partial: bool = False,
-        **_kwargs,
-    ) -> bool:
-        """Matches two strings, returns True if they are similar enough.
-
-        Parameters
-        ----------
-        string1 : str
-            The first string to compare.
-        string2 : str
-            The second string to compare.
-        score : int, optional
-            The cutoff for the score, by default 70.
         latinise : bool, optional
             If special unicode characters should be removed from the strings, by default False.
         ignore_case : bool, optional
@@ -53,33 +36,43 @@ class Match:
             If the strings should only be compared by their latin letters, by default False.
         include_partial : bool, optional
             If partial substring matches should be included, by default False.
+        """
+        self.scorer = scorer
+        self.latinise = latinise
+        self.ignore_case = ignore_case
+        self.remove_punctuation = remove_punctuation
+        self.only_letters = only_letters
+        self.include_partial = include_partial
+
+    def match(self, string1: str, string2: str, *, score: int = 70) -> bool:
+        """Matches two strings, returns True if they are similar enough.
+
+        Parameters
+        ----------
+        string1 : str
+            The first string to compare.
+        string2 : str
+            The second string to compare.
+        score : int, optional
+            The cutoff for the score, by default 70.
 
         Returns
         -------
         bool
             If the strings are similar enough.
         """
-        kwargs: KeywordArguments = {
-            "latinise": latinise,
-            "ignore_case": ignore_case,
-            "remove_punctuation": remove_punctuation,
-            "only_letters": only_letters,
-            "include_partial": include_partial,
+        kwargs = {
+            "latinise": self.latinise,
+            "ignore_case": self.ignore_case,
+            "remove_punctuation": self.remove_punctuation,
+            "only_letters": self.only_letters,
+            "include_partial": self.include_partial,
         }
 
-        return Ratio(scorer=self.scorer).ratio(string1, string2, **kwargs) >= score
+        return Ratio(scorer=self.scorer, **kwargs).ratio(string1, string2) >= score
 
     def match_with_ratio(
-        self,
-        string1: str,
-        string2: str,
-        *,
-        score: int = 70,
-        latinise: bool = False,
-        ignore_case: bool = False,
-        remove_punctuation: bool = False,
-        only_letters: bool = False,
-        include_partial: bool = False,
+        self, string1: str, string2: str, *, score: int = 70
     ) -> tuple[bool, int]:
         """Same as match, but returns the boolean in a tuple, together with the score.
 
@@ -91,34 +84,24 @@ class Match:
             The second string to compare.
         score : int, optional
             The cutoff for the score, by default 70.
-        latinise : bool, optional
-            If special unicode characters should be removed from the strings, by default False.
-        ignore_case : bool, optional
-            If the strings should be compared ignoring case, by default False.
-        remove_punctuation : bool, optional
-            If punctuation should be removed from the strings, by default False.
-        only_letters : bool, optional
-            If the strings should only be compared by their latin letters, by default False.
-        include_partial : bool, optional
-            If partial substring matches should be included, by default False.
 
         Returns
         -------
         tuple[bool, int]
             If the strings are similar and their score.
         """
-        kwargs: KeywordArguments = {
+        kwargs = {
             "score": score,
-            "latinise": latinise,
-            "ignore_case": ignore_case,
-            "remove_punctuation": remove_punctuation,
-            "only_letters": only_letters,
-            "include_partial": include_partial,
+            "latinise": self.latinise,
+            "ignore_case": self.ignore_case,
+            "remove_punctuation": self.remove_punctuation,
+            "only_letters": self.only_letters,
+            "include_partial": self.include_partial,
         }
 
         return (
-            self.match(string1, string2, **kwargs),
-            Ratio(scorer=self.scorer).ratio(string1, string2, **kwargs),
+            self.match(string1, string2),
+            Ratio(scorer=self.scorer, **kwargs).ratio(string1, string2),
         )
 
     def get_best_match(
@@ -144,23 +127,13 @@ class Match:
             The list of strings to compare to.
         score : int, optional
             The cutoff for the score, by default 70.
-        latinise : bool, optional
-            If special unicode characters should be removed from the strings, by default False.
-        ignore_case : bool, optional
-            If the strings should be compared ignoring case, by default False.
-        remove_punctuation : bool, optional
-            If punctuation should be removed from the strings, by default False.
-        only_letters : bool, optional
-            If the strings should only be compared by their latin letters, by default False.
-        include_partial : bool, optional
-            If partial substring matches should be included, by default False.
 
         Returns
         -------
         Optional[str]
             The best string found, or None if no good match was found.
         """
-        kwargs: KeywordArguments = {
+        kwargs = {
             "score": score,
             "latinise": latinise,
             "remove_punctuation": remove_punctuation,
@@ -172,23 +145,14 @@ class Match:
         return (
             max(
                 string_list,
-                key=lambda s: Ratio(scorer=self.scorer).ratio(string, s, **kwargs),
+                key=lambda s: Ratio(scorer=self.scorer, **kwargs).ratio(string, s),
             )
-            if any(s for s in string_list if self.match(string, s, **kwargs))
+            if any(s for s in string_list if self.match(string, s))
             else None
         )
 
     def get_best_match_with_ratio(
-        self,
-        string: str,
-        string_list: list[str],
-        *,
-        score: int = 70,
-        latinise: bool = False,
-        ignore_case: bool = False,
-        remove_punctuation: bool = False,
-        only_letters: bool = False,
-        include_partial: bool = False,
+        self, string: str, string_list: list[str], *, score: int = 70
     ) -> Optional[tuple[str, int]]:
         """Same as get_best_match, but returns a tuple with the best match and its score.
 
@@ -200,16 +164,6 @@ class Match:
             The list of strings to compare to.
         score : int, optional
             The cutoff for the score, by default 70.
-        latinise : bool, optional
-            If special unicode characters should be removed from the strings, by default False.
-        ignore_case : bool, optional
-            If the strings should be compared ignoring case, by default False.
-        remove_punctuation : bool, optional
-            If punctuation should be removed from the strings, by default False.
-        only_letters : bool, optional
-            If the strings should only be compared by their latin letters, by default False.
-        include_partial : bool, optional
-            If partial substring matches should be included, by default False.
 
         Returns
         -------
@@ -217,19 +171,19 @@ class Match:
             The best string and its score found, or None if no good match was found.
         """
 
-        kwargs: KeywordArguments = {
+        kwargs = {
             "score": score,
-            "latinise": latinise,
-            "remove_punctuation": remove_punctuation,
-            "ignore_case": ignore_case,
-            "only_letters": only_letters,
-            "include_partial": include_partial,
+            "latinise": self.latinise,
+            "remove_punctuation": self.remove_punctuation,
+            "ignore_case": self.ignore_case,
+            "only_letters": self.only_letters,
+            "include_partial": self.include_partial,
         }
 
-        match = self.get_best_match(string, string_list, **kwargs)
+        match = self.get_best_match(string, string_list)
 
         return (
-            (match, Ratio(scorer=self.scorer).ratio(string, match, **kwargs))
+            (match, Ratio(scorer=self.scorer, **kwargs).ratio(string, match))
             if match
             else None
         )
@@ -241,11 +195,6 @@ class Match:
         *,
         score: int = 70,
         limit: Optional[int] = 5,
-        latinise: bool = False,
-        ignore_case: bool = False,
-        remove_punctuation: bool = False,
-        only_letters: bool = False,
-        include_partial: bool = False,
     ) -> list[str]:
         """Matches a string to a list of strings, returns the strings found that are similar.
         If there are more than `limit` matches,
@@ -263,16 +212,6 @@ class Match:
         limit : int, optional
             The number of matches to return, by default 5.
             If you want to return every match, set this to 0 (or less than 0) or None.
-        latinise : bool, optional
-            If special unicode characters should be removed from the strings, by default False.
-        ignore_case : bool, optional
-            If the strings should be compared ignoring case, by default False.
-        remove_punctuation : bool, optional
-            If punctuation should be removed from the strings, by default False.
-        only_letters : bool, optional
-            If the strings should only be compared by their latin letters, by default False.
-        include_partial : bool, optional
-            If partial substring matches should be included, by default False.
 
         Returns
         -------
@@ -283,18 +222,18 @@ class Match:
         if limit is not None and limit < 1:
             limit = None
 
-        kwargs: KeywordArguments = {
+        kwargs = {
             "score": score,
-            "latinise": latinise,
-            "remove_punctuation": remove_punctuation,
-            "ignore_case": ignore_case,
-            "only_letters": only_letters,
-            "include_partial": include_partial,
+            "latinise": self.latinise,
+            "remove_punctuation": self.remove_punctuation,
+            "ignore_case": self.ignore_case,
+            "only_letters": self.only_letters,
+            "include_partial": self.include_partial,
         }
 
         return sorted(
-            [s for s in string_list if self.match(string, s, **kwargs)],
-            key=lambda s: Ratio(scorer=self.scorer).ratio(string, s, **kwargs),
+            [s for s in string_list if self.match(string, s)],
+            key=lambda s: Ratio(scorer=self.scorer, **kwargs).ratio(string, s),
             # by default this would sort the list from lowest to highest.
             reverse=True,
         )[:limit]
@@ -306,11 +245,6 @@ class Match:
         *,
         score: int = 70,
         limit: Optional[int] = 5,
-        latinise: bool = False,
-        ignore_case: bool = False,
-        remove_punctuation: bool = False,
-        only_letters: bool = False,
-        include_partial: bool = False,
     ) -> list[tuple[str, int]]:
         """Same as get_best_matches, but returns a list of tuples with the best matches and their score.
 
@@ -325,35 +259,25 @@ class Match:
         limit : int, optional
             The number of matches to return, by default 5.
             If you want to return every match, set this to 0 (or less than 0) or None.
-        latinise : bool, optional
-            If special unicode characters should be removed from the strings, by default False.
-        ignore_case : bool, optional
-            If the strings should be compared ignoring case, by default False.
-        remove_punctuation : bool, optional
-            If punctuation should be removed from the strings, by default False.
-        only_letters : bool, optional
-            If the strings should only be compared by their latin letters, by default False.
-        include_partial : bool, optional
-            If partial substring matches should be included, by default False.
 
         Returns
         -------
         list[tuple[str, int]]
             All of the matches found.
         """
-        kwargs: KeywordArguments = {
+        kwargs = {
             "score": score,
             "limit": limit,
-            "latinise": latinise,
-            "remove_punctuation": remove_punctuation,
-            "ignore_case": ignore_case,
-            "only_letters": only_letters,
-            "include_partial": include_partial,
+            "latinise": self.latinise,
+            "remove_punctuation": self.remove_punctuation,
+            "ignore_case": self.ignore_case,
+            "only_letters": self.only_letters,
+            "include_partial": self.include_partial,
         }
 
-        matches = self.get_best_matches(string, string_list, **kwargs)
+        matches = self.get_best_matches(string, string_list)
 
         return [
-            (match, Ratio(scorer=self.scorer).ratio(string, match, **kwargs))
+            (match, Ratio(scorer=self.scorer, **kwargs).ratio(string, match))
             for match in matches
-        ]
+        ][:limit]

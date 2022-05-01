@@ -2,6 +2,13 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.10.0 - 2022-05-02
+
+- You now need to pass in special keyword only arguments when initialising the class, not the functions
+    - This eliminates a lot of re-used code, and is more simple to use
+    - Deleted args module as a result
+    - Updated tests and docs to reflect those changes
+
 ## v0.9.0 - 2022-05-01
 
 - Added partial ratio function

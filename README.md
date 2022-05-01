@@ -24,6 +24,7 @@ Inspired by libraries like [seatgeek/thefuzz](https://github.com/seatgeek/thefuz
   - [Strings](#strings)
 - [🛠️ Advanced Usage](#advanced-usage)
     - [Keyword Arguments](#keyword-arguments)
+    - [Class Keyword Arguments](#class-keyword-arguments)
     - [Scoring Algorithms](#scoring-algorithms)
 - [🌟 Contributing](#contributing)
 - [🔗 Links](#links)
@@ -151,7 +152,7 @@ strings.ignore_case("test test!", lower=False)  # returns "TEST TEST!"
 
 ### Keyword Arguments
 
-You can pass in these **optional arguments** for the `Match()` and `Ratio()` functions to customize your search further:
+There are some **optional arguments** available for a few functions.
 
 ### `score`
 
@@ -172,7 +173,7 @@ match("stringmatch", "strngmach", score=70)    # returns True
 
 | Type  | Default | Description |
 | ---   | ---     | ---         |
-| Integer | 5 | The limit of how many matches to return. **If you want to return every match set this to 0 or None.** Only available for the `get_best_matches()` function.
+| Integer | 5 | The limit of how many matches to return. **If you want to return every match set this to 0 or None.** Only available for the functions that return multiple matches.
 
 ```python
 # Example:
@@ -191,6 +192,35 @@ get_best_matches("limit 5", searches, limit=None)
 
 ---
 
+### Class Keyword Arguments
+
+You can also pass in on or more of these **optional arguments** when initialising the `Match()` and `Ratio()` classes to customize your search even further.  
+Of course you can use multiple of these keyword arguments at once, to customise the search to do exactly what you intend to do.
+
+### `scorer`
+
+| Type  | Default | Description |
+| ---   | ---     | ---         |
+| _Scorer | LevenshteinScorer | Different scoring algorithms to use. The available options are: [`LevenshteinScorer`](https://en.wikipedia.org/wiki/Levenshtein_distance), [`JaroScorer`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro_similarity), [`JaroWinklerScorer`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro–Winkler_similarity). 
+
+Click on the links above for detailed information about these, but speaking generally the Jaro Scorer will be the fastest, focussing on the characters the strings have in common.  
+The Jaro-Winkler Scorer slightly modified the Jaro Scorer to prioritise characters at the start of the string.  
+The Levenshtein Scorer will, most likely, produce the best results, focussing on the number of edits needed to get from one string to the other.
+
+```python
+# Example:
+
+from stringmatch import Match, LevenshteinScorer, JaroWinklerScorer
+
+lev_matcher = Match(scorer=LevenshteinScorer)
+lev_matcher.match_with_ratio("test", "th test") # returns (True, 73)
+
+jw_matcher = Match(scorer=JaroWinklerScorer)
+jw_matcher.match_with_ratio("test", "th test")  # returns (False, 60)
+```
+
+---
+
 ### `latinise`
 
 | Type  | Default | Description |
@@ -200,8 +230,11 @@ get_best_matches("limit 5", searches, limit=None)
 ```python
 # Example:
 
-match("séärçh", "search", latinise=True)    # returns True
-match("séärçh", "search", latinise=False)   # returns False
+lat_match = Match(latinise=True)
+lat_match.match("séärçh", "search") # returns True
+
+def_match = Match(latinise=False)
+def_match.match("séärçh", "search") # returns False
 ```
 
 ---
@@ -215,8 +248,11 @@ match("séärçh", "search", latinise=False)   # returns False
 ```python
 # Example:
 
-match("test", "TEST", ignore_case=True)     # returns True
-match("test", "TEST", ignore_case=False)    # returns False
+case_match = Match(ignore_case=True)
+case_match.match("test", "TEST")  # returns True
+
+def_match = Match(ignore_case=False)
+def_match.match("test", "TEST")   # returns False
 ```
 
 ---
@@ -230,8 +266,11 @@ match("test", "TEST", ignore_case=False)    # returns False
 ```python
 # Example:
 
-match("test,---....", "test", remove_punctuation=True)  # returns True
-match("test,---....", "test", remove_punctuation=False) # returns False
+punc_match(remove_punctuation=True)
+punc_match.match("test,---....", "test")  # returns True
+
+def_match = Match(remove_punctuation=False)
+def_match.match("test,---....", "test")   # returns False
 ```
 
 ---
@@ -245,8 +284,11 @@ match("test,---....", "test", remove_punctuation=False) # returns False
 ```python
 # Example:
 
-match("»»ᅳtestᅳ►", "test", only_letters=True)   # returns True
-match("»»ᅳtestᅳ►", "test", only_letters=False)  # returns False
+let_match = Match(only_letters=True)
+let_match.match("»»ᅳtestᅳ►", "test")  # returns True
+
+def_match = Match(only_letters=False)
+def_match.match("»»ᅳtestᅳ►", "test")  # returns False
 ```
 
 ---
@@ -260,33 +302,16 @@ match("»»ᅳtestᅳ►", "test", only_letters=False)  # returns False
 ```python
 # Example:
 
+part_match = Match(include_partial=True)
 # returns (True, 60)
-match_with_ratio("A string", "A string thats like really really long", score=60, include_partial=True)
+part_match.match_with_ratio("A string", "A string thats like really really long", score=60)
 
+def_match = Match(include_partial=False)
 # returns (False, 35)
-match_with_ratio("A string", "A string thats like really really long", score=60, include_partial=False)
+def_match.match_with_ratio("A string", "A string thats like really really long", score=60)
 ```
 
-### Scoring Algorithms
-
-You can pass in different scoring algorithms when initializing the `Match()` and `Ratio()` classes.  
-The available options are: [`LevenshteinScorer`](https://en.wikipedia.org/wiki/Levenshtein_distance), [`JaroScorer`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro_similarity), [`JaroWinklerScorer`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro–Winkler_similarity).   
-
-Click on the links for detailed information about these, but speaking generally the Jaro Scorer will be the fastest, focussing on the characters the strings have in common.  
-The Jaro-Winkler Scorer slightly modified the Jaro Scorer to prioritise characters at the start of the string.  
-The Levenshtein Scorer will, most likely, produce the best results, focussing on the number of edits needed to get from one string to the other.
-
-The default scorer is set to `LevenshteinScorer`.
-
-```python
-from stringmatch import Match, LevenshteinScorer, JaroWinklerScorer
-
-lev_matcher = Match(scorer=LevenshteinScorer)
-jw_matcher = Match(scorer=JaroWinklerScorer)
-
-lev_matcher.match_with_ratio("test", "th test") # returns (True, 73)
-jw_matcher.match_with_ratio("test", "th test")  # returns (False, 60)
-```
+---
 
 ## Contributing
 

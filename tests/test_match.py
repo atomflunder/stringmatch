@@ -7,30 +7,28 @@ def test_match():
     assert Match().match("stringmatch", "something else") is False
     assert Match().match("stringmatch", "strngmach") is True
     assert (
-        Match().match(
-            "séàr#.chlib", "searchlib", latinise=True, remove_punctuation=True
-        )
+        Match(latinise=True, remove_punctuation=True).match("séàr#.chlib", "searchlib")
         is True
     )
-    assert Match().match("test", "TEST", ignore_case=False) is False
-    assert Match().match("test", "TEST", ignore_case=True) is True
-    assert Match().match("test", "-- test --!<<><", only_letters=True) is True
+    assert Match(ignore_case=False).match("test", "TEST") is False
+    assert Match(ignore_case=True).match("test", "TEST") is True
+    assert Match(only_letters=True).match("test", "-- test --!<<><") is True
     assert Match().match("", "f") is False
 
-    assert Match().match("séärçh", "search", latinise=True) is True
-    assert Match().match("séärçh", "search", latinise=False) is False
+    assert Match(latinise=True).match("séärçh", "search") is True
+    assert Match(latinise=False).match("séärçh", "search") is False
 
-    assert Match().match("test,---....", "test", remove_punctuation=True) is True
-    assert Match().match("test,---....", "test", remove_punctuation=False) is False
+    assert Match(remove_punctuation=True).match("test,---....", "test") is True
+    assert Match(remove_punctuation=False).match("test,---....", "test") is False
 
-    assert Match().match("»»ᅳtestᅳ►", "test", only_letters=True) is True
-    assert Match().match("»»ᅳtestᅳ►", "test", only_letters=False) is False
+    assert Match(only_letters=True).match("»»ᅳtestᅳ►", "test") is True
+    assert Match(only_letters=False).match("»»ᅳtestᅳ►", "test") is False
 
-    assert Match(LevenshteinScorer).match("test", "th test") is True
-    assert Match(JaroWinklerScorer).match("test", "th test") is False
+    assert Match(scorer=LevenshteinScorer).match("test", "th test") is True
+    assert Match(scorer=JaroWinklerScorer).match("test", "th test") is False
 
-    assert Match().match("testbot testmann", "testbot", include_partial=True) is True
-    assert Match().match("testbot testmann", "testbot", include_partial=False) is False
+    assert Match(include_partial=True).match("testbot testmann", "testbot") is True
+    assert Match(include_partial=False).match("testbot testmann", "testbot") is False
 
 
 def test_match_with_ratio():
@@ -41,18 +39,18 @@ def test_match_with_ratio():
         False,
         60,
     )
-    assert Match().match_with_ratio("Woosh", "woosh", ignore_case=True) == (True, 100)
-    assert Match().match_with_ratio(
-        "testbot testmann", "testbot", include_partial=True
+    assert Match(ignore_case=True).match_with_ratio("Woosh", "woosh") == (True, 100)
+    assert Match(include_partial=True).match_with_ratio(
+        "testbot testmann", "testbot"
     ) == (True, 80)
-    assert Match().match_with_ratio(
-        "testbot testmann", "testbot", include_partial=False
+    assert Match(include_partial=False).match_with_ratio(
+        "testbot testmann", "testbot"
     ) == (False, 61)
-    assert Match().match_with_ratio(
-        "A string", "A string thats like really really long", include_partial=True
+    assert Match(include_partial=True).match_with_ratio(
+        "A string", "A string thats like really really long"
     ) == (False, 60)
-    assert Match().match_with_ratio(
-        "A string", "A string thats like really really long", include_partial=False
+    assert Match(include_partial=False).match_with_ratio(
+        "A string", "A string thats like really really long"
     ) == (False, 35)
 
 
