@@ -163,8 +163,12 @@ There are some **optional arguments** available for a few functions.
 ```python
 # Example:
 
-match("stringmatch", "strngmach", score=95)    # returns False
-match("stringmatch", "strngmach", score=70)    # returns True
+from stringmatch import Match
+
+match = Match()
+
+match.match("stringmatch", "strngmach", score=95)    # returns False
+match.match("stringmatch", "strngmach", score=70)    # returns True
 ```
 
 ---
@@ -178,16 +182,20 @@ match("stringmatch", "strngmach", score=70)    # returns True
 ```python
 # Example:
 
+from stringmatch import Match
+
+match = Match()
+
 searches = ["limit 5", "limit 4", "limit 3", "limit 2", "limit 1", "limit 0", "something else"]
 
 # returns ["limit 5", "limit 4"]
-get_best_matches("limit 5", searches, limit=2)
+match.get_best_matches("limit 5", searches, limit=2)
 
 # returns ["limit 5"]
-get_best_matches("limit 5", searches, limit=1)
+match.get_best_matches("limit 5", searches, limit=1)
 
 # returns ["limit 5", "limit 4", "limit 3", "limit 2", "limit 1", "limit 0"]
-get_best_matches("limit 5", searches, limit=None) 
+match.get_best_matches("limit 5", searches, limit=None) 
 ```
 
 ---
@@ -230,6 +238,8 @@ jw_matcher.match_with_ratio("test", "th test")  # returns (False, 60)
 ```python
 # Example:
 
+from stringmatch import Match
+
 lat_match = Match(latinise=True)
 lat_match.match("séärçh", "search") # returns True
 
@@ -247,6 +257,8 @@ def_match.match("séärçh", "search") # returns False
 
 ```python
 # Example:
+
+from stringmatch import Match
 
 case_match = Match(ignore_case=True)
 case_match.match("test", "TEST")  # returns True
@@ -266,7 +278,9 @@ def_match.match("test", "TEST")   # returns False
 ```python
 # Example:
 
-punc_match(remove_punctuation=True)
+from stringmatch import Match
+
+punc_match = Match(remove_punctuation=True)
 punc_match.match("test,---....", "test")  # returns True
 
 def_match = Match(remove_punctuation=False)
@@ -283,6 +297,8 @@ def_match.match("test,---....", "test")   # returns False
 
 ```python
 # Example:
+
+from stringmatch import Match
 
 let_match = Match(only_letters=True)
 let_match.match("»»ᅳtestᅳ►", "test")  # returns True
@@ -301,6 +317,8 @@ def_match.match("»»ᅳtestᅳ►", "test")  # returns False
 
 ```python
 # Example:
+
+from stringmatch import Match
 
 part_match = Match(include_partial=True)
 # returns (True, 60)
