@@ -255,16 +255,16 @@ match("»»ᅳtestᅳ►", "test", only_letters=False)  # returns False
 
 | Type  | Default | Description |
 | ---   | ---     | ---         |
-| Boolean | False | If set to true, also searches for partial substring matches. This may lead to more desirable results but is a bit slower.
+| Boolean | False | If set to true, also searches for partial substring matches. This may lead to more desirable results but is a bit slower. If the strings are very far apart in length this will return 60% of its value, if they are moderately far apart, 80%.
 
 ```python
 # Example:
 
-# returns (True, 100)
-match_with_ratio("A string", "A string thats like really really long", include_partial=True)
+# returns (True, 60)
+match_with_ratio("A string", "A string thats like really really long", score=60, include_partial=True)
 
 # returns (False, 35)
-match_with_ratio("A string", "A string thats like really really long", include_partial=False)
+match_with_ratio("A string", "A string thats like really really long", score=60, include_partial=False)
 ```
 
 ### Scoring Algorithms

@@ -59,3 +59,4 @@ def test_partial_ratio():
     assert Ratio().partial_ratio("a", "this is a test") == 13
     assert Ratio().partial_ratio("a test", "this is a test") == 60
     assert Ratio().partial_ratio("this", "this is a test") == 60
+    assert Ratio().partial_ratio("this is a test", "this this this") == 71
