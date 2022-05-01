@@ -141,13 +141,15 @@ class Ratio:
 
         def partialise_score(long_string: str, short_string: str, score: int):
             """If the two strings are really far away in length, we adjust the similarity score."""
-            if len(long_string) - len(short_string) >= 10:
+            if len(long_string) - len(short_string) >= 15:
+                return round(score * 0.55)
+            if len(long_string) - len(short_string) >= 7:
                 # The default score threshold is 70,
                 # so if the strings are more than 10 characters apart,
                 # this would not show up by default. Also funny number.
                 return round(score * 0.69)
-            elif len(long_string) - len(short_string) >= 5:
-                return round(score * 0.8)
+            elif len(long_string) - len(short_string) >= 3:
+                return round(score * 0.85)
             return score
 
         editops = Levenshtein.editops(longer_string, shorter_string)
@@ -155,9 +157,10 @@ class Ratio:
         blocks = Levenshtein.matching_blocks(editops, longer_string, shorter_string)
 
         for block in blocks:
-            # the end of strings somehow always match with a length of 0.
-            # we filter those out.
-            if block[2] > 0:
+            # doesnt make too much sense to me to match substrings with a length of 1
+            # except when they are at the start of a string.
+            print(longer_string, shorter_string, block)
+            if block[2] > 1 or (block[2] == 1 and block[0] == 0):
                 longer_string_start = max((block[0] - block[1]), 0)
                 longer_string_end = longer_string_start + len(shorter_string)
                 longer_string_substring = longer_string[

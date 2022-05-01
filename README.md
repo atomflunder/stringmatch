@@ -313,7 +313,7 @@ def_match.match("»»ᅳtestᅳ►", "test")  # returns False
 
 | Type  | Default | Description |
 | ---   | ---     | ---         |
-| Boolean | False | If set to true, also searches for partial substring matches. This may lead to more desirable results but is a bit slower. If the strings are very far apart in length this will return 60% of its value, if they are moderately far apart, 80%.
+| Boolean | False | If set to true, also searches for partial substring matches. This may lead to more desirable results but is a bit slower. If the strings are very far apart in length this will return 55-69% of its value, if they are moderately far apart, 85%.
 
 ```python
 # Example:
@@ -321,7 +321,7 @@ def_match.match("»»ᅳtestᅳ►", "test")  # returns False
 from stringmatch import Match
 
 part_match = Match(include_partial=True)
-# returns (True, 60)
+# returns (True, 69)
 part_match.match_with_ratio("A string", "A string thats like really really long", score=60)
 
 def_match = Match(include_partial=False)

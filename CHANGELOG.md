@@ -2,6 +2,12 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.10.2 - 2022-05-02
+
+- Improved partial matching a lot
+    - Should now yield way better results
+    - Updated tests and docs to reflect the changes made
+
 ## v0.10.1 - 2022-05-02
 
 - Fixed score argument not being properly recognised

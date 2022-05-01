@@ -27,8 +27,14 @@ def test_match():
     assert Match(scorer=LevenshteinScorer).match("test", "th test") is True
     assert Match(scorer=JaroWinklerScorer).match("test", "th test") is False
 
-    assert Match(include_partial=True).match("testbot testmann", "testbot") is True
-    assert Match(include_partial=False).match("testbot testmann", "testbot") is False
+    assert (
+        Match(include_partial=True).match("testbot testmann", "testbot", score=69)
+        is True
+    )
+    assert (
+        Match(include_partial=False).match("testbot testmann", "testbot", score=69)
+        is False
+    )
 
 
 def test_match_with_ratio():
@@ -41,16 +47,16 @@ def test_match_with_ratio():
     )
     assert Match(ignore_case=True).match_with_ratio("Woosh", "woosh") == (True, 100)
     assert Match(include_partial=True).match_with_ratio(
-        "testbot testmann", "testbot"
-    ) == (True, 80)
+        "testbot testmann", "testbot", score=69
+    ) == (True, 69)
     assert Match(include_partial=False).match_with_ratio(
         "testbot testmann", "testbot"
     ) == (False, 61)
     assert Match(include_partial=True).match_with_ratio(
-        "A string", "A string thats like really really long"
-    ) == (False, 69)
+        "A string", "A string thats like really really long", score=55
+    ) == (True, 55)
     assert Match(include_partial=False).match_with_ratio(
-        "A string", "A string thats like really really long"
+        "A string", "A string thats like really really long", score=55
     ) == (False, 35)
 
 
