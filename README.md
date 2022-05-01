@@ -89,16 +89,16 @@ from stringmatch import Ratio
 ratio = Ratio()
 
 # Getting the ratio between the two strings:
-ratio.ratio("stringmatch", "stringmatch")               # returns 100
-ratio.ratio("stringmatch", "strngmach")                 # returns 90
-ratio.ratio("stringmatch", "eh")                        # returns 15
+ratio.ratio("stringmatch", "stringmatch")           # returns 100
+ratio.ratio("stringmatch", "strngmach")             # returns 90
+ratio.ratio("stringmatch", "eh")                    # returns 15
 
 # Getting the ratio between the first string and the list of strings at once:
 searches = ["stringmatch", "strngmach", "eh"]
-ratio.ratio_list("stringmatch", searches)               # returns [100, 90, 15]
+ratio.ratio_list("stringmatch", searches)           # returns [100, 90, 15]
 
 # Searching for partial ratios with substrings:
-ratio.partial_ratio("a string", "a string but longer")  # returns 100
+ratio.partial_ratio("a string", "a string longer")  # returns 80
 ```
 
 ### Matching & Ratios
