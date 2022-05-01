@@ -155,9 +155,9 @@ class Ratio:
         blocks = Levenshtein.matching_blocks(editops, longer_string, shorter_string)
 
         for block in blocks:
-            # we start matching substrings only if they are longer than one character
-            # doesnt really make much sense to match a substring that is only one character long.
-            if block[2] > 1:
+            # the end of strings somehow always match with a length of 0.
+            # we filter those out.
+            if block[2] > 0:
                 longer_string_start = max((block[0] - block[1]), 0)
                 longer_string_end = longer_string_start + len(shorter_string)
                 longer_string_substring = longer_string[
