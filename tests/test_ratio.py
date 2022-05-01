@@ -55,13 +55,15 @@ def test_ratio_list():
 
 
 def test_partial_ratio():
-    assert Ratio().partial_ratio("test124", "93210") == 20
-    assert Ratio().partial_ratio("93210", "test124") == 20
+    assert Ratio().partial_ratio("test124", "93210") == 17
+    assert Ratio().partial_ratio("93210", "test124") == 17
     assert Ratio().partial_ratio("testbot test", "testbot") == 80
     assert Ratio(ignore_case=True).partial_ratio("TESTbot test", "testbot") == 80
     assert Ratio(ignore_case=False).partial_ratio("TESTbot test", "testbot") == 42
     assert Ratio().partial_ratio("a", "this is a test") == 13
-    assert Ratio().partial_ratio("a test", "this is a test") == 60
-    assert Ratio().partial_ratio("this", "this is a test") == 60
+    assert Ratio().partial_ratio("e", "this is a test") == 13
+    assert Ratio().partial_ratio("a ", "this is a test") == 69
+    assert Ratio().partial_ratio("a test", "this is a test") == 80
+    assert Ratio().partial_ratio("this", "this is a test") == 69
     assert Ratio().partial_ratio("this is a test", "this this this") == 71
     assert Ratio().partial_ratio("", "what?") == 0

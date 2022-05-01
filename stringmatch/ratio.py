@@ -144,8 +144,8 @@ class Ratio:
             if len(long_string) - len(short_string) >= 10:
                 # The default score threshold is 70,
                 # so if the strings are more than 10 characters apart,
-                # this will not show up by default.
-                return round(score * 0.6)
+                # this would not show up by default. Also funny number.
+                return round(score * 0.69)
             elif len(long_string) - len(short_string) >= 5:
                 return round(score * 0.8)
             return score
@@ -155,23 +155,26 @@ class Ratio:
         blocks = Levenshtein.matching_blocks(editops, longer_string, shorter_string)
 
         for block in blocks:
-            longer_string_start = max(block[1] - block[0], 0)
-            longer_string_end = longer_string_start + len(shorter_string)
-            longer_string_substring = longer_string[
-                longer_string_start:longer_string_end
-            ]
+            # we start matching substrings only if they are longer than one character
+            # doesnt really make much sense to match a substring that is only one character long.
+            if block[2] > 1:
+                longer_string_start = max((block[0] - block[1]), 0)
+                longer_string_end = longer_string_start + len(shorter_string)
+                longer_string_substring = longer_string[
+                    longer_string_start:longer_string_end
+                ]
 
-            scores.append(
-                partialise_score(
-                    longer_string,
-                    shorter_string,
-                    round(
-                        self.scorer().score(longer_string_substring, shorter_string)
-                        * 100
-                    ),
+                scores.append(
+                    partialise_score(
+                        longer_string,
+                        shorter_string,
+                        round(
+                            self.scorer().score(longer_string_substring, shorter_string)
+                            * 100
+                        ),
+                    )
                 )
-            )
 
-        scores.append(round(self.scorer().score(string1, string2) * 100))
+            scores.append(round(self.scorer().score(string1, string2) * 100))
 
         return max(scores, default=0)
