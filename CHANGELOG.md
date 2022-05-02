@@ -2,6 +2,10 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.10.5 - 2022-05-02
+
+- Fixed indentation of score append in partial ratio function
+
 ## v0.10.4 - 2022-05-02
 
 - Fixed kwargs not being passed correctly by get_best_match function.

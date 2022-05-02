@@ -177,6 +177,8 @@ class Ratio:
                     )
                 )
 
-            scores.append(round(self.scorer().score(string1, string2) * 100))
+        # also gets the "normal score" for both starting strings,
+        # and returns whichever one is higher.
+        scores.append(round(self.scorer().score(string1, string2) * 100))
 
         return max(scores, default=0)
