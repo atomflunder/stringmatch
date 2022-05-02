@@ -110,11 +110,6 @@ class Match:
         string_list: list[str],
         *,
         score: int = 70,
-        latinise: bool = False,
-        ignore_case: bool = False,
-        remove_punctuation: bool = False,
-        only_letters: bool = False,
-        include_partial: bool = False,
         **_kwargs,
     ) -> Optional[str]:
         """Returns the best match from a list of strings.

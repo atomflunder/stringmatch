@@ -148,7 +148,7 @@ class Ratio:
                 return round(score * 0.69)
             if len(long_string) - len(short_string) >= 9:
                 return round(score * 0.75)
-            elif len(long_string) - len(short_string) >= 4:
+            if len(long_string) - len(short_string) >= 4:
                 return round(score * 0.85)
             return score
 
