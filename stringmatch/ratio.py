@@ -150,6 +150,10 @@ class Ratio:
                 return round(score * 0.75)
             if len(long_string) - len(short_string) >= 4:
                 return round(score * 0.85)
+            # we dont really want it to return 100, except when its actually identical
+            # 95 felt too low, 99 felt too high so i settled upon 97.
+            if len(long_string) - len(short_string) >= 1:
+                return round(score * 0.97)
             return score
 
         editops = Levenshtein.editops(longer_string, shorter_string)

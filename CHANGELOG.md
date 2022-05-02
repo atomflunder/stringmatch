@@ -2,6 +2,11 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.10.8 - 2022-05-03
+
+- Adjusted partial matching a tiny bit more
+- Added tests to verify
+
 ## v0.10.7 - 2022-05-03
 
 - Added type hints for kwargs

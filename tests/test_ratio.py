@@ -71,7 +71,8 @@ def test_partial_ratio():
     assert Ratio().partial_ratio("", "what?") == 0
     assert Ratio().partial_ratio("d", "dabuz") == 85
     assert Ratio().partial_ratio("a", "dabuz") == 33
-    assert Ratio().partial_ratio("ab", "dabuz") == 100
+    assert Ratio().partial_ratio("ab", "dabuz") == 97
+    assert Ratio().partial_ratio("dabuz", "dabuz") == 100
     assert (
         Ratio().partial_ratio("a ", "this is a really really damn long string, wow")
         == 69

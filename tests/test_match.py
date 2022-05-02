@@ -196,3 +196,7 @@ def test_get_best_matches_with_ratio():
             "officia", ["Africa", "「 Tournament Official 」"], score=50
         )
     ) == [("Africa", 75), ("「 Tournament Official 」", 75)]
+
+    assert Match(include_partial=True).get_best_matches_with_ratio(
+        "level 10", ["level 100", "level 10"]
+    ) == [("level 10", 100), ("level 100", 97)]
