@@ -1,5 +1,6 @@
 from typing import Optional
 
+from stringmatch.args import RatioKwargs
 from stringmatch.ratio import Ratio
 from stringmatch.scorer import LevenshteinScorer, _Scorer
 
@@ -61,7 +62,8 @@ class Match:
         bool
             If the strings are similar enough.
         """
-        kwargs = {
+        kwargs: RatioKwargs = {
+            "scorer": self.scorer,
             "latinise": self.latinise,
             "ignore_case": self.ignore_case,
             "remove_punctuation": self.remove_punctuation,
@@ -69,7 +71,7 @@ class Match:
             "include_partial": self.include_partial,
         }
 
-        return Ratio(scorer=self.scorer, **kwargs).ratio(string1, string2) >= score
+        return Ratio(**kwargs).ratio(string1, string2) >= score
 
     def match_with_ratio(
         self, string1: str, string2: str, *, score: int = 70
@@ -90,7 +92,8 @@ class Match:
         tuple[bool, int]
             If the strings are similar and their score.
         """
-        kwargs = {
+        kwargs: RatioKwargs = {
+            "scorer": self.scorer,
             "score": score,
             "latinise": self.latinise,
             "ignore_case": self.ignore_case,
@@ -101,7 +104,7 @@ class Match:
 
         return (
             self.match(string1, string2, score=score),
-            Ratio(scorer=self.scorer, **kwargs).ratio(string1, string2),
+            Ratio(**kwargs).ratio(string1, string2),
         )
 
     def get_best_match(
@@ -123,7 +126,8 @@ class Match:
         Optional[str]
             The best string found, or None if no good match was found.
         """
-        kwargs = {
+        kwargs: RatioKwargs = {
+            "scorer": self.scorer,
             "score": score,
             "latinise": self.latinise,
             "remove_punctuation": self.remove_punctuation,
@@ -134,7 +138,7 @@ class Match:
 
         return max(
             (s for s in string_list if self.match(string, s, score=score)),
-            key=lambda s: Ratio(scorer=self.scorer, **kwargs).ratio(string, s),
+            key=lambda s: Ratio(**kwargs).ratio(string, s) if s else 0,
             default=None,
         )
 
@@ -158,7 +162,8 @@ class Match:
             The best string and its score found, or None if no good match was found.
         """
 
-        kwargs = {
+        kwargs: RatioKwargs = {
+            "scorer": self.scorer,
             "score": score,
             "latinise": self.latinise,
             "remove_punctuation": self.remove_punctuation,
@@ -169,11 +174,7 @@ class Match:
 
         match = self.get_best_match(string, string_list, score=score)
 
-        return (
-            (match, Ratio(scorer=self.scorer, **kwargs).ratio(string, match))
-            if match
-            else None
-        )
+        return (match, Ratio(**kwargs).ratio(string, match)) if match else None
 
     def get_best_matches(
         self,
@@ -209,8 +210,10 @@ class Match:
         if limit is not None and limit < 1:
             limit = None
 
-        kwargs = {
+        kwargs: RatioKwargs = {
+            "scorer": self.scorer,
             "score": score,
+            "limit": limit,
             "latinise": self.latinise,
             "remove_punctuation": self.remove_punctuation,
             "ignore_case": self.ignore_case,
@@ -220,7 +223,7 @@ class Match:
 
         return sorted(
             [s for s in string_list if self.match(string, s, score=score)],
-            key=lambda s: Ratio(scorer=self.scorer, **kwargs).ratio(string, s),
+            key=lambda s: Ratio(**kwargs).ratio(string, s),
             # by default this would sort the list from lowest to highest.
             reverse=True,
         )[:limit]
@@ -252,7 +255,8 @@ class Match:
         list[tuple[str, int]]
             All of the matches found.
         """
-        kwargs = {
+        kwargs: RatioKwargs = {
+            "scorer": self.scorer,
             "score": score,
             "limit": limit,
             "latinise": self.latinise,
@@ -264,7 +268,6 @@ class Match:
 
         matches = self.get_best_matches(string, string_list, score=score, limit=limit)
 
-        return [
-            (match, Ratio(scorer=self.scorer, **kwargs).ratio(string, match))
-            for match in matches
-        ][:limit]
+        return [(match, Ratio(**kwargs).ratio(string, match)) for match in matches][
+            :limit
+        ]

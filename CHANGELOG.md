@@ -2,6 +2,11 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.10.7 - 2022-05-03
+
+- Added type hints for kwargs
+- Added some more tests
+
 ## v0.10.6 - 2022-05-02
 
 - Cleaned up some internal code
