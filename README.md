@@ -313,7 +313,7 @@ def_match.match("»»ᅳtestᅳ►", "test")  # returns False
 
 | Type  | Default | Description |
 | ---   | ---     | ---         |
-| Boolean | False | If set to true, also searches for partial substring matches. This may lead to more desirable results but is a bit slower. If the strings are very far apart in length this will return 60-69% of its value, if they are moderately far apart, 85%.
+| Boolean | False | If set to true, also searches for partial substring matches. This may lead to more desirable results but is a bit slower. If the strings are very far apart in length this will return 69-75% of its value, if they are fairly close, 85%.
 
 ```python
 # Example:

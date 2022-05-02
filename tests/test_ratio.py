@@ -62,15 +62,15 @@ def test_partial_ratio():
     assert Ratio(ignore_case=False).partial_ratio("TESTbot test", "testbot") == 42
     assert Ratio().partial_ratio("a", "this is a test") == 13
     assert Ratio().partial_ratio("e", "this is a test") == 13
-    assert Ratio().partial_ratio("a ", "this is a test") == 69
+    assert Ratio().partial_ratio("a ", "this is a test") == 75
     assert Ratio().partial_ratio("a test", "this is a test") == 85
-    assert Ratio().partial_ratio("this", "this is a test") == 69
+    assert Ratio().partial_ratio("this", "this is a test") == 75
     assert Ratio().partial_ratio("this is a test", "this this this") == 71
     assert Ratio().partial_ratio("", "what?") == 0
     assert Ratio().partial_ratio("d", "dabuz") == 85
     assert Ratio().partial_ratio("a", "dabuz") == 33
-    assert Ratio().partial_ratio("ab", "dabuz") == 85
+    assert Ratio().partial_ratio("ab", "dabuz") == 100
     assert (
         Ratio().partial_ratio("a ", "this is a really really damn long string, wow")
-        == 60
+        == 69
     )

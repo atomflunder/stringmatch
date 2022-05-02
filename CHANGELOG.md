@@ -2,6 +2,11 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.10.4 - 2022-05-02
+
+- Fixed kwargs not being passed correctly by get_best_match function.
+- Adjusted partial matching a tiny bit more
+
 ## v0.10.3 - 2022-05-02
 
 - Adjusted partial matching a tiny bit more

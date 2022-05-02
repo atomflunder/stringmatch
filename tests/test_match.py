@@ -48,13 +48,13 @@ def test_match_with_ratio():
     assert Match(ignore_case=True).match_with_ratio("Woosh", "woosh") == (True, 100)
     assert Match(include_partial=True).match_with_ratio(
         "testbot testmann", "testbot", score=69
-    ) == (True, 69)
+    ) == (True, 75)
     assert Match(include_partial=False).match_with_ratio(
         "testbot testmann", "testbot"
     ) == (False, 61)
     assert Match(include_partial=True).match_with_ratio(
         "A string", "A string thats like really really long", score=55
-    ) == (True, 60)
+    ) == (True, 69)
     assert Match(include_partial=False).match_with_ratio(
         "A string", "A string thats like really really long", score=55
     ) == (False, 35)
@@ -71,6 +71,10 @@ def test_get_best_match():
     assert Match().get_best_match("", ["f"]) is None
 
     assert Match().get_best_match("....-", ["f"], remove_punctuation=True) is None
+
+    assert Match(ignore_case=True, include_partial=True).get_best_match_with_ratio(
+        "official", ["Africa", "「 Tournament Official 」"], score=40
+    ) == ("「 Tournament Official 」", 69)
 
 
 def test_get_best_match_with_ratio():
@@ -107,7 +111,7 @@ def test_get_best_matches():
 
     assert Match(ignore_case=True, include_partial=True).get_best_matches_with_ratio(
         "official", ["Africa", "「 Tournament Official 」"], score=40
-    ) == [("「 Tournament Official 」", 60), ("Africa", 57)]
+    ) == [("「 Tournament Official 」", 69), ("Africa", 57)]
 
     assert Match().get_best_matches("test", ["test", "nope", "tset"], limit=None) == [
         "test",

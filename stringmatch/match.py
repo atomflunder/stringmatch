@@ -135,20 +135,17 @@ class Match:
         """
         kwargs = {
             "score": score,
-            "latinise": latinise,
-            "remove_punctuation": remove_punctuation,
-            "ignore_case": ignore_case,
-            "only_letters": only_letters,
-            "include_partial": include_partial,
+            "latinise": self.latinise,
+            "remove_punctuation": self.remove_punctuation,
+            "ignore_case": self.ignore_case,
+            "only_letters": self.only_letters,
+            "include_partial": self.include_partial,
         }
 
-        return (
-            max(
-                string_list,
-                key=lambda s: Ratio(scorer=self.scorer, **kwargs).ratio(string, s),
-            )
-            if any(s for s in string_list if self.match(string, s, score=score))
-            else None
+        return max(
+            (s for s in string_list if self.match(string, s, score=score)),
+            key=lambda s: Ratio(scorer=self.scorer, **kwargs).ratio(string, s),
+            default=None,
         )
 
     def get_best_match_with_ratio(
