@@ -2,6 +2,10 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.10.3 - 2022-05-02
+
+- Adjusted partial matching a tiny bit more
+
 ## v0.10.2 - 2022-05-02
 
 - Improved partial matching a lot

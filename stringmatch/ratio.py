@@ -142,8 +142,8 @@ class Ratio:
         def partialise_score(long_string: str, short_string: str, score: int):
             """If the two strings are really far away in length, we adjust the similarity score."""
             if len(long_string) - len(short_string) >= 15:
-                return round(score * 0.55)
-            if len(long_string) - len(short_string) >= 7:
+                return round(score * 0.6)
+            if len(long_string) - len(short_string) >= 9:
                 # The default score threshold is 70,
                 # so if the strings are more than 10 characters apart,
                 # this would not show up by default. Also funny number.
