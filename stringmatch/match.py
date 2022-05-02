@@ -105,12 +105,7 @@ class Match:
         )
 
     def get_best_match(
-        self,
-        string: str,
-        string_list: list[str],
-        *,
-        score: int = 70,
-        **_kwargs,
+        self, string: str, string_list: list[str], *, score: int = 70
     ) -> Optional[str]:
         """Returns the best match from a list of strings.
 

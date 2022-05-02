@@ -70,7 +70,9 @@ def test_get_best_match():
 
     assert Match().get_best_match("", ["f"]) is None
 
-    assert Match().get_best_match("....-", ["f"], remove_punctuation=True) is None
+    assert (
+        Match(remove_punctuation=True).get_best_match("....-", ["....-", "f"]) is None
+    )
 
     assert Match(ignore_case=True, include_partial=True).get_best_match_with_ratio(
         "official", ["Africa", "「 Tournament Official 」"], score=40
