@@ -3,6 +3,7 @@
 [![PyPI](https://img.shields.io/pypi/v/stringmatch?color=blue)](https://pypi.org/project/stringmatch/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/stringmatch)](https://pypi.org/project/stringmatch/)
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/stringmatch)](https://pypi.org/project/stringmatch/)
+[![PyPI - Wheel](https://img.shields.io/pypi/wheel/stringmatch)](https://pypi.org/project/stringmatch/)
 [![codecov](https://codecov.io/gh/atomflunder/stringmatch/branch/master/graph/badge.svg?token=7JIAENN2BZ)](https://codecov.io/gh/atomflunder/stringmatch)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
