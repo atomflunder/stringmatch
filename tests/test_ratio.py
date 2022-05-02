@@ -38,6 +38,8 @@ def test_ratio():
     assert Ratio(latinise=True).ratio("ジャパニーズ", "ziyapanizu") == 100
     # for the explanation: the skintone emojis are the yellow emojis + a tone modifier
     assert Ratio().ratio("👍", "👍🏻") == 67
+    assert Ratio(ignore_case=True).ratio("TESTbot test", "testbot") == 74
+    assert Ratio(ignore_case=False).ratio("TESTbot test", "testbot") == 42
 
 
 def test_ratio_list():
