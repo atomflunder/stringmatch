@@ -146,19 +146,17 @@ class Ratio:
 
         def partialise_score(long_string: str, short_string: str, score: int):
             """If the two strings are really far away in length, we adjust the similarity score."""
-            if len(long_string) - len(short_string) >= 15:
+            if len(long_string) - len(short_string) >= 20:
                 # The default score threshold is 70,
-                # so if the strings are more than 10 characters apart,
-                # this would not show up by default. Also funny number.
-                return round(score * 0.69)
-            if len(long_string) - len(short_string) >= 9:
+                # so this would not show up by default.
+                return round(score * 0.65)
+            if len(long_string) - len(short_string) >= 10:
                 return round(score * 0.75)
             if len(long_string) - len(short_string) >= 4:
                 return round(score * 0.85)
-            # we dont really want it to return 100, except when its actually identical
-            # 95 felt too low, 99 felt too high so i settled upon 97.
             if len(long_string) - len(short_string) >= 1:
-                return round(score * 0.97)
+                # we dont really want it to return 100, except when its actually identical
+                return round(score * 0.95)
             return score
 
         editops = Levenshtein.editops(longer_string, shorter_string)

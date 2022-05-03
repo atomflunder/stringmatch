@@ -2,6 +2,11 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## 0.10.10 - 2022-05-03
+
+- Adjusted partial matching a tiny bit more
+- Adjusted tests accordingly
+
 ## v0.10.9 - 2022-05-03
 
 - Preventing raising errors when passing in non-strings
