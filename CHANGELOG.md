@@ -2,6 +2,11 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## 0.10.11 - 2022-05-03
+
+- Adjusted sorting algorithm for functions that return multiple results
+    - Should yield a bit better results when ratios are tied
+
 ## 0.10.10 - 2022-05-03
 
 - Adjusted partial matching a tiny bit more

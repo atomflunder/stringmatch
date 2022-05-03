@@ -138,7 +138,24 @@ class Match:
 
         return max(
             (s for s in string_list if self.match(string, s, score=score)),
-            key=lambda s: Ratio(**kwargs).ratio(string, s) if s else 0,
+            key=lambda s: (
+                # okay so, we first sort this by the ratio, obviously.
+                Ratio(**kwargs).ratio(string, s),
+                # if the ratio is tied we sort this by the difference in length of the strings.
+                # so if you have two strings that are tied in score, the one with the more similar length will win.
+                -abs(
+                    len(string) - len(s)
+                    if all(isinstance(c, str) for c in [s, string])
+                    # if a non-string gets input we sort it all the way back.
+                    else float("-inf")
+                ),
+                # then if the length difference happens to be tied as well, we sort by the length of the string.
+                # so a longer string will win over the shorter string.
+                # the logic here is that if you wanted to get the shorter string, you would input something shorter.
+                # so it is more likely that you want the longer of the two strings.
+                # this is most likely to trigger for partial matches anyways, so this works fairly well imo.
+                len(s) if isinstance(s, str) else float("-inf"),
+            ),
             default=None,
         )
 
@@ -223,7 +240,15 @@ class Match:
 
         return sorted(
             [s for s in string_list if self.match(string, s, score=score)],
-            key=lambda s: Ratio(**kwargs).ratio(string, s),
+            key=lambda s: (
+                Ratio(**kwargs).ratio(string, s),
+                -abs(
+                    len(string) - len(s)
+                    if all(isinstance(c, str) for c in [s, string])
+                    else float("-inf")
+                ),
+                len(s) if isinstance(s, str) else float("-inf"),
+            ),
             # by default this would sort the list from lowest to highest.
             reverse=True,
         )[:limit]

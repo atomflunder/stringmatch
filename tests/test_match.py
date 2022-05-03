@@ -142,6 +142,10 @@ def test_get_best_match_with_ratio():
         "öfficiäl", ["Africa", "「 Tournament Official 」"], score=40
     ) == ("「 Tournament Official 」", 56)
 
+    assert Match(include_partial=True).get_best_match_with_ratio(
+        "div", ["di", "bdiv", "divx", "d", "divxy", "adiv"], score=0
+    ) == ("bdiv", 95)
+
 
 def test_get_best_matches():
     assert Match().get_best_matches("", ["f"]) == []
@@ -226,3 +230,24 @@ def test_get_best_matches_with_ratio():
     assert Match(latinise=True).get_best_matches_with_ratio(
         "test", [None, "nope", "tset"], score=0  # type: ignore
     ) == [("tset", 75), ("nope", 25), (None, 0)]
+
+    assert Match(include_partial=True).get_best_matches_with_ratio(
+        "div", ["「diva」", "「div」"], score=0
+    ) == [("「div」", 95), ("「diva」", 95)]
+
+    assert Match().get_best_matches_with_ratio("div", ["「diva」", "「div」"], score=0) == [
+        ("「div」", 75),
+        ("「diva」", 67),
+    ]
+
+    assert Match(include_partial=True).get_best_matches_with_ratio(
+        "div", ["bdiv", "di", "divx", "d", "divxy", "adiv", "div"], limit=None, score=0
+    ) == [
+        ("div", 100),
+        ("bdiv", 95),
+        ("divx", 95),
+        ("adiv", 95),
+        ("di", 95),
+        ("divxy", 95),
+        ("d", 95),
+    ]
