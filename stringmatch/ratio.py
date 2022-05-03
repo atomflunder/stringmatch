@@ -83,12 +83,17 @@ class Ratio:
         int
             The score between 0 and 100.
         """
+        # if you happen to pass in a non-string we will just return 0 instead of raising an error
+        # could happen if you have an incredibly large list of strings and something sneaks in i guess
+        if not all(isinstance(s, str) for s in [string1, string2]):
+            return 0
+
         string1, string2 = self._prepare_strings(string1, string2)
 
+        # if either string is empty after modifying we wanna return 0
         if not string1 or not string2:
             return 0
 
-        # if either string is empty we wanna return 0
         if self.include_partial:
             return self.partial_ratio(string1, string2)
 

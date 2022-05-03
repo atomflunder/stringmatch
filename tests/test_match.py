@@ -1,5 +1,5 @@
 from stringmatch.match import Match
-from stringmatch.scorer import JaroScorer, JaroWinklerScorer, LevenshteinScorer
+from stringmatch.scorer import JaroScorer, JaroWinklerScorer, LevenshteinScorer, _Scorer
 
 
 def test_match():
@@ -58,6 +58,15 @@ def test_match_with_ratio():
     assert Match(include_partial=False).match_with_ratio(
         "A string", "A string thats like really really long", score=55
     ) == (False, 35)
+
+    class MyOwnScorer(_Scorer):
+        def score(self, string1: str, string2: str) -> float:
+            return 1
+
+    assert Match(scorer=MyOwnScorer).match_with_ratio("anything", "whatever") == (
+        True,
+        100,
+    )
 
 
 def test_get_best_match():
@@ -200,3 +209,19 @@ def test_get_best_matches_with_ratio():
     assert Match(include_partial=True).get_best_matches_with_ratio(
         "level 10", ["level 100", "level 10"]
     ) == [("level 10", 100), ("level 100", 97)]
+
+    assert Match(include_partial=True).get_best_matches_with_ratio(
+        "test", ["", None, "testo"], score=1  # type: ignore
+    ) == [("testo", 97)]
+
+    assert Match(include_partial=True).get_best_matches_with_ratio(
+        "0", ["0", 0], score=0  # type: ignore
+    ) == [("0", 100), (0, 0)]
+
+    assert Match().get_best_matches_with_ratio("test", [5], score=0) == [(5, 0)]  # type: ignore
+
+    assert Match().get_best_matches_with_ratio("test", [True], score=0) == [(True, 0)]  # type: ignore
+
+    assert Match(latinise=True).get_best_matches_with_ratio(
+        "test", [None, "nope", "tset"], score=0  # type: ignore
+    ) == [("tset", 75), ("nope", 25), (None, 0)]

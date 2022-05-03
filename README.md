@@ -26,7 +26,7 @@ Inspired by libraries like [seatgeek/thefuzz](https://github.com/seatgeek/thefuz
 - [🛠️ Advanced Usage](#advanced-usage)
     - [Keyword Arguments](#keyword-arguments)
     - [Class Keyword Arguments](#class-keyword-arguments)
-    - [Scoring Algorithms](#scoring-algorithms)
+    - [Your own scorer](#your-own-scorer)
 - [🌟 Contributing](#contributing)
 - [🔗 Links](#links)
 - [⚠️ License](#license)
@@ -331,6 +331,23 @@ def_match.match_with_ratio("A string", "A string thats like really really long",
 ```
 
 ---
+
+### Your own scorer
+
+If you are unhappy with the scoring algorithms provided, you can of course construct your own scorer class. Make sure it inherits from `_Scorer` and has a `score()` method that takes 2 strings and returns a float between 0 and 1.
+
+```python
+# Example:
+
+from stringmatch import Match, _Scorer
+
+class MyOwnScorer(_Scorer):
+    def score(self, string1: str, string2: str) -> float:
+        # highly advanced technology
+        return 1
+
+my_match = Match(scorer=MyOwnScorer).match_with_ratio("anything", "whatever") # returns (True, 100)
+```
 
 ## Contributing
 
