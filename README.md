@@ -2,7 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/stringmatch?color=blue)](https://pypi.org/project/stringmatch/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/stringmatch)](https://pypi.org/project/stringmatch/)
-[![PyPI - Downloads](https://img.shields.io/pypi/dm/stringmatch)](https://pypi.org/project/stringmatch/)
+[![Downloads](https://pepy.tech/badge/stringmatch)](https://pepy.tech/project/stringmatch)
 [![PyPI - Wheel](https://img.shields.io/pypi/wheel/stringmatch)](https://pypi.org/project/stringmatch/)
 [![codecov](https://codecov.io/gh/atomflunder/stringmatch/branch/master/graph/badge.svg?token=7JIAENN2BZ)](https://codecov.io/gh/atomflunder/stringmatch)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
@@ -157,9 +157,9 @@ There are some **optional arguments** available for a few functions.
 
 ### `score`
 
-| Type  | Default | Description |
-| ---   | ---     | ---         |
-| Integer | 70 | The score cutoff for matching. Only available for `Match()` functions. 
+| Type  | Default | Description | Available for: |
+| ---   | ---     | ---         | ---            |
+| Integer | 70 | The score cutoff for matching. If the score is below the threshold it will not get returned. | All functions from the `Match()` class.
 
 ```python
 # Example:
@@ -176,9 +176,9 @@ match.match("stringmatch", "strngmach", score=70)    # returns True
 
 ### `limit`
 
-| Type  | Default | Description |
-| ---   | ---     | ---         |
-| Integer | 5 | The limit of how many matches to return. **If you want to return every match set this to 0 or None.** Only available for the functions that return multiple matches.
+| Type  | Default | Description | Available for: |
+| ---   | ---     | ---         | ---            |
+| Integer | 5 | The limit of how many matches to return. **If you want to return every match set this to 0 or None.** | `get_best_matches()`, `get_best_matches_with_ratio()`
 
 ```python
 # Example:
@@ -203,8 +203,8 @@ match.get_best_matches("limit 5", searches, limit=None)
 
 ### Class Keyword Arguments
 
-You can also pass in on or more of these **optional arguments** when initialising the `Match()` and `Ratio()` classes to customize your search even further.  
-Of course you can use multiple of these keyword arguments at once, to customise the search to do exactly what you intend to do.
+You can also pass in on or more of these **optional arguments when initialising the `Match()` and `Ratio()`** classes to customize your search even further.  
+Of course you can use multiple of these keyword arguments at once, to customise the search to do exactly what you intend to do.  
 
 ### `scorer`
 
@@ -322,7 +322,7 @@ def_match.match("»»ᅳtestᅳ►", "test")  # returns False
 from stringmatch import Match
 
 part_match = Match(include_partial=True)
-# returns (True, 69)
+# returns (True, 65)
 part_match.match_with_ratio("A string", "A string thats like really really long", score=60)
 
 def_match = Match(include_partial=False)
