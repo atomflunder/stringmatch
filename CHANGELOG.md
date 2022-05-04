@@ -2,6 +2,10 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## 0.10.13 - 2022-05-04
+
+- Added py.typed file
+
 ## v0.10.12 - 2022-05-04
 
 - Set ignore_case kwarg by default to True

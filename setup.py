@@ -24,6 +24,7 @@ setup(
     long_description=readme,
     long_description_content_type="text/markdown",
     packages=find_packages(),
+    package_data={"stringmatch": ["py.typed"]},
     version=version,
     install_requires=required_packages,
     python_requires=">=3.9",
