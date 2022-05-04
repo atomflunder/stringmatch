@@ -343,10 +343,11 @@ from stringmatch import Match, _Scorer
 
 class MyOwnScorer(_Scorer):
     def score(self, string1: str, string2: str) -> float:
-        # highly advanced technology
+        # Highly advanced technology
         return 1
 
-my_match = Match(scorer=MyOwnScorer).match_with_ratio("anything", "whatever") # returns (True, 100)
+my_matcher = Match(scorer=MyOwnScorer)
+my_matcher.match_with_ratio("anything", "whatever") # returns (True, 100)
 ```
 
 ## Contributing
