@@ -13,9 +13,9 @@ def test_remove_punctuation():
     assert Strings().remove_punctuation("wh'at;, ever") == "what ever"
 
 
-def test_only_letters():
-    assert Strings().only_letters("Héllö, world!") == "Hll world"
-    assert Strings().only_letters("ỲṖßɆȜǼǄ") == ""
+def test_alphanumeric():
+    assert Strings().alphanumeric("Héllö, world!") == "Hll world"
+    assert Strings().alphanumeric("ỲṖßɆȜǼǄ") == ""
 
 
 def test_ignore_case():

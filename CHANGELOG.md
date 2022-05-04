@@ -2,7 +2,12 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
-## 0.10.11 - 2022-05-03
+## v0.10.12 - 2022-05-04
+
+- Set ignore_case kwarg by default to True
+- Renamed only_letters kwarg to alphanumeric to better reflect what it actually does
+
+## v0.10.11 - 2022-05-03
 
 - Adjusted sorting algorithm for functions that return multiple results
     - Should yield a bit better results when ratios are tied

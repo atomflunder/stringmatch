@@ -12,9 +12,9 @@ class Ratio:
         *,
         scorer: type[_Scorer] = LevenshteinScorer,
         latinise: bool = False,
-        ignore_case: bool = False,
+        ignore_case: bool = True,
         remove_punctuation: bool = False,
-        only_letters: bool = False,
+        alphanumeric: bool = False,
         include_partial: bool = False,
         **kwargs,
     ) -> None:
@@ -29,10 +29,10 @@ class Ratio:
         latinise : bool, optional
             If special unicode characters should be removed from the strings, by default False.
         ignore_case : bool, optional
-            If the strings should be compared ignoring case, by default False.
+            If the strings should be compared ignoring case, by default True.
         remove_punctuation : bool, optional
             If punctuation should be removed from the strings, by default False.
-        only_letters : bool, optional
+        alphanumeric : bool, optional
             If the strings should only be compared by their latin letters, by default False.
         include_partial : bool, optional
             If partial substring matches should be included, by default False.
@@ -41,7 +41,7 @@ class Ratio:
         self.latinise = latinise
         self.ignore_case = ignore_case
         self.remove_punctuation = remove_punctuation
-        self.only_letters = only_letters
+        self.alphanumeric = alphanumeric
         self.include_partial = include_partial
 
     def _prepare_strings(self, string1: str, string2: str) -> tuple[str, str]:
@@ -61,8 +61,8 @@ class Ratio:
                 string1
             ), Strings().remove_punctuation(string2)
 
-        if self.only_letters:
-            string1, string2 = Strings().only_letters(string1), Strings().only_letters(
+        if self.alphanumeric:
+            string1, string2 = Strings().alphanumeric(string1), Strings().alphanumeric(
                 string2
             )
 

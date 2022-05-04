@@ -12,5 +12,5 @@ class RatioKwargs(TypedDict, total=False):
     latinise: bool
     ignore_case: bool
     remove_punctuation: bool
-    only_letters: bool
+    alphanumeric: bool
     include_partial: bool

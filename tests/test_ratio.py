@@ -35,14 +35,16 @@ def test_ratio_list():
     assert Ratio().ratio_list(
         "srechlib", ["searchlib", "slib", "searching library", "spam"]
     ) == [82, 67, 56, 17]
-    assert Ratio().ratio_list("test", ["th TEST", "hwatever", "*"]) == [18, 33, 0]
+    assert Ratio(ignore_case=False).ratio_list(
+        "test", ["th TEST", "hwatever", "*"]
+    ) == [18, 33, 0]
 
-    assert Ratio(ignore_case=True, only_letters=True).ratio_list(
+    assert Ratio(ignore_case=True, alphanumeric=True).ratio_list(
         "test", ["th TEST", "hwatever", "*"]
     ) == [73, 33, 0]
 
     assert Ratio(
-        scorer=JaroWinklerScorer, ignore_case=True, only_letters=True
+        scorer=JaroWinklerScorer, ignore_case=True, alphanumeric=True
     ).ratio_list("test", ["th TEST", "hwatever", "*"]) == [60, 58, 0]
 
     assert Ratio(scorer=LevenshteinScorer).ratio_list(

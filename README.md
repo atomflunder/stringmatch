@@ -145,7 +145,7 @@ strings = Strings()
 
 strings.latinise("Héllö, world!")               # returns "Hello, world!"
 strings.remove_punctuation("wh'at;, ever")      # returns "what ever"
-strings.only_letters("Héllö, world!")           # returns "Hll world"
+strings.alphanumeric("Héllö, world!")           # returns "Hll world"
 strings.ignore_case("test test!", lower=False)  # returns "TEST TEST!"
 ```
 
@@ -254,7 +254,7 @@ def_match.match("séärçh", "search") # returns False
 
 | Type  | Default | Description |
 | ---   | ---     | ---         |
-| Boolean | False | If you want to ignore case sensitivity while searching. 
+| Boolean | True | If you want to ignore case sensitivity while searching. 
 
 ```python
 # Example:
@@ -290,7 +290,7 @@ def_match.match("test,---....", "test")   # returns False
 
 ---
 
-### `only_letters`
+### `alphanumeric`
 
 | Type  | Default | Description |
 | ---   | ---     | ---         |
@@ -301,10 +301,10 @@ def_match.match("test,---....", "test")   # returns False
 
 from stringmatch import Match
 
-let_match = Match(only_letters=True)
+let_match = Match(alphanumeric=True)
 let_match.match("»»ᅳtestᅳ►", "test")  # returns True
 
-def_match = Match(only_letters=False)
+def_match = Match(alphanumeric=False)
 def_match.match("»»ᅳtestᅳ►", "test")  # returns False
 ```
 

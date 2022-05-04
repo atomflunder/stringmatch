@@ -11,9 +11,9 @@ def test_match():
     assert Match(ignore_case=False).match("test", "TEST") is False
     assert Match(ignore_case=True).match("test", "TEST") is True
 
-    assert Match(only_letters=True).match("test", "-- test --!<<><") is True
-    assert Match(only_letters=True).match("»»ᅳtestᅳ►", "test") is True
-    assert Match(only_letters=False).match("»»ᅳtestᅳ►", "test") is False
+    assert Match(alphanumeric=True).match("test", "-- test --!<<><") is True
+    assert Match(alphanumeric=True).match("»»ᅳtestᅳ►", "test") is True
+    assert Match(alphanumeric=False).match("»»ᅳtestᅳ►", "test") is False
 
     assert Match(latinise=True).match("séärçh", "search") is True
     assert Match(latinise=False).match("séärçh", "search") is False
@@ -107,7 +107,7 @@ def test_get_best_match():
             ignore_case=True,
             include_partial=True,
             scorer=LevenshteinScorer,
-            only_letters=True,
+            alphanumeric=True,
         ).get_best_match("officia", ["Africa", "「 Tournament Official 」"])
     ) == "「 Tournament Official 」"
     assert (
@@ -115,7 +115,7 @@ def test_get_best_match():
             ignore_case=True,
             include_partial=True,
             scorer=JaroScorer,
-            only_letters=True,
+            alphanumeric=True,
         ).get_best_match("officia", ["Africa", "「 Tournament Official 」"])
     ) == "Africa"
 
@@ -129,15 +129,15 @@ def test_get_best_match_with_ratio():
         Match().get_best_match_with_ratio("whatever", ["test", "nope", "tset"]) is None
     )
 
-    assert Match(ignore_case=True, include_partial=True).get_best_match_with_ratio(
+    assert Match(ignore_case=False, include_partial=True).get_best_match_with_ratio(
+        "official", ["Africa", "「 Tournament Official 」"], score=40
+    ) == ("「 Tournament Official 」", 66)
+    assert Match(include_partial=True, alphanumeric=True).get_best_match_with_ratio(
         "official", ["Africa", "「 Tournament Official 」"], score=40
     ) == ("「 Tournament Official 」", 75)
-    assert Match(include_partial=True, only_letters=True).get_best_match_with_ratio(
-        "official", ["Africa", "「 Tournament Official 」"], score=40
-    ) == ("「 Tournament Official 」", 66)
     assert Match(include_partial=True, latinise=True).get_best_match_with_ratio(
         "öfficiäl", ["Africa", "「 Tournament Official 」"], score=40
-    ) == ("「 Tournament Official 」", 66)
+    ) == ("「 Tournament Official 」", 75)
     assert Match(include_partial=True, latinise=False).get_best_match_with_ratio(
         "öfficiäl", ["Africa", "「 Tournament Official 」"], score=40
     ) == ("「 Tournament Official 」", 56)
@@ -195,7 +195,7 @@ def test_get_best_matches_with_ratio():
             ignore_case=True,
             include_partial=True,
             scorer=LevenshteinScorer,
-            only_letters=True,
+            alphanumeric=True,
         ).get_best_matches_with_ratio(
             "officia", ["Africa", "「 Tournament Official 」"], score=50
         )
@@ -205,7 +205,7 @@ def test_get_best_matches_with_ratio():
             ignore_case=True,
             include_partial=True,
             scorer=JaroScorer,
-            only_letters=True,
+            alphanumeric=True,
         ).get_best_matches_with_ratio(
             "officia", ["Africa", "「 Tournament Official 」"], score=50
         )

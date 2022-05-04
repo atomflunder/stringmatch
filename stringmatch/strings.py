@@ -36,7 +36,7 @@ class Strings:
             c for c in string if c not in "!\"#'()*+,-./:;<=>?[]^_`{|}~’„“»«"
         )
 
-    def only_letters(self, string: str) -> str:
+    def alphanumeric(self, string: str) -> str:
         """Removes all non-latin letters from the string.
         Does also keep numbers.
         A more extreme version of remove_punctuation().
