@@ -262,10 +262,10 @@ def_match.match("séärçh", "search") # returns False
 from stringmatch import Match
 
 def_match = Match(ignore_case=True)
-def_match.match("test", "TEST")  # returns True
+def_match.match("test", "TEST")   # returns True
 
 case_match = Match(ignore_case=False)
-case_match.match("test", "TEST")   # returns False
+case_match.match("test", "TEST")  # returns False
 ```
 
 ---
