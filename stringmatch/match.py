@@ -155,6 +155,8 @@ class Match:
                 # so it is more likely that you want the longer of the two strings.
                 # this is most likely to trigger for partial matches anyways, so this works fairly well imo.
                 len(s) if isinstance(s, str) else float("-inf"),
+                # If the length of the string is also tied, it is sorted by the placement of the string in the original list.
+                # We could also sort alphabetically or something, but this is better I think.
             ),
             default=None,
         )

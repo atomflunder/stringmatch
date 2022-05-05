@@ -61,6 +61,8 @@ pip install -U git+https://github.com/atomflunder/stringmatch
 
 ## Basic Usage
 
+Below are some examples of how to use this library, if you need more, head over to the [`examples`](/examples/) directory.
+
 ### Matching
 
 The match functions allow you to compare 2 strings and check if they are "similar enough" to each other, or get the best match(es) from a list of strings:
@@ -339,7 +341,8 @@ If you are unhappy with the scoring algorithms provided, you can of course const
 ```python
 # Example:
 
-from stringmatch import Match, _Scorer
+from stringmatch import Match
+from stringmatch.scorer import _Scorer
 
 class MyOwnScorer(_Scorer):
     def score(self, string1: str, string2: str) -> float:
