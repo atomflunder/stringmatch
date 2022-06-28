@@ -195,6 +195,12 @@ def test_get_best_matches_with_ratio():
         limit=2,
     ) == [("limit 5", 100), ("limit 4", 86)]
 
+    assert Match().get_best_matches_with_ratio(
+        "limit 5",
+        ["limit 5", "limit 4"],
+        limit=0,
+    ) == [("limit 5", 100), ("limit 4", 86)]
+
     assert (
         Match(
             ignore_case=True,
