@@ -2,7 +2,7 @@ from typing import Optional
 
 from stringmatch.args import RatioKwargs
 from stringmatch.ratio import Ratio
-from stringmatch.scorer import LevenshteinScorer, _Scorer
+from stringmatch.scorer import BaseScorer, LevenshteinScorer
 
 
 class Match:
@@ -11,7 +11,7 @@ class Match:
     def __init__(
         self,
         *,
-        scorer: type[_Scorer] = LevenshteinScorer,
+        scorer: type[BaseScorer] = LevenshteinScorer,
         latinise: bool = False,
         ignore_case: bool = True,
         remove_punctuation: bool = False,
@@ -24,7 +24,7 @@ class Match:
 
         Parameters
         ----------
-        scorer : type[_Scorer], optional
+        scorer : type[BaseScorer], optional
             The scoring algorithm to use, by default LevenshteinScorer
             Available scorers: LevenshteinScorer, JaroScorer, JaroWinklerScorer.
         latinise : bool, optional
@@ -62,16 +62,7 @@ class Match:
         bool
             If the strings are similar enough.
         """
-        kwargs: RatioKwargs = {
-            "scorer": self.scorer,
-            "latinise": self.latinise,
-            "ignore_case": self.ignore_case,
-            "remove_punctuation": self.remove_punctuation,
-            "alphanumeric": self.alphanumeric,
-            "include_partial": self.include_partial,
-        }
-
-        return Ratio(**kwargs).ratio(string1, string2) >= score
+        return self.match_with_ratio(string1, string2, score=score)[0]
 
     def match_with_ratio(
         self, string1: str, string2: str, *, score: int = 70
@@ -102,10 +93,9 @@ class Match:
             "include_partial": self.include_partial,
         }
 
-        return (
-            self.match(string1, string2, score=score),
-            Ratio(**kwargs).ratio(string1, string2),
-        )
+        r = Ratio(**kwargs).ratio(string1, string2)
+
+        return (r >= score, r)
 
     def get_best_match(
         self, string: str, string_list: list[str], *, score: int = 70
@@ -126,40 +116,9 @@ class Match:
         Optional[str]
             The best string found, or None if no good match was found.
         """
-        kwargs: RatioKwargs = {
-            "scorer": self.scorer,
-            "score": score,
-            "latinise": self.latinise,
-            "remove_punctuation": self.remove_punctuation,
-            "ignore_case": self.ignore_case,
-            "alphanumeric": self.alphanumeric,
-            "include_partial": self.include_partial,
-        }
+        match = self.get_best_match_with_ratio(string, string_list, score=score)
 
-        return max(
-            (s for s in string_list if self.match(string, s, score=score)),
-            key=lambda s: (
-                # okay so, we first sort this by the ratio, obviously.
-                Ratio(**kwargs).ratio(string, s),
-                # if the ratio is tied we sort this by the difference in length of the strings.
-                # so if you have two strings that are tied in score, the one with the more similar length will win.
-                -abs(
-                    len(string) - len(s)
-                    if all(isinstance(c, str) for c in [s, string])
-                    # if a non-string gets input we sort it all the way back.
-                    else float("-inf")
-                ),
-                # then if the length difference happens to be tied as well, we sort by the length of the string.
-                # so a longer string will win over the shorter string.
-                # the logic here is that if you wanted to get the shorter string, you would input something shorter.
-                # so it is more likely that you want the longer of the two strings.
-                # this is most likely to trigger for partial matches anyways, so this works fairly well imo.
-                len(s) if isinstance(s, str) else float("-inf"),
-                # If the length of the string is also tied, it is sorted by the placement of the string in the original list.
-                # We could also sort alphabetically or something, but this is better I think.
-            ),
-            default=None,
-        )
+        return match[0] if match else None
 
     def get_best_match_with_ratio(
         self, string: str, string_list: list[str], *, score: int = 70
@@ -180,7 +139,6 @@ class Match:
         Optional[tuple[str, int]]
             The best string and its score found, or None if no good match was found.
         """
-
         kwargs: RatioKwargs = {
             "scorer": self.scorer,
             "score": score,
@@ -191,9 +149,30 @@ class Match:
             "include_partial": self.include_partial,
         }
 
-        match = self.get_best_match(string, string_list, score=score)
+        matches = sorted(
+            [
+                (s, Ratio(**kwargs).ratio(string, s))
+                for s in string_list
+                # We only add it to the list if it is above the cutoff score.
+                if Ratio(**kwargs).ratio(string, s) >= score
+            ],
+            key=lambda x: (
+                # We first sort the list by the score.
+                x[1],
+                # Then we sort the list by the character difference.
+                -abs(
+                    len(string) - len(x[0])
+                    if all(isinstance(c, str) for c in [x[0], string])
+                    else float("-inf")
+                ),
+                # And lastly we sort it by the length of the string.
+                len(x[0]) if isinstance(x[0], str) else float("-inf"),
+                # If all of these are tied, the list is sorted by order of how they appear in the original list.
+            ),
+            reverse=True,
+        )
 
-        return (match, Ratio(**kwargs).ratio(string, match)) if match else None
+        return (matches[0]) if matches else None
 
     def get_best_matches(
         self,
@@ -225,35 +204,17 @@ class Match:
         list[str]
             All of the matches found.
         """
-        # we return every match found if the limit is 0 or less
+        # We return every match found if the limit is 0 or less.
         if limit is not None and limit < 1:
             limit = None
 
-        kwargs: RatioKwargs = {
-            "scorer": self.scorer,
-            "score": score,
-            "limit": limit,
-            "latinise": self.latinise,
-            "remove_punctuation": self.remove_punctuation,
-            "ignore_case": self.ignore_case,
-            "alphanumeric": self.alphanumeric,
-            "include_partial": self.include_partial,
-        }
-
-        return sorted(
-            [s for s in string_list if self.match(string, s, score=score)],
-            key=lambda s: (
-                Ratio(**kwargs).ratio(string, s),
-                -abs(
-                    len(string) - len(s)
-                    if all(isinstance(c, str) for c in [s, string])
-                    else float("-inf")
-                ),
-                len(s) if isinstance(s, str) else float("-inf"),
-            ),
-            # by default this would sort the list from lowest to highest.
-            reverse=True,
-        )[:limit]
+        return [
+            # We only return the string without the score.
+            m[0]
+            for m in self.get_best_matches_with_ratio(
+                string, string_list, score=score, limit=limit
+            )
+        ]
 
     def get_best_matches_with_ratio(
         self,
@@ -293,8 +254,26 @@ class Match:
             "include_partial": self.include_partial,
         }
 
-        matches = self.get_best_matches(string, string_list, score=score, limit=limit)
+        if limit is not None and limit < 1:
+            limit = None
 
-        return [(match, Ratio(**kwargs).ratio(string, match)) for match in matches][
-            :limit
-        ]
+        # This is the same sorting as in the get_best_match_with_ratio function.
+        matches = sorted(
+            [
+                (s, Ratio(**kwargs).ratio(string, s))
+                for s in string_list
+                if Ratio(**kwargs).ratio(string, s) >= score
+            ],
+            key=lambda x: (
+                x[1],
+                -abs(
+                    len(string) - len(x[0])
+                    if all(isinstance(c, str) for c in [x[0], string])
+                    else float("-inf")
+                ),
+                len(x[0]) if isinstance(x[0], str) else float("-inf"),
+            ),
+            reverse=True,
+        )
+
+        return matches[:limit]

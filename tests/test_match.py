@@ -1,5 +1,10 @@
 from stringmatch.match import Match
-from stringmatch.scorer import JaroScorer, JaroWinklerScorer, LevenshteinScorer, _Scorer
+from stringmatch.scorer import (
+    BaseScorer,
+    JaroScorer,
+    JaroWinklerScorer,
+    LevenshteinScorer,
+)
 
 
 def test_match():
@@ -64,7 +69,7 @@ def test_match_with_ratio():
         60,
     )
 
-    class MyOwnScorer(_Scorer):
+    class MyOwnScorer(BaseScorer):
         def score(self, string1: str, string2: str) -> float:
             return 1
 

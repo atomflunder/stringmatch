@@ -2,6 +2,11 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.11.0 - 2022-06-28
+
+- Renamed _Scorer class to BaseScorer
+- Improved performance slightly
+
 ## v0.10.13 - 2022-05-05
 
 - Added py.typed file

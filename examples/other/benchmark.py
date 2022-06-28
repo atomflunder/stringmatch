@@ -80,7 +80,7 @@ def main():
     # ]
 
     # And then the times:
-    # stringmatch time: 17.28s
+    # stringmatch time: 14.20s
     # thefuzz time: 39.533s
 
 

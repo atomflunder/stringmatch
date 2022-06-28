@@ -1,7 +1,12 @@
 import pytest
 
 from stringmatch.ratio import Ratio
-from stringmatch.scorer import JaroScorer, JaroWinklerScorer, LevenshteinScorer, _Scorer
+from stringmatch.scorer import (
+    BaseScorer,
+    JaroScorer,
+    JaroWinklerScorer,
+    LevenshteinScorer,
+)
 
 
 def test_ratio():
@@ -27,7 +32,7 @@ def test_ratio():
         assert Ratio(scorer="nope").ratio("searchlib", "srechlib") == 82  # type: ignore
 
     with pytest.raises(NotImplementedError):
-        assert Ratio(scorer=_Scorer).ratio("searchlib", "srechlib") == 82
+        assert Ratio(scorer=BaseScorer).ratio("searchlib", "srechlib") == 82
 
 
 def test_ratio_list():

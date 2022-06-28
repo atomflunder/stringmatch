@@ -1,6 +1,6 @@
 import Levenshtein  # type: ignore
 
-from stringmatch.scorer import LevenshteinScorer, _Scorer
+from stringmatch.scorer import BaseScorer, LevenshteinScorer
 from stringmatch.strings import Strings
 
 
@@ -10,7 +10,7 @@ class Ratio:
     def __init__(
         self,
         *,
-        scorer: type[_Scorer] = LevenshteinScorer,
+        scorer: type[BaseScorer] = LevenshteinScorer,
         latinise: bool = False,
         ignore_case: bool = True,
         remove_punctuation: bool = False,
@@ -23,7 +23,7 @@ class Ratio:
 
         Parameters
         ----------
-        scorer : type[_Scorer], optional
+        scorer : type[BaseScorer], optional
             The scoring algorithm to use, by default LevenshteinScorer
             Available scorers: LevenshteinScorer, JaroScorer, JaroWinklerScorer.
         latinise : bool, optional

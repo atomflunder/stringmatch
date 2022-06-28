@@ -2,7 +2,7 @@
 # and even how to implement your own.
 
 from stringmatch import JaroWinklerScorer, LevenshteinScorer, Match
-from stringmatch.scorer import _Scorer
+from stringmatch.scorer import BaseScorer
 
 
 def main():
@@ -15,9 +15,9 @@ def main():
     jw_scorer = Match(scorer=JaroWinklerScorer)
 
     # This initialises the Match class with a custom scorer.
-    # You first have to create a class that inherits from _Scorer, with a score method.
+    # You first have to create a class that inherits from BaseScorer, with a score method.
     # The score method takes two strings and returns a float between 0 and 1.
-    class MyOwnScorer(_Scorer):
+    class MyOwnScorer(BaseScorer):
         def score(self, a: str, b: str) -> float:
             # You should probably actually do some calculations here.
             return 0.5

@@ -1,28 +1,28 @@
 import Levenshtein  # type: ignore
 
 
-class _Scorer:
-    """The base scorer class, used mainly for type hinting purposes."""
+class BaseScorer:
+    """The base scorer class, for inheriting the other scorers."""
 
     def score(self, string1: str, string2: str) -> float:
         raise NotImplementedError
 
 
-class LevenshteinScorer(_Scorer):
+class LevenshteinScorer(BaseScorer):
     """The Levenshtein scorer class."""
 
     def score(self, string1: str, string2: str) -> float:
         return Levenshtein.ratio(string1, string2)
 
 
-class JaroScorer(_Scorer):
+class JaroScorer(BaseScorer):
     """The Jaro scorer class."""
 
     def score(self, string1: str, string2: str) -> float:
         return Levenshtein.jaro(string1, string2)
 
 
-class JaroWinklerScorer(_Scorer):
+class JaroWinklerScorer(BaseScorer):
     """The Jaro-Winkler scorer class."""
 
     def score(self, string1: str, string2: str) -> float:

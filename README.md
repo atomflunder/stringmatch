@@ -212,7 +212,7 @@ Of course you can use multiple of these keyword arguments at once, to customise 
 
 | Type  | Default | Description |
 | ---   | ---     | ---         |
-| _Scorer | LevenshteinScorer | Different scoring algorithms to use. The available options are: [`LevenshteinScorer`](https://en.wikipedia.org/wiki/Levenshtein_distance), [`JaroScorer`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro_similarity), [`JaroWinklerScorer`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro–Winkler_similarity). 
+| BaseScorer | LevenshteinScorer | Different scoring algorithms to use. The available options are: [`LevenshteinScorer`](https://en.wikipedia.org/wiki/Levenshtein_distance), [`JaroScorer`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro_similarity), [`JaroWinklerScorer`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro–Winkler_similarity). 
 
 Click on the links above for detailed information about these, but speaking generally the Jaro Scorer will be the fastest, focussing on the characters the strings have in common.  
 The Jaro-Winkler Scorer slightly modified the Jaro Scorer to prioritise characters at the start of the string.  
@@ -336,15 +336,15 @@ def_match.match_with_ratio("A string", "A string thats like really really long",
 
 ### Your Own Scorer
 
-If you are unhappy with the scoring algorithms provided, you can of course construct your own scorer class. Make sure it inherits from `_Scorer` and has a `score()` method that takes 2 strings and returns a float between 0 and 1.
+If you are unhappy with the scoring algorithms provided, you can of course construct your own scorer class. Make sure it inherits from `BaseScorer` and has a `score()` method that takes 2 strings and returns a float between 0 and 1.
 
 ```python
 # Example:
 
 from stringmatch import Match
-from stringmatch.scorer import _Scorer
+from stringmatch.scorer import BaseScorer
 
-class MyOwnScorer(_Scorer):
+class MyOwnScorer(BaseScorer):
     def score(self, string1: str, string2: str) -> float:
         # Highly advanced technology
         return 1
