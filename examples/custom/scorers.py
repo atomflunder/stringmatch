@@ -1,8 +1,7 @@
 # This here shows you how to use different scoring algorithms,
 # and even how to implement your own.
 
-from stringmatch import JaroWinklerScorer, LevenshteinScorer, Match
-from stringmatch.scorer import BaseScorer
+from stringmatch import BaseScorer, JaroWinklerScorer, LevenshteinScorer, Match
 
 
 def main():

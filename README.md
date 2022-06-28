@@ -341,8 +341,7 @@ If you are unhappy with the scoring algorithms provided, you can of course const
 ```python
 # Example:
 
-from stringmatch import Match
-from stringmatch.scorer import BaseScorer
+from stringmatch import BaseScorer, Match
 
 class MyOwnScorer(BaseScorer):
     def score(self, string1: str, string2: str) -> float:
