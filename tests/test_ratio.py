@@ -17,6 +17,7 @@ def test_ratio():
     # for the explanation: the skintone emojis are the yellow emojis + a tone modifier
     assert Ratio().ratio("👍", "👍🏻") == 67
     assert Ratio().ratio("", "f") == 0
+    assert Ratio().ratio(1, "what?") == 0  # type: ignore
 
     assert Ratio(latinise=True).ratio("ジャパニーズ", "ziyapanizu") == 100
 
@@ -71,6 +72,7 @@ def test_partial_ratio():
     assert Ratio().partial_ratio("this", "this is a test") == 75
     assert Ratio().partial_ratio("this is a test", "this this this") == 71
     assert Ratio().partial_ratio("", "what?") == 0
+    assert Ratio().partial_ratio(1, "what?") == 0  # type: ignore
     assert Ratio().partial_ratio("d", "dabuz") == 85
     assert Ratio().partial_ratio("a", "dabuz") == 33
     assert Ratio().partial_ratio("ab", "dabuz") == 95

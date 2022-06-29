@@ -37,7 +37,7 @@ This library **matches compares and strings to each other** based mainly on, amo
 What makes stringmatch special compared to other libraries with similar functions:
 
 - 💨 Lightweight, straightforward and easy to use
-- ⚡ Very high speed, 2-10x faster while providing better search results
+- ⚡ Very high speed, 5-10x faster while providing better search results
 - 🧰 Allows for highly customisable searches
 - 📚 Lots of utility functions to make your life easier
 - 🌍 Handles special unicode characters, like emojis or characters from other languages, like ジャパニーズ

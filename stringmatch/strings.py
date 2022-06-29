@@ -51,8 +51,11 @@ class Strings:
         str
             The string with non-latin letters removed.
         """
-        alphabet = "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
-        return "".join(c for c in string if c in alphabet)
+        return "".join(
+            c
+            for c in string
+            if c in "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+        )
 
     def ignore_case(self, string: str, lower: bool = True) -> str:
         """Removes case from a string.

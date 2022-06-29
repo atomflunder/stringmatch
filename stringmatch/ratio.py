@@ -83,19 +83,19 @@ class Ratio:
         int
             The score between 0 and 100.
         """
-        # if you happen to pass in a non-string we will just return 0 instead of raising an error
-        # could happen if you have an incredibly large list of strings and something sneaks in i guess
+        if self.include_partial:
+            return self.partial_ratio(string1, string2)
+
+        # If you happen to pass in a non-string we will just return 0 instead of raising an error.
+        # Could happen if you have an incredibly large list of strings and something sneaks in i guess.
         if not all(isinstance(s, str) for s in [string1, string2]):
             return 0
 
         string1, string2 = self._prepare_strings(string1, string2)
 
-        # if either string is empty after modifying we wanna return 0
+        # If either string is empty after modifying we also wanna return 0.
         if not string1 or not string2:
             return 0
-
-        if self.include_partial:
-            return self.partial_ratio(string1, string2)
 
         return round(self.scorer().score(string1, string2) * 100)
 
@@ -132,59 +132,66 @@ class Ratio:
         int
             The score between 0 and 100.
         """
+        if not all(isinstance(s, str) for s in [string1, string2]):
+            return 0
+
         string1, string2 = self._prepare_strings(string1, string2)
 
         if not string1 or not string2:
             return 0
-
-        scores = []
 
         if len(string1) >= len(string2):
             longer_string, shorter_string = string1, string2
         else:
             longer_string, shorter_string = string2, string1
 
-        def partialise_score(long_string: str, short_string: str, score: int):
-            """If the two strings are really far away in length, we adjust the similarity score."""
-            if len(long_string) - len(short_string) >= 20:
-                # The default score threshold is 70,
-                # so this would not show up by default.
-                return round(score * 0.65)
-            if len(long_string) - len(short_string) >= 10:
-                return round(score * 0.75)
-            if len(long_string) - len(short_string) >= 4:
-                return round(score * 0.85)
-            if len(long_string) - len(short_string) >= 1:
-                # we dont really want it to return 100, except when its actually identical
-                return round(score * 0.95)
-            return score
+        blocks = [
+            b
+            for b in Levenshtein.matching_blocks(
+                Levenshtein.editops(longer_string, shorter_string),
+                longer_string,
+                shorter_string,
+            )
+            # Doesn't make too much sense to me to match substrings with a length of 1,
+            # except when they are at the start of a string, so we filter those out.
+            if (b[2] > 1 or (b[2] == 1 and b[0] == 0))
+        ]
 
-        editops = Levenshtein.editops(longer_string, shorter_string)
+        # Gets the correct multiplier for the partial ratio.
+        # The longer the strings are apart in length, the smaller the multiplier.
+        diff = len(longer_string) - len(shorter_string)
 
-        blocks = Levenshtein.matching_blocks(editops, longer_string, shorter_string)
+        if diff >= 20:
+            # Since the default cutoff score is 70, this would not show up on default settings.
+            multiplier = 0.65
+        elif diff >= 10:
+            multiplier = 0.75
+        elif diff >= 4:
+            multiplier = 0.85
+        elif diff >= 1:
+            # We want to reserve a score of 100 for perfect matches.
+            multiplier = 0.95
+        else:
+            multiplier = 1
+
+        scores = []
 
         for block in blocks:
-            # doesnt make too much sense to me to match substrings with a length of 1
-            # except when they are at the start of a string.
-            if block[2] > 1 or (block[2] == 1 and block[0] == 0):
-                longer_string_start = max((block[0] - block[1]), 0)
-                longer_string_end = longer_string_start + len(shorter_string)
-                longer_string_substring = longer_string[
-                    longer_string_start:longer_string_end
-                ]
+            start = max((block[0] - block[1]), 0)
+            substring = longer_string[start : start + len(shorter_string)]
 
-                scores.append(
-                    partialise_score(
-                        longer_string,
+            scores.append(
+                round(
+                    self.scorer().score(
+                        substring,
                         shorter_string,
-                        round(
-                            self.scorer().score(longer_string_substring, shorter_string)
-                            * 100
-                        ),
                     )
-                )
+                    * 100
+                    * multiplier
+                ),
+            )
 
-        # also gets the "normal score" for both starting strings,
+        # Also gets the "normal score" for both starting strings,
         # and returns whichever one is higher.
         scores.append(round(self.scorer().score(string1, string2) * 100))
 

@@ -2,6 +2,11 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.11.1 - 2022-06-29
+
+- Improved performance further (more than 2x improvement)
+- partial_ratio now returns 0 instead of an error when a non-string is present
+
 ## v0.11.0 - 2022-06-28
 
 - Renamed _Scorer class to BaseScorer

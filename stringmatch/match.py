@@ -149,13 +149,11 @@ class Match:
             "include_partial": self.include_partial,
         }
 
+        ratio = Ratio(**kwargs)
+
         matches = sorted(
-            [
-                (s, Ratio(**kwargs).ratio(string, s))
-                for s in string_list
-                # We only add it to the list if it is above the cutoff score.
-                if Ratio(**kwargs).ratio(string, s) >= score
-            ],
+            # We only add the entry to the list if the ratio is above the cutoff score.
+            [(s, r) for s in string_list if (r := ratio.ratio(string, s)) >= score],
             key=lambda x: (
                 # We first sort the list by the score.
                 x[1],
@@ -257,13 +255,11 @@ class Match:
         if limit is not None and limit < 1:
             limit = None
 
+        ratio = Ratio(**kwargs)
+
         # This is the same sorting as in the get_best_match_with_ratio function.
-        matches = sorted(
-            [
-                (s, Ratio(**kwargs).ratio(string, s))
-                for s in string_list
-                if Ratio(**kwargs).ratio(string, s) >= score
-            ],
+        return sorted(
+            [(s, r) for s in string_list if (r := ratio.ratio(string, s)) >= score],
             key=lambda x: (
                 x[1],
                 -abs(
@@ -274,6 +270,4 @@ class Match:
                 len(x[0]) if isinstance(x[0], str) else float("-inf"),
             ),
             reverse=True,
-        )
-
-        return matches[:limit]
+        )[:limit]

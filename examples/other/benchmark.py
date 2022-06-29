@@ -79,9 +79,8 @@ def main():
     #   ('These should be enough right?', 45)
     # ]
 
-    # And then the times:
-    # stringmatch time: 14.20s
-    # thefuzz time: 39.533s
+    # stringmatch time: 6.234s
+    # thefuzz time: 37.602s
 
 
 if __name__ == "__main__":
