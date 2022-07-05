@@ -1,10 +1,25 @@
-# flake8: noqa
-from .args import *
-from .distance import *
-from .match import *
-from .ratio import *
-from .scorer import *
-from .strings import *
+from stringmatch.args import RatioKwargs
+from stringmatch.distance import Distance
+from stringmatch.match import Match
+from stringmatch.ratio import Ratio
+from stringmatch.scorer import (
+    BaseScorer,
+    JaroScorer,
+    JaroWinklerScorer,
+    LevenshteinScorer,
+)
+from stringmatch.strings import Strings
 
 __title__ = "stringmatch"
-__version__ = "0.11.1"
+__version__ = "0.12.0"
+__all__ = (
+    "RatioKwargs",
+    "Distance",
+    "Match",
+    "Ratio",
+    "BaseScorer",
+    "JaroScorer",
+    "JaroWinklerScorer",
+    "LevenshteinScorer",
+    "Strings",
+)

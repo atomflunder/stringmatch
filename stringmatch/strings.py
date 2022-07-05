@@ -1,4 +1,4 @@
-from unidecode import unidecode
+from unidecode import unidecode  # type: ignore
 
 
 class Strings:

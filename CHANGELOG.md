@@ -2,6 +2,14 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.12.0 - 2022-??-??
+
+- Using mypyc to compile (again)
+    - Various smaller changes to accomodate mypyc
+    - Roughly doubles speed of library
+- Holding rapidfuzz to 2.0.15 for now, 2.1.0 and above will break the library.
+    - This is because editops are not implemented (yet), hopefully this will change soon.
+
 ## v0.11.1 - 2022-06-29
 
 - Improved performance further (more than 2x improvement)

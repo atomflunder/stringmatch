@@ -163,16 +163,16 @@ class Ratio:
 
         if diff >= 20:
             # Since the default cutoff score is 70, this would not show up on default settings.
-            multiplier = 0.65
+            multiplier = 65
         elif diff >= 10:
-            multiplier = 0.75
+            multiplier = 75
         elif diff >= 4:
-            multiplier = 0.85
+            multiplier = 85
         elif diff >= 1:
             # We want to reserve a score of 100 for perfect matches.
-            multiplier = 0.95
+            multiplier = 95
         else:
-            multiplier = 1
+            multiplier = 100
 
         scores = []
 
@@ -186,7 +186,6 @@ class Ratio:
                         substring,
                         shorter_string,
                     )
-                    * 100
                     * multiplier
                 ),
             )

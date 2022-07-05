@@ -79,8 +79,14 @@ def main():
     #   ('These should be enough right?', 45)
     # ]
 
-    # stringmatch time: 6.234s
+    # stringmatch time: 3.655s
     # thefuzz time: 37.602s
+
+    # To demonstrate the result on lower-end hardware,
+    # here are the times on my Raspberry Pi 3B+:
+
+    # stringmatch time: 39.915s
+    # thefuzz time: 413.555s
 
 
 if __name__ == "__main__":

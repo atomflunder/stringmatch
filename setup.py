@@ -1,3 +1,6 @@
+import os
+
+from mypyc.build import mypycify
 from setuptools import find_packages, setup
 
 version = ""
@@ -6,25 +9,31 @@ with open("stringmatch/__init__.py", encoding="utf-8") as f:
         if line.startswith("__version__"):
             version = line.split("=")[1].strip().strip('"')
 
-required_packages = []
-with open("requirements.txt", "r", encoding="utf-8") as f:
-    required_packages = f.read().splitlines()
+required_packages = ["rapidfuzz==2.0.15", "levenshtein==0.18.1", "unidecode==1.3.4"]
 
 readme = ""
 with open("README.md", "r", encoding="utf-8") as f:
     readme = f.read()
+
+all_files = [
+    f"stringmatch/{file}"
+    for file in os.listdir("./stringmatch")
+    if file.endswith(".py")
+]
 
 setup(
     name="stringmatch",
     author="atomflunder",
     author_email="80397293+atomflunder@users.noreply.github.com",
     url="https://github.com/atomflunder/stringmatch",
+    keywords="stringmatch string match fuzzy matching",
     license="MIT",
     description="A library to match and compare strings.",
     long_description=readme,
     long_description_content_type="text/markdown",
     packages=find_packages(),
     package_data={"stringmatch": ["py.typed"]},
+    ext_modules=mypycify(all_files),  # type: ignore
     version=version,
     install_requires=required_packages,
     python_requires=">=3.9",
