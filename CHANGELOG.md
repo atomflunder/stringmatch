@@ -2,6 +2,10 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.12.2 - 2022-07-05
+
+- Bumped Version to make installation process easier
+
 ## v0.12.1 - 2022-07-05
 
 - Fixed Custom Scorers being broken accidentally
