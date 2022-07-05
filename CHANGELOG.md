@@ -2,6 +2,10 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.12.3 - 2022-07-05
+
+- Added mypy to the required packages, fixed installation
+
 ## v0.12.2 - 2022-07-05
 
 - Bumped Version to make installation process easier

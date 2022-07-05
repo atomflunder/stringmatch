@@ -46,8 +46,7 @@ What makes stringmatch special compared to other libraries with similar function
 ## Requirements
 
 - Python 3.9 or later.
-- [Levenshtein](https://github.com/maxbachmann/Levenshtein), [Unidecode](https://github.com/avian2/unidecode) and their dependencies (pip will usually handle these for you).
-- [Mypy](https://github.com/python/mypy) (Development only).
+- The packages described in [`requirements.txt`](/requirements.txt), pip will usually handle these for you.
 
 ## Installation
 
@@ -365,7 +364,7 @@ Thanks in advance for taking the time to do so.
 
 Packages used:
 
-- [mypyc](https://github.com/mypyc/mypyc)
+- [Mypy](https://github.com/python/mypy) ([Mypyc](https://github.com/mypyc/mypyc))
 - [Levenshtein](https://github.com/maxbachmann/Levenshtein)
 - [Unidecode](https://github.com/avian2/unidecode)
 
