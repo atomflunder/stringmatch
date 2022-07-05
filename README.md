@@ -46,6 +46,7 @@ What makes stringmatch special compared to other libraries with similar function
 ## Requirements
 
 - Python 3.9 or later.
+- [Levenshtein](https://github.com/maxbachmann/Levenshtein), [Unidecode](https://github.com/avian2/unidecode) and their dependencies (pip will usually handle these for you).
 - [Mypy](https://github.com/python/mypy) (Development only).
 
 ## Installation
@@ -53,7 +54,7 @@ What makes stringmatch special compared to other libraries with similar function
 Install the latest stable version with pip:
 
 ```
-pip install stringmatch
+pip install -U stringmatch
 ```
 
 Or install the newest version via git (Might be unstable or unfinished):
@@ -371,6 +372,7 @@ Packages used:
 Related packages:
 
 - [thefuzz](https://github.com/seatgeek/thefuzz)
+- [RapidFuzz](https://github.com/maxbachmann/RapidFuzz)
 
 ## License
 
