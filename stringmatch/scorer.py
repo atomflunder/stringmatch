@@ -1,6 +1,8 @@
 import Levenshtein  # type: ignore
+from mypy_extensions import mypyc_attr
 
 
+@mypyc_attr(allow_interpreted_subclasses=True)
 class BaseScorer:
     """The base scorer class, for inheriting the other scorers."""
 

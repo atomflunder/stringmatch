@@ -2,7 +2,11 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
-## v0.12.0 - 2022-??-??
+## v0.12.1 - 2022-07-05
+
+- Fixed Custom Scorers being broken accidentally
+
+## v0.12.0 - 2022-07-04
 
 - Using mypyc to compile (again)
     - Various smaller changes to accomodate mypyc
