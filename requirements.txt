@@ -1,4 +1,3 @@
-rapidfuzz==2.0.15 # Do NOT upgrade for now, 2.1.0+ breaks the library.
 levenshtein==0.18.2
 unidecode==1.3.4
 mypy==0.961

@@ -2,6 +2,11 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.12.4 - 2022-07-06
+
+- Removed the specific rapidfuzz version from the list of installed packages
+    - The error encountered earlier seemed to have gone away
+
 ## v0.12.3 - 2022-07-05
 
 - Added mypy to the required packages, fixed installation
