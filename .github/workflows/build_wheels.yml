@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build_wheels:
-    name: Build wheels on ${{ matrix.os }}
+    name: Build wheels on ${{ matrix.os }} for ${{ matrix.arch }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -23,8 +23,8 @@ jobs:
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.8.0
-        # env:
-        #   CIBW_SOME_OPTION: value
+        env:
+          CIBW_ARCHS_LINUX: ${{ matrix.arch }}
         #    ...
         # with:
         #   package-dir: .
