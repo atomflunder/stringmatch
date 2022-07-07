@@ -1,11 +1,23 @@
+# Virtual environment
 /venv/
+
+# Pytest stuff
 /.pytest_cache/
-/.vscode/
+*.coverage
+coverage.*
+
+# Pycache
 */__pycache__/
+
+# VSCode stuff
+/.vscode/
+
+# Mypy stuff
+/.mypy_cache/
+
+# Build stuff
 /build/
 /dist/
 /*.egg-info/
-*.coverage
-coverage.*
 /*.eggs/
-/.mypy_cache/
+/wheelhouse/

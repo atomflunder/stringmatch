@@ -3,7 +3,7 @@ name: Build
 on: [push, pull_request]
 
 jobs:
-  build:
+  build_sdist:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -19,4 +19,4 @@ jobs:
           pip install -U -r requirements.txt
       - name: Build distributions
         run: |
-          python ./setup.py sdist bdist_wheel
+          python ./setup.py sdist

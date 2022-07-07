@@ -7,3 +7,6 @@ line_length=88
 
 [tool.isort]
 profile="black"
+
+[tool.cibuildwheel]
+skip="pp*"
