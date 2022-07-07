@@ -37,7 +37,7 @@ This library **matches compares and strings to each other** based mainly on, amo
 What makes stringmatch special compared to other libraries with similar functions:
 
 - 💨 Lightweight, straightforward and easy to use
-- ⚡ High speed - at least ~10x faster than fuzzywuzzy and up to 50x
+- ⚡ High speed - at least ~10x faster than thefuzz and up to 50x
 - 🧰 Allows for highly customisable searches, that yield better results
 - 📚 Lots of utility functions to make your life easier
 - 📝 Statically typed, using mypy
