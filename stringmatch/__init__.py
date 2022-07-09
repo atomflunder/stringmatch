@@ -1,4 +1,3 @@
-from stringmatch.args import RatioKwargs
 from stringmatch.distance import Distance
 from stringmatch.match import Match
 from stringmatch.ratio import Ratio
@@ -11,9 +10,8 @@ from stringmatch.scorer import (
 from stringmatch.strings import Strings
 
 __title__ = "stringmatch"
-__version__ = "0.12.4"
+__version__ = "0.12.5"
 __all__ = (
-    "RatioKwargs",
     "Distance",
     "Match",
     "Ratio",

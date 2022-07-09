@@ -1,0 +1,68 @@
+site_name: stringmatch Documentation
+repo_url: https://github.com/atomflunder/stringmatch
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.expand
+    - search.highlight
+    - search.share
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: black
+      accent: teal
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+
+nav:
+  - Intro::
+    - Introduction: "index.md"
+    - Installation: "installation.md"
+    - Basic Usage: "basic_usage.md"
+  - Usage::
+    - Ratio: "usage/ratio.md"
+    - Match: "usage/match.md"
+    - Distance: "usage/distance.md"
+    - Strings: "usage/strings.md"
+    - Scorer: "usage/scorer.md"
+  - Advanced Usage::
+    - Keyword Arguments: "advanced_usage/kwargs.md"
+    - Partial Matches: "advanced_usage/partial_matches.md"
+    - Scoring Algorithms: "advanced_usage/scorer.md"
+    - Custom Scoring Algorithm: "advanced_usage/custom_scorer.md"
+  - More::
+    - Examples: "https://github.com/atomflunder/stringmatch/tree/master/examples"
+    - Changelog: "https://github.com/atomflunder/stringmatch/blob/master/CHANGELOG.md"
+    - Contributing: "https://github.com/atomflunder/stringmatch/blob/master/.github/CONTRIBUTING.md"
+
+plugins:
+- search
+- mkdocstrings:
+    handlers:
+      python:
+        options:
+          docstring_style: numpy
+          merge_init_into_class: True
+          show_signature_annotations: True
+
+
+markdown_extensions:
+    - toc:
+        permalink: '#'
+        baselevel: 2
+    - pymdownx.highlight:
+        anchor_linenums: true
+    - pymdownx.inlinehilite
+    - pymdownx.snippets
+    - pymdownx.superfences

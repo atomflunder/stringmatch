@@ -63,7 +63,9 @@ pip install -U git+https://github.com/atomflunder/stringmatch
 
 ## Basic Usage
 
-Below are some examples of how to use this library, if you need more, head over to the [`examples`](/examples/) directory.
+Below are some basic examples on how to use this library.  
+For a more detailed explanation head over to the Documentation.  
+For examples on how to use this library, head over to the [`examples` directory](/examples/).  
 
 ### Matching
 

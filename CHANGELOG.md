@@ -2,6 +2,14 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.12.5 - 2022-07-09
+
+- Removed Ratio Keyword Arguments Class
+    - Constructing the Ratio Class just manually now
+    - This should be a tiny bit faster, but not noticeable by any means
+- Adding docs
+- Added examples in docstrings
+
 ## v0.12.4 - 2022-07-06
 
 - Removed the specific rapidfuzz version from the list of installed packages

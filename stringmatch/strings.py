@@ -10,12 +10,17 @@ class Strings:
         Parameters
         ----------
         string : str
-            The string to remove special unicode characters from.
+            The string to transliterate special unicode characters into latin characters.
 
         Returns
         -------
         str
-            The string with special unicode characters removed.
+            The string with special unicode characters transliterated.
+
+        Examples
+        --------
+        >>> latinise("ピカチュウ")
+        'pikachiyuu'
         """
         return unidecode(string)
 
@@ -31,6 +36,11 @@ class Strings:
         -------
         str
             The string with punctuation removed.
+
+        Examples
+        --------
+        >>> remove_punctuation("...Hello!!!")
+        'Hello'
         """
         return "".join(
             c for c in string if c not in "!\"#'()*+,-./:;<=>?[]^_`{|}~’„“»«"
@@ -50,6 +60,11 @@ class Strings:
         -------
         str
             The string with non-latin letters removed.
+
+        Examples
+        --------
+        >>> alphanumeric("What? À special word!")
+        'What  special word'
         """
         return "".join(
             c
@@ -72,5 +87,12 @@ class Strings:
         -------
         str
             The string with case removed.
+
+        Examples
+        --------
+        >>> ignore_case("Hello there!")
+        'hello there!'
+        >>> ignore_case("Hello there!", lower=False)
+        'HELLO THERE!'
         """
         return string.lower() if lower else string.upper()

@@ -1,6 +1,5 @@
 from typing import Optional
 
-from stringmatch.args import RatioKwargs
 from stringmatch.ratio import Ratio
 from stringmatch.scorer import BaseScorer, LevenshteinScorer
 
@@ -17,10 +16,8 @@ class Match:
         remove_punctuation: bool = False,
         alphanumeric: bool = False,
         include_partial: bool = False,
-        **kwargs,
     ) -> None:
-        """Initialise the Match class with the correct scoring algorithm,
-        to be passed along to the Ratio class.
+        """Initialise the Match class with the given parameters.
 
         Parameters
         ----------
@@ -37,6 +34,15 @@ class Match:
             If the strings should only be compared by their latin letters, by default False.
         include_partial : bool, optional
             If partial substring matches should be included, by default False.
+
+        Returns
+        -------
+        Match
+            The Match class.
+
+        Examples
+        --------
+        >>> Match(latninise=True, scorer=JaroScorer, include_partial=True)
         """
         self.scorer = scorer
         self.latinise = latinise
@@ -61,6 +67,13 @@ class Match:
         -------
         bool
             If the strings are similar enough.
+
+        Examples
+        --------
+        >>> match("stringmatch", "strmatch")
+        True
+        >>> match("stringmatch", "something different")
+        False
         """
         return self.match_with_ratio(string1, string2, score=score)[0]
 
@@ -82,18 +95,22 @@ class Match:
         -------
         tuple[bool, int]
             If the strings are similar and their score.
-        """
-        kwargs: RatioKwargs = {
-            "scorer": self.scorer,
-            "score": score,
-            "latinise": self.latinise,
-            "ignore_case": self.ignore_case,
-            "remove_punctuation": self.remove_punctuation,
-            "alphanumeric": self.alphanumeric,
-            "include_partial": self.include_partial,
-        }
 
-        r = Ratio(**kwargs).ratio(string1, string2)
+        Examples
+        --------
+        >>> match_with_ratio("stringmatch", "strmatch")
+        (True, 84)
+        >>> match_with_ratio("stringmatch", "something different")
+        (False, 40)
+        """
+        r = Ratio(
+            scorer=self.scorer,
+            latinise=self.latinise,
+            ignore_case=self.ignore_case,
+            remove_punctuation=self.remove_punctuation,
+            alphanumeric=self.alphanumeric,
+            include_partial=self.include_partial,
+        ).ratio(string1, string2)
 
         return (r >= score, r)
 
@@ -115,6 +132,11 @@ class Match:
         -------
         Optional[str]
             The best string found, or None if no good match was found.
+
+        Examples
+        --------
+        >>> get_best_match("stringmatch", ["strmatch", "test", "something else"])
+        'strmatch'
         """
         match = self.get_best_match_with_ratio(string, string_list, score=score)
 
@@ -138,18 +160,20 @@ class Match:
         -------
         Optional[tuple[str, int]]
             The best string and its score found, or None if no good match was found.
-        """
-        kwargs: RatioKwargs = {
-            "scorer": self.scorer,
-            "score": score,
-            "latinise": self.latinise,
-            "remove_punctuation": self.remove_punctuation,
-            "ignore_case": self.ignore_case,
-            "alphanumeric": self.alphanumeric,
-            "include_partial": self.include_partial,
-        }
 
-        ratio = Ratio(**kwargs)
+        Examples
+        --------
+        >>> get_best_match_with_ratio("stringmatch", ["strmatch", "test", "something else"])
+        ('strmatch', 84)
+        """
+        ratio = Ratio(
+            scorer=self.scorer,
+            latinise=self.latinise,
+            remove_punctuation=self.remove_punctuation,
+            ignore_case=self.ignore_case,
+            alphanumeric=self.alphanumeric,
+            include_partial=self.include_partial,
+        )
 
         matches = sorted(
             # We only add the entry to the list if the ratio is above the cutoff score.
@@ -201,6 +225,11 @@ class Match:
         -------
         list[str]
             All of the matches found.
+
+        Examples
+        --------
+        >>> get_best_matches("stringmatch", ["strmatch", "stringmatch", "test", "something else"])
+        ['stringmatch', 'strmatch']
         """
         # We return every match found if the limit is 0 or less.
         if limit is not None and limit < 1:
@@ -240,22 +269,23 @@ class Match:
         -------
         list[tuple[str, int]]
             All of the matches found.
-        """
-        kwargs: RatioKwargs = {
-            "scorer": self.scorer,
-            "score": score,
-            "limit": limit,
-            "latinise": self.latinise,
-            "remove_punctuation": self.remove_punctuation,
-            "ignore_case": self.ignore_case,
-            "alphanumeric": self.alphanumeric,
-            "include_partial": self.include_partial,
-        }
 
+        Examples
+        --------
+        >>> get_best_matches_with_ratio("stringmatch", ["strmatch", "stringmatch", "test", "something else"])
+        [('stringmatch', 100), ('strmatch', 84)]
+        """
         if limit is not None and limit < 1:
             limit = None
 
-        ratio = Ratio(**kwargs)
+        ratio = Ratio(
+            scorer=self.scorer,
+            latinise=self.latinise,
+            remove_punctuation=self.remove_punctuation,
+            ignore_case=self.ignore_case,
+            alphanumeric=self.alphanumeric,
+            include_partial=self.include_partial,
+        )
 
         # This is the same sorting as in the get_best_match_with_ratio function.
         return sorted(

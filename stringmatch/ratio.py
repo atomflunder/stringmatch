@@ -16,10 +16,8 @@ class Ratio:
         remove_punctuation: bool = False,
         alphanumeric: bool = False,
         include_partial: bool = False,
-        **kwargs,
     ) -> None:
-        """Initialise the Match class with the correct scoring algorithm,
-        to be passed along to the Ratio class.
+        """Initialise the Ratio class with the correct parameters.
 
         Parameters
         ----------
@@ -36,6 +34,15 @@ class Ratio:
             If the strings should only be compared by their latin letters, by default False.
         include_partial : bool, optional
             If partial substring matches should be included, by default False.
+
+        Returns
+        -------
+        Ratio
+            The Ratio class.
+
+        Examples
+        --------
+        >>> Ratio(latninise=True, scorer=JaroScorer, include_partial=True)
         """
         self.scorer = scorer
         self.latinise = latinise
@@ -46,7 +53,24 @@ class Ratio:
 
     def _prepare_strings(self, string1: str, string2: str) -> tuple[str, str]:
         """Modifies the strings to be ready for comparison, according to the settings.
-        Only meant for internal usage.
+        Only meant for internal usage, but feel free to use it for something else.
+
+        Parameters
+        ----------
+        string1 : str
+            The first string to modify.
+        string2 : str
+            The second string to modify.
+
+        Returns
+        -------
+        tuple[str, str]
+            The two modified strings.
+
+        Examples
+        --------
+        >>> _prepare_strings("stringmatch", "StrMatch")
+        ('stringmatch', 'strmatch')
         """
         if self.latinise:
             string1, string2 = Strings().latinise(string1), Strings().latinise(string2)
@@ -82,6 +106,13 @@ class Ratio:
         -------
         int
             The score between 0 and 100.
+
+        Examples
+        --------
+        >>> ratio("stringmatch", "strmatch")
+        84
+        >>> ratio("stringmatch", "something completely different")
+        34
         """
         if self.include_partial:
             return self.partial_ratio(string1, string2)
@@ -113,6 +144,11 @@ class Ratio:
         -------
         list[int]
             The scores between 0 and 100.
+
+        Examples
+        --------
+        >>> ratio_list("stringmatch", ["strmatch", "something completely different"])
+        [84, 34]
         """
 
         return [self.ratio(string, s) for s in string_list]
@@ -131,6 +167,13 @@ class Ratio:
         -------
         int
             The score between 0 and 100.
+
+        Examples
+        --------
+        >>> partial_ratio("test", "This is a test!")
+        75
+        >>> partial_ratio("word", "The word is in a really, really long string that is pretty different.")
+        65
         """
         if not all(isinstance(s, str) for s in [string1, string2]):
             return 0

@@ -1,0 +1,3 @@
+# Scorer classes
+
+::: stringmatch.scorer

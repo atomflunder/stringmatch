@@ -20,6 +20,13 @@ class Distance:
         -------
         Optional[int]
             The levenshtein distance between the two strings.
+
+        Examples
+        --------
+        >>> distance("stringmatch", "strmatch")
+        3
+        >>> distance("stringmatch", "something different")
+        14
         """
         return Levenshtein.distance(string1, string2) if string1 and string2 else None
 
@@ -37,5 +44,10 @@ class Distance:
         -------
         list[Optional[int]]
             The levenshtein distances between the two strings.
+
+        Examples
+        --------
+        >>> distance_list("stringmatch", ["strmatch", "something different"])
+        [3, 14]
         """
         return [self.distance(string, s) for s in string_list]
