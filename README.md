@@ -4,6 +4,7 @@
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/stringmatch)](https://pypi.org/project/stringmatch/)
 [![Downloads](https://pepy.tech/badge/stringmatch)](https://pepy.tech/project/stringmatch)
 [![PyPI - Wheel](https://img.shields.io/pypi/wheel/stringmatch)](https://pypi.org/project/stringmatch/)
+[![Documentation Status](https://readthedocs.org/projects/stringmatch/badge/?version=latest)](https://stringmatch.readthedocs.io/en/latest/?badge=latest)
 [![codecov](https://codecov.io/gh/atomflunder/stringmatch/branch/master/graph/badge.svg?token=7JIAENN2BZ)](https://codecov.io/gh/atomflunder/stringmatch)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
@@ -64,7 +65,7 @@ pip install -U git+https://github.com/atomflunder/stringmatch
 ## Basic Usage
 
 Below are some basic examples on how to use this library.  
-For a more detailed explanation head over to the Documentation.  
+For a more detailed explanation head over to [the Documentation](https://stringmatch.readthedocs.io/en/latest/).  
 For examples on how to use this library, head over to the [`examples` directory](/examples/).  
 
 ### Matching
