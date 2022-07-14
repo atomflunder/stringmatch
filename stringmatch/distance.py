@@ -1,6 +1,6 @@
 from typing import Optional
 
-import Levenshtein  # type: ignore
+import Levenshtein
 
 
 class Distance:

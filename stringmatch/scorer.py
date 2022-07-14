@@ -1,4 +1,4 @@
-import Levenshtein  # type: ignore
+import Levenshtein
 from mypy_extensions import mypyc_attr
 
 

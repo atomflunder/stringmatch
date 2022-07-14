@@ -1,4 +1,4 @@
-import Levenshtein  # type: ignore
+import Levenshtein
 
 from stringmatch.scorer import BaseScorer, LevenshteinScorer
 from stringmatch.strings import Strings
