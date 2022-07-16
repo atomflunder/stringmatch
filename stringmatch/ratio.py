@@ -44,12 +44,12 @@ class Ratio:
         --------
         >>> Ratio(latninise=True, scorer=JaroScorer, include_partial=True)
         """
-        self.scorer = scorer
-        self.latinise = latinise
-        self.ignore_case = ignore_case
-        self.remove_punctuation = remove_punctuation
-        self.alphanumeric = alphanumeric
-        self.include_partial = include_partial
+        self.scorer: type[BaseScorer] = scorer
+        self.latinise: bool = latinise
+        self.ignore_case: bool = ignore_case
+        self.remove_punctuation: bool = remove_punctuation
+        self.alphanumeric: bool = alphanumeric
+        self.include_partial: bool = include_partial
 
     def _prepare_strings(self, string1: str, string2: str) -> tuple[str, str]:
         """Modifies the strings to be ready for comparison, according to the settings.
@@ -188,7 +188,7 @@ class Ratio:
         else:
             longer_string, shorter_string = string2, string1
 
-        blocks = [
+        blocks: list[tuple[int, int, int]] = [
             b
             for b in Levenshtein.matching_blocks(
                 Levenshtein.editops(longer_string, shorter_string),
@@ -202,7 +202,9 @@ class Ratio:
 
         # Gets the correct multiplier for the partial ratio.
         # The longer the strings are apart in length, the smaller the multiplier.
-        diff = len(longer_string) - len(shorter_string)
+        diff: int = len(longer_string) - len(shorter_string)
+
+        multiplier: int = 100
 
         if diff >= 20:
             # Since the default cutoff score is 70, this would not show up on default settings.
@@ -214,14 +216,12 @@ class Ratio:
         elif diff >= 1:
             # We want to reserve a score of 100 for perfect matches.
             multiplier = 95
-        else:
-            multiplier = 100
 
-        scores = []
+        scores: list[int] = []
 
         for block in blocks:
-            start = max((block[0] - block[1]), 0)
-            substring = longer_string[start : start + len(shorter_string)]
+            start: int = max((block[0] - block[1]), 0)
+            substring: str = longer_string[start : start + len(shorter_string)]
 
             scores.append(
                 round(

@@ -44,12 +44,12 @@ class Match:
         --------
         >>> Match(latninise=True, scorer=JaroScorer, include_partial=True)
         """
-        self.scorer = scorer
-        self.latinise = latinise
-        self.ignore_case = ignore_case
-        self.remove_punctuation = remove_punctuation
-        self.alphanumeric = alphanumeric
-        self.include_partial = include_partial
+        self.scorer: type[BaseScorer] = scorer
+        self.latinise: bool = latinise
+        self.ignore_case: bool = ignore_case
+        self.remove_punctuation: bool = remove_punctuation
+        self.alphanumeric: bool = alphanumeric
+        self.include_partial: bool = include_partial
 
     def match(self, string1: str, string2: str, *, score: int = 70) -> bool:
         """Matches two strings, returns True if they are similar enough.
@@ -103,7 +103,7 @@ class Match:
         >>> match_with_ratio("stringmatch", "something different")
         (False, 40)
         """
-        r = Ratio(
+        r: int = Ratio(
             scorer=self.scorer,
             latinise=self.latinise,
             ignore_case=self.ignore_case,
@@ -138,7 +138,9 @@ class Match:
         >>> get_best_match("stringmatch", ["strmatch", "test", "something else"])
         'strmatch'
         """
-        match = self.get_best_match_with_ratio(string, string_list, score=score)
+        match: Optional[tuple[str, int]] = self.get_best_match_with_ratio(
+            string, string_list, score=score
+        )
 
         return match[0] if match else None
 
@@ -166,7 +168,7 @@ class Match:
         >>> get_best_match_with_ratio("stringmatch", ["strmatch", "test", "something else"])
         ('strmatch', 84)
         """
-        ratio = Ratio(
+        ratio: Ratio = Ratio(
             scorer=self.scorer,
             latinise=self.latinise,
             remove_punctuation=self.remove_punctuation,
@@ -175,7 +177,7 @@ class Match:
             include_partial=self.include_partial,
         )
 
-        matches = sorted(
+        matches: list[tuple[str, int]] = sorted(
             # We only add the entry to the list if the ratio is above the cutoff score.
             [(s, r) for s in string_list if (r := ratio.ratio(string, s)) >= score],
             key=lambda x: (
@@ -278,7 +280,7 @@ class Match:
         if limit is not None and limit < 1:
             limit = None
 
-        ratio = Ratio(
+        ratio: Ratio = Ratio(
             scorer=self.scorer,
             latinise=self.latinise,
             remove_punctuation=self.remove_punctuation,
