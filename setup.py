@@ -21,6 +21,9 @@ all_files = [
     if file.endswith(".py")
 ]
 
+# We can append mypy flags to the list of files.
+all_files.append("--ignore-missing-imports")
+
 setup(
     name="stringmatch",
     author="atomflunder",
