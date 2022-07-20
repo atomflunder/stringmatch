@@ -9,4 +9,4 @@ line_length=88
 profile="black"
 
 [tool.cibuildwheel]
-skip=["pp*", "*musllinux_*"]
+skip="pp*"
