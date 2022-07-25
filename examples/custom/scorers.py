@@ -15,11 +15,11 @@ def main():
 
     # This initialises the Match class with a custom scorer.
     # You first have to create a class that inherits from BaseScorer, with a score method.
-    # The score method takes two strings and returns a float between 0 and 1.
+    # The score method takes two strings and returns a float between 0 and 100.
     class MyOwnScorer(BaseScorer):
         def score(self, a: str, b: str) -> float:
             # You should probably actually do some calculations here.
-            return 0.5
+            return 50
 
     my_scorer = Match(scorer=MyOwnScorer)
 

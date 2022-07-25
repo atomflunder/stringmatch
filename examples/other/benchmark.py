@@ -79,7 +79,7 @@ def main():
     #   ('These should be enough right?', 45)
     # ]
 
-    # stringmatch time: 3.405s
+    # stringmatch time: 2.881s
     # thefuzz time: 37.602s
 
     # To demonstrate the result on lower-end hardware,

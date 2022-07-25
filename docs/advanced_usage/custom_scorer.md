@@ -1,7 +1,7 @@
 # Custom Scorer Classes
 
 If you are not satisfied with the included scoring algorithms, you can use the [BaseScorer](../usage/scorer.md) class to construct your own Scorer.  
-Simply create a class inheriting the [BaseScorer](../usage/scorer.md) class with a function named `score()` which takes 2 strings as arguments and returns a float between 0 and 1.
+Simply create a class inheriting the [BaseScorer](../usage/scorer.md) class with a function named `score()` which takes 2 strings as arguments and returns a float between 0 and 100.
 
 Example:
 
@@ -11,7 +11,7 @@ from stringmatch import BaseScorer, Match
 class MyOwnScorer(BaseScorer):
     def score(self, string1: str, string2: str) -> float:
         # Highly advanced technology
-        return 1
+        return 100
 
 # Using the custom scorer:
 my_matcher = Match(scorer=MyOwnScorer)
@@ -27,7 +27,7 @@ from fastDamerauLevenshtein import damerauLevenshtein
 
 class DamerauScorer(BaseScorer):
     def score(self, string1: str, string2: str) -> float:
-        return damerauLevenshtein(string1, string2, similarity=True)
+        return damerauLevenshtein(string1, string2, similarity=True) * 100
 
 dl_match = Match(scorer=DamerauScorer)
 dl_match.match_with_ratio("stringmatch", "strmatch")     # returns (True, 73)

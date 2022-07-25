@@ -1,6 +1,6 @@
 from typing import Optional
 
-import Levenshtein
+from rapidfuzz.distance.Levenshtein import distance
 
 
 class Distance:
@@ -28,7 +28,7 @@ class Distance:
         >>> distance("stringmatch", "something different")
         14
         """
-        return Levenshtein.distance(string1, string2) if string1 and string2 else None
+        return distance(string1, string2) if string1 and string2 else None
 
     def distance_list(self, string: str, string_list: list[str]) -> list[Optional[int]]:
         """Returns the levenshtein distance for a string and a list of strings.

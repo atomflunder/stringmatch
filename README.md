@@ -9,7 +9,7 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 
-**stringmatch** is a small, lightweight string matching library written in Python, based on the [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) and the [Levenshtein Python C Extension](https://github.com/maxbachmann/Levenshtein).  
+**stringmatch** is a small, lightweight string matching library written in Python, based on the [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance).  
 Inspired by libraries like [seatgeek/thefuzz](https://github.com/seatgeek/thefuzz), which did not quite fit my needs. And so I am building this library for myself, primarily.
 
 **Disclaimer: This library is still in an alpha development phase!** Changes may be frequent and breaking changes can occur! It is recommended to update frequently to minimise bugs and maximise features.
@@ -38,10 +38,10 @@ This library **matches compares and strings to each other** based mainly on, amo
 What makes stringmatch special compared to other libraries with similar functions:
 
 - 💨 Lightweight, straightforward and easy to use
-- ⚡ High speed - at least ~10x faster than thefuzz and up to 50x
+- ⚡ High speed - at least ~12x faster than thefuzz and up to 70x
 - 🧰 Allows for highly customisable searches, that yield better results
 - 📚 Lots of utility functions to make your life easier
-- 📝 Statically typed, using mypy
+- 📝 Statically typed with mypy, compiled with mypyc
 - 🌍 Handles special unicode characters, like emojis or characters from other languages, like ジャパニーズ
 
 ## Requirements
@@ -341,7 +341,7 @@ def_match.match_with_ratio("A string", "A string thats like really really long",
 
 ### Your Own Scorer
 
-If you are unhappy with the scoring algorithms provided, you can of course construct your own scorer class. Make sure it inherits from `BaseScorer` and has a `score()` method that takes 2 strings and returns a float between 0 and 1.
+If you are unhappy with the scoring algorithms provided, you can of course construct your own scorer class. Make sure it inherits from `BaseScorer` and has a `score()` method that takes 2 strings and returns a float between 0 and 100.
 
 ```python
 # Example:
@@ -351,7 +351,7 @@ from stringmatch import BaseScorer, Match
 class MyOwnScorer(BaseScorer):
     def score(self, string1: str, string2: str) -> float:
         # Highly advanced technology
-        return 1
+        return 100
 
 my_matcher = Match(scorer=MyOwnScorer)
 my_matcher.match_with_ratio("anything", "whatever") # returns (True, 100)
@@ -368,13 +368,8 @@ Thanks in advance for taking the time to do so.
 Packages used:
 
 - [Mypy](https://github.com/python/mypy) ([Mypyc](https://github.com/mypyc/mypyc))
-- [Levenshtein](https://github.com/maxbachmann/Levenshtein)
-- [Unidecode](https://github.com/avian2/unidecode)
-
-Related packages:
-
-- [thefuzz](https://github.com/seatgeek/thefuzz)
 - [RapidFuzz](https://github.com/maxbachmann/RapidFuzz)
+- [Unidecode](https://github.com/avian2/unidecode)
 
 ## License
 

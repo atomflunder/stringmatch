@@ -2,6 +2,13 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.13.0 - 2022-07-25
+
+- Removed Levenshtein as a dependency and replaced it with RapidFuzz
+    - Under the hood Levenshtein was basically only calling RapidFuzz functions anyways, so we save ourselves the overhead
+    - As a result stringmatch is now a tiny bit faster
+- Custom Scorers now need to return a float between 0 and 100, instead of 0 and 1
+
 ## v0.12.5 - 2022-07-09
 
 - Removed Ratio Keyword Arguments Class

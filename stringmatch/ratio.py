@@ -1,4 +1,4 @@
-import Levenshtein
+from rapidfuzz.distance import Levenshtein, MatchingBlock
 
 from stringmatch.scorer import BaseScorer, LevenshteinScorer
 from stringmatch.strings import Strings
@@ -128,7 +128,7 @@ class Ratio:
         if not string1 or not string2:
             return 0
 
-        return round(self.scorer().score(string1, string2) * 100)
+        return round(self.scorer().score(string1, string2))
 
     def ratio_list(self, string: str, string_list: list[str]) -> list[int]:
         """Returns the similarity score between a string and a list of strings.
@@ -188,39 +188,37 @@ class Ratio:
         else:
             longer_string, shorter_string = string2, string1
 
-        blocks: list[tuple[int, int, int]] = [
-            b
-            for b in Levenshtein.matching_blocks(
-                Levenshtein.editops(longer_string, shorter_string),
-                longer_string,
-                shorter_string,
-            )
+        blocks: list[MatchingBlock] = [
+            block
+            for block in Levenshtein.editops(
+                longer_string, shorter_string
+            ).as_matching_blocks()
             # Doesn't make too much sense to me to match substrings with a length of 1,
             # except when they are at the start of a string, so we filter those out.
-            if (b[2] > 1 or (b[2] == 1 and b[0] == 0))
+            if (block.size > 1 or (block.size == 1 and block.a == 0))
         ]
 
         # Gets the correct multiplier for the partial ratio.
         # The longer the strings are apart in length, the smaller the multiplier.
         diff: int = len(longer_string) - len(shorter_string)
 
-        multiplier: int = 100
+        multiplier: float = 1.00
 
         if diff >= 20:
             # Since the default cutoff score is 70, this would not show up on default settings.
-            multiplier = 65
+            multiplier = 0.65
         elif diff >= 10:
-            multiplier = 75
+            multiplier = 0.75
         elif diff >= 4:
-            multiplier = 85
+            multiplier = 0.85
         elif diff >= 1:
             # We want to reserve a score of 100 for perfect matches.
-            multiplier = 95
+            multiplier = 0.95
 
         scores: list[int] = []
 
         for block in blocks:
-            start: int = max((block[0] - block[1]), 0)
+            start: int = max((block.a - block.b), 0)
             substring: str = longer_string[start : start + len(shorter_string)]
 
             scores.append(
@@ -235,6 +233,6 @@ class Ratio:
 
         # Also gets the "normal score" for both starting strings,
         # and returns whichever one is higher.
-        scores.append(round(self.scorer().score(string1, string2) * 100))
+        scores.append(round(self.scorer().score(string1, string2)))
 
         return max(scores, default=0)

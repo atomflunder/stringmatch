@@ -70,8 +70,8 @@ def test_match_with_ratio():
     )
 
     class MyOwnScorer(BaseScorer):
-        def score(self, string1: str, string2: str) -> float:
-            return 1
+        def score(self, string1: str, string2: str) -> int:
+            return 100
 
     assert Match(scorer=MyOwnScorer).match_with_ratio("anything", "whatever") == (
         True,

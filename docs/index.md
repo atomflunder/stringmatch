@@ -1,11 +1,10 @@
 # Home
 
-**stringmatch** is a small, lightweight string matching library written in Python, based on the [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance) and the [Levenshtein Python C Extension](https://github.com/maxbachmann/Levenshtein).  
-
+**stringmatch** is a small, lightweight string matching library written in Python, based on the [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance).  
 What makes stringmatch special compared to other libraries with similar functions:
 
 - 💨 Lightweight, straightforward and easy to use
-- ⚡ High speed - at least ~10x faster than thefuzz and up to 50x
+- ⚡ High speed - at least ~12x faster than thefuzz and up to 70x
 - 🧰 Allows for highly customisable searches, that yield better results
 - 📚 Lots of utility functions to make your life easier
 - 📝 Statically typed with mypy, compiled with mypyc
