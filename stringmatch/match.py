@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional, Tuple, Type
 
 from stringmatch.ratio import Ratio
 from stringmatch.scorer import BaseScorer, LevenshteinScorer
@@ -10,7 +10,7 @@ class Match:
     def __init__(
         self,
         *,
-        scorer: type[BaseScorer] = LevenshteinScorer,
+        scorer: Type[BaseScorer] = LevenshteinScorer,
         latinise: bool = False,
         ignore_case: bool = True,
         remove_punctuation: bool = False,
@@ -21,7 +21,7 @@ class Match:
 
         Parameters
         ----------
-        scorer : type[BaseScorer], optional
+        scorer : Type[BaseScorer], optional
             The scoring algorithm to use, by default LevenshteinScorer
             Available scorers: LevenshteinScorer, JaroScorer, JaroWinklerScorer.
         latinise : bool, optional
@@ -44,7 +44,7 @@ class Match:
         --------
         >>> Match(latninise=True, scorer=JaroScorer, include_partial=True)
         """
-        self.scorer: type[BaseScorer] = scorer
+        self.scorer: Type[BaseScorer] = scorer
         self.latinise: bool = latinise
         self.ignore_case: bool = ignore_case
         self.remove_punctuation: bool = remove_punctuation
@@ -79,7 +79,7 @@ class Match:
 
     def match_with_ratio(
         self, string1: str, string2: str, *, score: int = 70
-    ) -> tuple[bool, int]:
+    ) -> Tuple[bool, int]:
         """Same as match, but returns the boolean in a tuple, together with the score.
 
         Parameters
@@ -93,7 +93,7 @@ class Match:
 
         Returns
         -------
-        tuple[bool, int]
+        Tuple[bool, int]
             If the strings are similar and their score.
 
         Examples
@@ -115,7 +115,7 @@ class Match:
         return (r >= score, r)
 
     def get_best_match(
-        self, string: str, string_list: list[str], *, score: int = 70
+        self, string: str, string_list: List[str], *, score: int = 70
     ) -> Optional[str]:
         """Returns the best match from a list of strings.
 
@@ -123,8 +123,8 @@ class Match:
         ----------
         string : str
             The string to compare.
-        string_list : list[str]
-            The list of strings to compare to.
+        string_list : List[str]
+            The List of strings to compare to.
         score : int, optional
             The cutoff for the score, by default 70.
 
@@ -138,23 +138,23 @@ class Match:
         >>> get_best_match("stringmatch", ["strmatch", "test", "something else"])
         'strmatch'
         """
-        match: Optional[tuple[str, int]] = self.get_best_match_with_ratio(
+        match: Optional[Tuple[str, int]] = self.get_best_match_with_ratio(
             string, string_list, score=score
         )
 
         return match[0] if match else None
 
     def get_best_match_with_ratio(
-        self, string: str, string_list: list[str], *, score: int = 70
-    ) -> Optional[tuple[str, int]]:
+        self, string: str, string_list: List[str], *, score: int = 70
+    ) -> Optional[Tuple[str, int]]:
         """Same as get_best_match, but returns a tuple with the best match and its score.
 
         Parameters
         ----------
         string : str
             The string to compare.
-        string_list : list[str]
-            The list of strings to compare to.
+        string_list : List[str]
+            The List of strings to compare to.
         score : int, optional
             The cutoff for the score, by default 70.
 
@@ -177,7 +177,7 @@ class Match:
             include_partial=self.include_partial,
         )
 
-        matches: list[tuple[str, int]] = sorted(
+        matches: List[Tuple[str, int]] = sorted(
             # We only add the entry to the list if the ratio is above the cutoff score.
             [(s, r) for s in string_list if (r := ratio.ratio(string, s)) >= score],
             key=lambda x: (
@@ -201,11 +201,11 @@ class Match:
     def get_best_matches(
         self,
         string: str,
-        string_list: list[str],
+        string_list: List[str],
         *,
         score: int = 70,
         limit: Optional[int] = 5,
-    ) -> list[str]:
+    ) -> List[str]:
         """Matches a string to a list of strings, returns the strings found that are similar.
         If there are more than `limit` matches,
         only the `limit` best matches are returned, sorted by score.
@@ -215,8 +215,8 @@ class Match:
         ----------
         string : str
             The string to compare.
-        string_list : list[str]
-            The list of strings to compare to.
+        string_list : List[str]
+            The List of strings to compare to.
         score : int, optional
             The cutoff for the score, by default 70.
         limit : int, optional
@@ -225,7 +225,7 @@ class Match:
 
         Returns
         -------
-        list[str]
+        List[str]
             All of the matches found.
 
         Examples
@@ -248,19 +248,19 @@ class Match:
     def get_best_matches_with_ratio(
         self,
         string: str,
-        string_list: list[str],
+        string_list: List[str],
         *,
         score: int = 70,
         limit: Optional[int] = 5,
-    ) -> list[tuple[str, int]]:
+    ) -> List[Tuple[str, int]]:
         """Same as get_best_matches, but returns a list of tuples with the best matches and their score.
 
         Parameters
         ----------
         string : str
             The string to compare.
-        string_list : list[str]
-            The list of strings to compare to.
+        string_list : List[str]
+            The List of strings to compare to.
         score : int, optional
             The cutoff for the score, by default 70.
         limit : int, optional
@@ -269,7 +269,7 @@ class Match:
 
         Returns
         -------
-        list[tuple[str, int]]
+        List[tuple[str, int]]
             All of the matches found.
 
         Examples

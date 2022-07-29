@@ -2,6 +2,12 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.14.0 - 2022-07-29
+
+- Added support for Python 3.8
+    - Support for 3.7 and below is unlikely since we make some use of the walrus operator
+    - 3.6 and below are EoL anyways and 3.7 is due to follow in 2023
+
 ## v0.13.0 - 2022-07-25
 
 - Removed Levenshtein as a dependency and replaced it with RapidFuzz

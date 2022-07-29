@@ -10,7 +10,7 @@ from stringmatch.scorer import (
 from stringmatch.strings import Strings
 
 __title__ = "stringmatch"
-__version__ = "0.13.0"
+__version__ = "0.14.0"
 __all__ = (
     "Distance",
     "Match",

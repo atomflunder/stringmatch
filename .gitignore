@@ -21,3 +21,10 @@ coverage.*
 /*.egg-info/
 /*.eggs/
 /wheelhouse/
+
+# Tox stuff
+/.tox/
+
+# Bytecode stuff
+*.pyd
+*.so

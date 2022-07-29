@@ -10,3 +10,12 @@ profile="black"
 
 [tool.cibuildwheel]
 skip="pp*"
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist = py310, py39, py38
+
+[testenv]
+deps = pytest
+"""

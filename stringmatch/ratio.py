@@ -1,3 +1,5 @@
+from typing import List, Tuple, Type
+
 from rapidfuzz.distance import Levenshtein, MatchingBlock
 
 from stringmatch.scorer import BaseScorer, LevenshteinScorer
@@ -10,7 +12,7 @@ class Ratio:
     def __init__(
         self,
         *,
-        scorer: type[BaseScorer] = LevenshteinScorer,
+        scorer: Type[BaseScorer] = LevenshteinScorer,
         latinise: bool = False,
         ignore_case: bool = True,
         remove_punctuation: bool = False,
@@ -21,7 +23,7 @@ class Ratio:
 
         Parameters
         ----------
-        scorer : type[BaseScorer], optional
+        scorer : Type[BaseScorer], optional
             The scoring algorithm to use, by default LevenshteinScorer
             Available scorers: LevenshteinScorer, JaroScorer, JaroWinklerScorer.
         latinise : bool, optional
@@ -44,14 +46,14 @@ class Ratio:
         --------
         >>> Ratio(latninise=True, scorer=JaroScorer, include_partial=True)
         """
-        self.scorer: type[BaseScorer] = scorer
+        self.scorer: Type[BaseScorer] = scorer
         self.latinise: bool = latinise
         self.ignore_case: bool = ignore_case
         self.remove_punctuation: bool = remove_punctuation
         self.alphanumeric: bool = alphanumeric
         self.include_partial: bool = include_partial
 
-    def _prepare_strings(self, string1: str, string2: str) -> tuple[str, str]:
+    def _prepare_strings(self, string1: str, string2: str) -> Tuple[str, str]:
         """Modifies the strings to be ready for comparison, according to the settings.
         Only meant for internal usage, but feel free to use it for something else.
 
@@ -64,7 +66,7 @@ class Ratio:
 
         Returns
         -------
-        tuple[str, str]
+        Tuple[str, str]
             The two modified strings.
 
         Examples
@@ -130,19 +132,19 @@ class Ratio:
 
         return round(self.scorer().score(string1, string2))
 
-    def ratio_list(self, string: str, string_list: list[str]) -> list[int]:
+    def ratio_list(self, string: str, string_list: List[str]) -> List[int]:
         """Returns the similarity score between a string and a list of strings.
 
         Parameters
         ----------
         string : str
             The string to compare.
-        string_list : list[str]
+        string_list : List[str]
             The list of strings to compare to.
 
         Returns
         -------
-        list[int]
+        List[int]
             The scores between 0 and 100.
 
         Examples
@@ -188,7 +190,7 @@ class Ratio:
         else:
             longer_string, shorter_string = string2, string1
 
-        blocks: list[MatchingBlock] = [
+        blocks: List[MatchingBlock] = [
             block
             for block in Levenshtein.editops(
                 longer_string, shorter_string
@@ -215,7 +217,7 @@ class Ratio:
             # We want to reserve a score of 100 for perfect matches.
             multiplier = 0.95
 
-        scores: list[int] = []
+        scores: List[int] = []
 
         for block in blocks:
             start: int = max((block.a - block.b), 0)
