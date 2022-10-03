@@ -14,7 +14,7 @@ It will be reviewed as soon as possible.  -->
 A clear and concise description of what the feature would be.
 
 **Why do you want this feature to be added**:  
-Describe how this feature would be beneficial to the bot.
+Describe how this feature would be beneficial to the library.
 
 **Your preferred solution**:  
 A clear and concise description of what you want to happen.
