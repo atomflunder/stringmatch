@@ -9,7 +9,7 @@ with open("stringmatch/__init__.py", encoding="utf-8") as f:
         if line.startswith("__version__"):
             version = line.split("=")[1].strip().strip('"')
 
-required_packages = ["rapidfuzz==2.13.7", "unidecode==1.3.6", "mypy==1.0.0"]
+required_packages = ["rapidfuzz==2.13.7", "unidecode==1.3.6", "mypy==1.1.1"]
 
 readme = ""
 with open("README.md", "r", encoding="utf-8") as f:
