@@ -2,6 +2,10 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.14.2 - 2023-06-06
+
+- Upgrade to rapidfuzz Version 3.x
+
 ## v0.14.1 - 2022-10-12
 
 - Add Python 3.11 support
