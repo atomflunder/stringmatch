@@ -19,7 +19,7 @@ def test_ratio():
     assert Ratio().ratio("", "f") == 0
     assert Ratio().ratio(1, "what?") == 0  # type: ignore
 
-    assert Ratio(latinise=True).ratio("ジャパニーズ", "ziyapanizu") == 100
+    assert Ratio(latinise=True).ratio("ジャパニーズ", "ziyapani-zu") == 100
 
     assert Ratio(ignore_case=True).ratio("TESTbot test", "testbot") == 74
     assert Ratio(ignore_case=False).ratio("TESTbot test", "testbot") == 42
