@@ -24,7 +24,7 @@ jobs:
         run: |
           pytest -v --cov=stringmatch tests/ --cov-fail-under 100 --cov-report xml
       - name: Generate codecov report
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           files: ./coverage.xml
           verbose: true
