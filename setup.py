@@ -9,7 +9,7 @@ with open("stringmatch/__init__.py", encoding="utf-8") as f:
         if line.startswith("__version__"):
             version = line.split("=")[1].strip().strip('"')
 
-
+required_packages = []
 with open("requirements.txt", "r", encoding="utf-8") as f:
     required_packages = f.read().splitlines()
 
