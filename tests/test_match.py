@@ -246,7 +246,9 @@ def test_get_best_matches_with_ratio():
         "div", ["「diva」", "「div」"], score=0
     ) == [("「div」", 95), ("「diva」", 95)]
 
-    assert Match().get_best_matches_with_ratio("div", ["「diva」", "「div」"], score=0) == [
+    assert Match().get_best_matches_with_ratio(
+        "div", ["「diva」", "「div」"], score=0
+    ) == [
         ("「div」", 75),
         ("「diva」", 67),
     ]
