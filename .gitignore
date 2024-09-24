@@ -1,5 +1,6 @@
 # Virtual environment
 /venv/
+/.venv/
 
 # Pytest stuff
 /.pytest_cache/
