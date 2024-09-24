@@ -46,7 +46,7 @@ What makes stringmatch special compared to other libraries with similar function
 
 ## Requirements
 
-- Python 3.8 or later.
+- Python 3.9 or later.
 - The packages in [`requirements.txt`](/requirements.txt), pip will handle these for you.
 
 ## Installation

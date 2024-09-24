@@ -2,6 +2,11 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.14.4 - 2024-09-24
+
+- Dropped support for Python 3.8
+- Added support for Python 3.13
+
 ## v0.14.3 - 2023-10-02
 
 - Add Python 3.12 support
