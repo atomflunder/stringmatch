@@ -2,6 +2,10 @@
 
 This is a broad overview of the changes that have been made over the lifespan of this library.
 
+## v0.14.6 - 2024-12-28
+
+- Update wheels & workflows
+
 ## v0.14.5 - 2024-11-15
 
 - Added support for Python 3.13
