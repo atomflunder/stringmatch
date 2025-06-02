@@ -12,8 +12,6 @@
 **stringmatch** is a small, lightweight string matching library written in Python, based on the [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance).  
 Inspired by libraries like [seatgeek/thefuzz](https://github.com/seatgeek/thefuzz), which did not quite fit my needs. And so I am building this library for myself, primarily.
 
-**Disclaimer: This library is still in an alpha development phase!** Changes may be frequent and breaking changes can occur! It is recommended to update frequently to minimise bugs and maximise features.
-
 ## Table of Contents
 - [🎯 Key Features](#key-features)
 - [📋 Requirements](#requirements)
