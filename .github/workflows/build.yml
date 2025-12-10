@@ -24,7 +24,7 @@ jobs:
           image: tonistiigi/binfmt:qemu-v8.1.5
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.22.0
+        uses: pypa/cibuildwheel@v3.3.0
         env:
           CIBW_ARCHS_LINUX: ${{ matrix.arch }}
           CIBW_BEFORE_BUILD: "pip install -r ./requirements.txt"
