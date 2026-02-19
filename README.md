@@ -8,20 +8,20 @@
 [![codecov](https://codecov.io/gh/atomflunder/stringmatch/branch/master/graph/badge.svg?token=7JIAENN2BZ)](https://codecov.io/gh/atomflunder/stringmatch)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-
 **stringmatch** is a small, lightweight string matching library written in Python, based on the [Levenshtein distance](https://en.wikipedia.org/wiki/Levenshtein_distance), among other algorithms.  
 Inspired by libraries like [seatgeek/thefuzz](https://github.com/seatgeek/thefuzz), which did not quite fit my needs. This library offers improved usability, extensibility and performance.
 
 ## Table of Contents
+
 - [🎯 Key Features](#key-features)
 - [📋 Requirements](#requirements)
 - [⚙️ Installation](#installation)
 - [🔨 Basic Usage](#basic-usage)
-  - [Matching](#matching)
-  - [Ratios](#ratios)
-  - [Matching & Ratios](#matching--ratios)
-  - [Distances](#distances)
-  - [Strings](#strings)
+    - [Matching](#matching)
+    - [Ratios](#ratios)
+    - [Matching & Ratios](#matching--ratios)
+    - [Distances](#distances)
+    - [Strings](#strings)
 - [🛠️ Advanced Usage](#advanced-usage)
     - [Keyword Arguments](#keyword-arguments)
     - [Class Keyword Arguments](#class-keyword-arguments)
@@ -44,7 +44,7 @@ What makes stringmatch special compared to other libraries with similar function
 
 ## Requirements
 
-- Python 3.9 or later.
+- Python 3.10 or later.
 - The packages in [`requirements.txt`](/requirements.txt), pip will handle these for you.
 
 ## Installation
@@ -56,6 +56,7 @@ pip install -U stringmatch
 ```
 
 Or install the newest version via git (Might be unstable or unfinished):
+
 ```
 pip install -U git+https://github.com/atomflunder/stringmatch
 ```
@@ -64,7 +65,7 @@ pip install -U git+https://github.com/atomflunder/stringmatch
 
 Below are some basic examples on how to use this library.  
 For a more detailed explanation head over to [the Documentation](https://stringmatch.readthedocs.io/en/latest/).  
-For examples on how to use this library, head over to the [`examples` directory](/examples/).  
+For examples on how to use this library, head over to the [`examples` directory](/examples/).
 
 ### Matching
 
@@ -162,9 +163,9 @@ There are some **optional arguments** available for a few functions.
 
 ### `score`
 
-| Type  | Default | Description | Available for: |
-| ---   | ---     | ---         | ---            |
-| Integer | 70 | The score cutoff for matching. If the score is below the threshold it will not get returned. | All functions from the `Match()` class.
+| Type    | Default | Description                                                                                  | Available for:                          |
+| ------- | ------- | -------------------------------------------------------------------------------------------- | --------------------------------------- |
+| Integer | 70      | The score cutoff for matching. If the score is below the threshold it will not get returned. | All functions from the `Match()` class. |
 
 ```python
 # Example:
@@ -181,9 +182,9 @@ match.match("stringmatch", "strngmach", score=70)    # returns True
 
 ### `limit`
 
-| Type  | Default | Description | Available for: |
-| ---   | ---     | ---         | ---            |
-| Integer | 5 | The limit of how many matches to return. **If you want to return every match set this to 0 or None.** | `get_best_matches()`, `get_best_matches_with_ratio()`
+| Type    | Default | Description                                                                                           | Available for:                                        |
+| ------- | ------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| Integer | 5       | The limit of how many matches to return. **If you want to return every match set this to 0 or None.** | `get_best_matches()`, `get_best_matches_with_ratio()` |
 
 ```python
 # Example:
@@ -201,7 +202,7 @@ match.get_best_matches("limit 5", searches, limit=2)
 match.get_best_matches("limit 5", searches, limit=1)
 
 # returns ["limit 5", "limit 4", "limit 3", "limit 2", "limit 1", "limit 0"]
-match.get_best_matches("limit 5", searches, limit=None) 
+match.get_best_matches("limit 5", searches, limit=None)
 ```
 
 ---
@@ -209,13 +210,13 @@ match.get_best_matches("limit 5", searches, limit=None)
 ### Class Keyword Arguments
 
 You can also pass in on or more of these **optional arguments when initialising the `Match()` and `Ratio()`** classes to customize your search even further.  
-Of course you can use multiple of these keyword arguments at once, to customise the search to do exactly what you intend to do.  
+Of course you can use multiple of these keyword arguments at once, to customise the search to do exactly what you intend to do.
 
 ### `scorer`
 
-| Type  | Default | Description |
-| ---   | ---     | ---         |
-| BaseScorer | LevenshteinScorer | Different scoring algorithms to use. The available options are: [`LevenshteinScorer`](https://en.wikipedia.org/wiki/Levenshtein_distance), [`JaroScorer`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro_similarity), [`JaroWinklerScorer`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro–Winkler_similarity). 
+| Type       | Default           | Description                                                                                                                                                                                                                                                                                                                         |
+| ---------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| BaseScorer | LevenshteinScorer | Different scoring algorithms to use. The available options are: [`LevenshteinScorer`](https://en.wikipedia.org/wiki/Levenshtein_distance), [`JaroScorer`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro_similarity), [`JaroWinklerScorer`](https://en.wikipedia.org/wiki/Jaro–Winkler_distance#Jaro–Winkler_similarity). |
 
 Click on the links above for detailed information about these, but speaking generally the Jaro Scorer will be the fastest, focussing on the characters the strings have in common.  
 The Jaro-Winkler Scorer slightly modified the Jaro Scorer to prioritise characters at the start of the string.  
@@ -237,9 +238,9 @@ jw_matcher.match_with_ratio("test", "th test")  # returns (False, 60)
 
 ### `latinise`
 
-| Type  | Default | Description |
-| ---   | ---     | ---         |
-| Boolean | False | Replaces special unicode characters with their latin alphabet equivalents. Examples: `Ǽ` -> `AE`, `ノース` -> `nosu` 
+| Type    | Default | Description                                                                                                          |
+| ------- | ------- | -------------------------------------------------------------------------------------------------------------------- |
+| Boolean | False   | Replaces special unicode characters with their latin alphabet equivalents. Examples: `Ǽ` -> `AE`, `ノース` -> `nosu` |
 
 ```python
 # Example:
@@ -257,9 +258,9 @@ def_match.match("séärçh", "search") # returns False
 
 ### `ignore_case`
 
-| Type  | Default | Description |
-| ---   | ---     | ---         |
-| Boolean | True | If you want to ignore case sensitivity while searching. 
+| Type    | Default | Description                                             |
+| ------- | ------- | ------------------------------------------------------- |
+| Boolean | True    | If you want to ignore case sensitivity while searching. |
 
 ```python
 # Example:
@@ -277,9 +278,9 @@ case_match.match("test", "TEST")  # returns False
 
 ### `remove_punctuation`
 
-| Type  | Default | Description |
-| ---   | ---     | ---         |
-| Boolean | False | Removes commonly used punctuation symbols from the strings, like `.,;:!?` and so on. 
+| Type    | Default | Description                                                                          |
+| ------- | ------- | ------------------------------------------------------------------------------------ |
+| Boolean | False   | Removes commonly used punctuation symbols from the strings, like `.,;:!?` and so on. |
 
 ```python
 # Example:
@@ -297,9 +298,9 @@ def_match.match("test,---....", "test")   # returns False
 
 ### `alphanumeric`
 
-| Type  | Default | Description |
-| ---   | ---     | ---         |
-| Boolean | False | Removes every character that is not a number or in the latin alphabet, a more extreme version of `remove_punctuation`. 
+| Type    | Default | Description                                                                                                            |
+| ------- | ------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Boolean | False   | Removes every character that is not a number or in the latin alphabet, a more extreme version of `remove_punctuation`. |
 
 ```python
 # Example:
@@ -317,9 +318,9 @@ def_match.match("»»ᅳtestᅳ►", "test")  # returns False
 
 ### `include_partial`
 
-| Type  | Default | Description |
-| ---   | ---     | ---         |
-| Boolean | False | If set to true, also searches for partial substring matches. This may lead to more desirable results but is a bit slower. This will return a score of 65-95 depending on how far apart the sizes of the strings are to ensure only identical matches provide a score of 100. It will start matching at a length of 2, or 1 if it is the first letter of the string.
+| Type    | Default | Description                                                                                                                                                                                                                                                                                                                                                         |
+| ------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Boolean | False   | If set to true, also searches for partial substring matches. This may lead to more desirable results but is a bit slower. This will return a score of 65-95 depending on how far apart the sizes of the strings are to ensure only identical matches provide a score of 100. It will start matching at a length of 2, or 1 if it is the first letter of the string. |
 
 ```python
 # Example:
@@ -372,3 +373,4 @@ Packages used:
 ## License
 
 This project is licensed under the [MIT License](/LICENSE).
+
